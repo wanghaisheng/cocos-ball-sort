@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "ball",
+    "_name": "tube4",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "ball",
+    "_name": "tube4",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -34,27 +34,27 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 0,
+      "y": 8,
       "z": 0
     },
     "_lrot": {
       "__type__": "cc.Quat",
-      "x": 0,
+      "x": 0.7071067811865475,
       "y": 0,
       "z": 0,
-      "w": 1
+      "w": 0.7071067811865476
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 2.5,
-      "y": 2.5,
-      "z": 2.5
+      "x": 0.2,
+      "y": 1,
+      "z": 0.7
     },
     "_mobility": 0,
     "_layer": 1073741824,
     "_euler": {
       "__type__": "cc.Vec3",
-      "x": 0,
+      "x": 89.99999999999999,
       "y": 0,
       "z": 0
     },
@@ -62,7 +62,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "球体",
+    "_name": "Plane",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -93,9 +93,9 @@
     },
     "_lscale": {
       "__type__": "cc.Vec3",
-      "x": 30,
-      "y": 30,
-      "z": 30
+      "x": 1,
+      "y": 1,
+      "z": 1
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -109,7 +109,7 @@
   },
   {
     "__type__": "cc.MeshRenderer",
-    "_name": "",
+    "_name": "Plane<ModelComponent>",
     "_objFlags": 0,
     "__editorExtras__": {},
     "node": {
@@ -121,7 +121,7 @@
     },
     "_materials": [
       {
-        "__uuid__": "ca73e707-4d9f-4e15-8776-4bce04142a47@b4e6b",
+        "__uuid__": "5d7aad6d-6e15-40fe-b2c7-63ddfec31d6e",
         "__expectedType__": "cc.Material"
       }
     ],
@@ -130,7 +130,7 @@
       "__id__": 5
     },
     "_mesh": {
-      "__uuid__": "ca73e707-4d9f-4e15-8776-4bce04142a47@0a13e",
+      "__uuid__": "1263d74c-8167-4928-91a6-4e2672411f47@2e76e",
       "__expectedType__": "cc.Mesh"
     },
     "_shadowCastingMode": 0,
@@ -146,7 +146,7 @@
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "98aUkAMJRQArmXhoql+xK9"
+    "fileId": "acGYq2x+9NYoF88DIGFFzK"
   },
   {
     "__type__": "cc.ModelBakeSettings",
@@ -176,13 +176,13 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "00mN6gAsNZ8pVKYy76N33p",
+    "fileId": "21s7FugL1KL4RWF4uMn/5i",
     "instance": null,
     "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
-    "__type__": "8b4791p1mhM2IPDEoeGx75m",
+    "__type__": "cc.BoxCollider",
     "_name": "",
     "_objFlags": 0,
     "__editorExtras__": {},
@@ -193,11 +193,25 @@
     "__prefab": {
       "__id__": 8
     },
+    "_material": null,
+    "_isTrigger": false,
+    "_center": {
+      "__type__": "cc.Vec3",
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "_size": {
+      "__type__": "cc.Vec3",
+      "x": 10,
+      "y": 1,
+      "z": 10
+    },
     "_id": ""
   },
   {
     "__type__": "cc.CompPrefabInfo",
-    "fileId": "ffeZ2yuhdHEK61hykouKLn"
+    "fileId": "d3xObZgqlMH5rMjB2Z21u8"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -207,7 +221,7 @@
     "asset": {
       "__id__": 0
     },
-    "fileId": "8anGKvrexcQ7zaIHNtygHf",
+    "fileId": "c3+TxcFAhF4r4Wp1xAAnnJ",
     "instance": null,
     "targetOverrides": null
   }

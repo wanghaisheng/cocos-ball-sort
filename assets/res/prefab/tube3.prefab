@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.Prefab",
-    "_name": "tube",
+    "_name": "tube3",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -13,7 +13,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "tube",
+    "_name": "tube3",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": null,
@@ -48,7 +48,7 @@
       "__type__": "cc.Vec3",
       "x": 0.2,
       "y": 1,
-      "z": 0.8
+      "z": 0.6
     },
     "_mobility": 0,
     "_layer": 1073741824,
@@ -222,7 +222,6 @@
       "__id__": 0
     },
     "fileId": "c3+TxcFAhF4r4Wp1xAAnnJ",
-    "instance": null,
     "targetOverrides": null
   }
 ]

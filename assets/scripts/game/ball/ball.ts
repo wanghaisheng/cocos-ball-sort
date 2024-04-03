@@ -3,6 +3,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass('Ball')
 export class Ball extends Component {
+
+    ballType: string = ''
     
     start() {
 
@@ -12,39 +14,35 @@ export class Ball extends Component {
         
     }
 
-    generateBall(pos: Vec3) {
-        // const randZ = math.randomRangeInt(0, 5)
-        // const newBall = instantiate(this.ball)
-        // newBall.setPosition(pos)
-        // this.Tubes.addChild(newTube)
+    setBallProp(ballType: string, pos: Vec3) {
+        this.ballType = ballType
+        this.node.setPosition(pos)
     }
 
-    setTexture(ballTexture: string) {
-        const ballTextPath = "ball/" + ballTexture
-        resources.load(ballTextPath, Texture2D, (err: any, texture: Texture2D) => {
-            const spriteFrame = new SpriteFrame();
-            spriteFrame.texture = texture;
-            this.node.getComponent(Sprite).spriteFrame = spriteFrame;
-        });
+    // 获取球的位置
+    getBallPosition() {
+        return this.node.position
     }
 
-    createBall(pos: Vec3, ballTexture: string) {
-    //    const enemy = instantiate(prefab)
-    //     enemy.setParent(this.node)
-    //     const enemy = PoolManager.instance().getNode(prefab, this.bulletRoot)
-    //     const randX = math.randomRangeInt(-23, 23)
-    //     enemy.setPosition(randX, 0, -50)
-    //     const enemyComp = enemy.getComponent(EnemyPlane)
-    //     enemyComp.setEnemySpeed(this, speed, true)
+    // 球弹出
+    ballPop(h: number) {
+        let pos = this.node.getPosition()
+        pos.y += h
+        this.node.setPosition(pos)
     }
- 
-    removeBall() {
-        // const children = this.Tubes.children
-        // if (children && children.length) {
-        //     for(let i = 0; i < children.length; i++) {
-        //         this.Tubes.children[0].removeFromParent()
-        //     }
-        // }
+
+    // 球沉
+    ballPush(h: number) {
+        let pos = this.node.getPosition()
+        pos.y -= h
+        this.node.setPosition(pos)
+    }
+
+    // 移动球
+    moveBall(x: number) {
+        let pos = this.node.getPosition()
+        pos.x += x
+        this.node.setPosition(pos)
     }
 }
 
