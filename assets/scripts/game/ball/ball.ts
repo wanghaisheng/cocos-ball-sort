@@ -14,9 +14,8 @@ export class Ball extends Component {
         
     }
 
-    setBallProp(ballType: string, pos: Vec3) {
+    setBallProp(ballType: string) {
         this.ballType = ballType
-        this.node.setPosition(pos)
     }
 
     // 获取球的位置

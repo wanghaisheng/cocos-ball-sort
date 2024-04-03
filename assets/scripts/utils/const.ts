@@ -34,13 +34,13 @@ enum TUBE_TYPE {
     */
    NO5 = 5,
    /**
-    * @zh 6极管
+    * @zh 8极管
     */
-   NO6 = 6,
+   NO8 = 8,
    /**
-    * @zh 7极管
+    * @zh 12极管
     */
-   NO7 = 7,
+   NO12 = 12,
 }
 
 export class Constants {
@@ -54,10 +54,7 @@ export class Constants {
 
    // tube
    public static TUBE_TYPE = TUBE_TYPE // 试管类型
-   static TUBE_NUM = 3; // 试管个数
-   static TUBE_POSITION = [0.8, 0.6, 0.5, 0.4, 0.3, 0.2, 0.15, 0.1, 0.05, 0.03]; // 试管位置
 
    // ball
-   static BALL_NUM = 4; // 每支试管球的个数
-   static BALL_CALIBER = 1.6; // 球的直径
+   static BALL_RADIUS = 1.5; // 球的半径
 }

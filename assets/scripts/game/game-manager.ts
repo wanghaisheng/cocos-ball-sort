@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, ConfigurableConstraint, EventTouch, geom
 import { TubeManager } from './tube/tube-manager';
 import { BallManager } from './ball/ball-manager';
 import { Constants } from '../utils/const';
-import { initArray } from '../utils/util';
+import { Tube } from './tube/tube';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -15,11 +15,11 @@ export class GameManager extends Component {
     ballManager: BallManager = null
 
     // tube
-    tubePosList: Vec3[] = []
+    tubeList: Tube[] = []
     tubeCount: number = 0
 
     // ball
-    activeBallList: string[][]
+    // activeBallList: string[][]
     ballCount: number = 0
 
 
@@ -40,22 +40,28 @@ export class GameManager extends Component {
     }
 
     init() {
-        this.initTubeBall(Constants.TUBE_TYPE.NO4, 2, 2, 4)
+        this.initTubeBall(Constants.TUBE_TYPE.NO3, 6, 1, 3)
     }
 
     initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number) {
         const tubeNum = tubeCount + emptyTubeCount
-        this.activeBallList = initArray(tubeNum, ballCount, '')
         this.tubeManager.createTubes(tubeType, tubeNum)
-        this.tubePosList = this.tubeManager.getPositionList()
-        this.ballManager.createBallList(this.tubePosList.slice(0, tubeCount), ballCount, this.activeBallList)
+        this.tubeList = this.tubeManager.getTubeList()
+        const ballTubeList = this.tubeList.slice(0, tubeCount)
+        this.ballManager.createBallList(ballTubeList, ballCount)
+        console.log('this.tubeList', this.tubeList)
     }
 
     // 点击了试管
     clickTube(tube: Node) {
         // 操作试管内的球体移动
         const pos = tube.position
-
+        console.log('tube', tube)
+        const target = tube.getComponent(Tube)
+        const topBall = target.getTopBall()
+        console.log('topBall', target.getBallList(), topBall)
+        // 跳跃
+        topBall.ballPop(10)
     }
 
 }
