@@ -44,6 +44,23 @@ export class Tube extends Component {
         return this._tubeType
     }
 
+    // 获取符合目标的等级，数值越高越符合
+    getTargetTubeLevel(ballType: string) {
+        let level = Constants.TUBE_LEVEL.NONE
+        if (!this._ballList.length) return Constants.TUBE_LEVEL.GOOD
+        if (this._ballList.length < this._ballCountMax) {
+            const topBall = this.getTopBall()
+            if (topBall.ballType === ballType) {
+                level = Constants.TUBE_LEVEL.POOR
+                const res = this.getAllTopBall()
+                if (res.length === this._ballList.length) {
+                    level = Constants.TUBE_LEVEL.EXCELLENT
+                }
+            }
+        }
+        return level
+    }
+
     // 获取试管的位置
     getTubePosition() {
         return this.node.position

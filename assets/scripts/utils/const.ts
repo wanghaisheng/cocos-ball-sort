@@ -43,6 +43,44 @@ enum TUBE_TYPE {
    NO12 = 12,
 }
 
+enum BALL_JUMP_TYPE {
+   /**
+    * @zh 弹出
+    */
+   UP = 'UP',
+   /**
+    * @zh 下沉
+    */
+   DOWN = 'DOWN',
+   /**
+    * @zh 左移
+    */
+   MOVE_LEFT = 'MOVE_LEFT',
+   /**
+    * @zh 右移
+    */
+   MOVE_RIGHT = 'MOVE_RIGHT',
+}
+
+enum TUBE_LEVEL {
+   /**
+    * @zh 默认不符合
+    */
+   NONE = 0,
+   /**
+    * @zh 基本符合
+    */
+   POOR = 3,
+   /**
+    * @zh 非常符合
+    */
+   GOOD = 10,
+   /**
+    * @zh 高度符合
+    */
+   EXCELLENT = 99,
+}
+
 export class Constants {
    static gameManager: GameManager;
 
@@ -53,8 +91,10 @@ export class Constants {
    static GAME_STATUS = GAME_STATUS; // 游戏状态枚举
 
    // tube
-   public static TUBE_TYPE = TUBE_TYPE // 试管类型
+   static TUBE_TYPE = TUBE_TYPE // 试管类型
+   static TUBE_LEVEL = TUBE_LEVEL // 目标试管等级
 
    // ball
    static BALL_RADIUS = 1.5; // 球的半径
+   static BALL_JUMP_TYPE = BALL_JUMP_TYPE // 球运动类型
 }
