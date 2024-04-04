@@ -70,16 +70,17 @@ export class TubeManager extends Component {
 
     getTargetTube(ballType: string, list: Tube[]) {
         // console.log('this.tubeList', this.tubeList)
-        let obj: Tube = null, curLevel = Constants.TUBE_LEVEL.NONE
+        let target: Tube = null, curLevel = Constants.TUBE_LEVEL.NONE
         for(let i = 0; i < list.length; i++) {
             const tube = list[i]
-            // console.log('tube', tube, tube.getBallList())
             const level = tube.getTargetTubeLevel(ballType)
+            // console.log('level', level)
             if (level > curLevel) {
-                obj = tube
+                target = tube
+                curLevel = level
             }
         }
-        return obj
+        return target
     }
 
     private _getTubePrefab(type: number) {

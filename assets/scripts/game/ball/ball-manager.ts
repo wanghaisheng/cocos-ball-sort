@@ -16,6 +16,8 @@ export class BallManager extends Component {
     @property
     ballTypeMax: number = 0
 
+    public validTubeCount: number = 0
+
     private _materialAssetsPrefix = 'ball/'
     private _texturePrefix = 'ball-skin0'
     private _BottomY: number = 0 
@@ -42,6 +44,8 @@ export class BallManager extends Component {
                 ballTypeList.push(this._texturePrefix + i)
             }
         }
+        // 有效的试管个数
+        this.validTubeCount = ballTypeCount
         const exists = new Array(ballTypeList.length).fill(ballCount)
         for(let i = 0; i < ballTypeCount; i++) {
             const tube = tubeList[i]
@@ -59,6 +63,9 @@ export class BallManager extends Component {
                 const newPos = new Vec3(pos.x, y, pos.z)
                 const ball = this._createBall(newPos, ballType)
                 tube.pushBall(ball)
+            }
+            if (tube.isAllSameTube()) {
+                tube.setIsFinish(true)
             }
         }
     }

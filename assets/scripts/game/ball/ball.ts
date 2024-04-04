@@ -5,7 +5,7 @@ const { ccclass, property } = _decorator;
 @ccclass('Ball')
 export class Ball extends Component {
 
-    ballType: string = ''
+    public ballType: string = ''
 
     private _gravity: number = 10
     private _vy: number = 100
@@ -34,12 +34,12 @@ export class Ball extends Component {
         const pos = this.node.getPosition()
         if (this._moveType === Constants.BALL_JUMP_TYPE.UP) {
             pos.y += this._vy * dt
-            // pos.y += (this._vy * dt - 0.5 * this._gravity * dt * dt)
+            // pos.y += (this._vy * dt - 10 * this._gravity * dt * dt)
             // this._vy -= this._gravity * dt
         }
         if (this._moveType === Constants.BALL_JUMP_TYPE.DOWN) {
             pos.y -= this._vy * dt
-            // pos.y -= (this._vy * dt + 0.5 * this._gravity * dt * dt)
+            // pos.y -= (this._vy * dt + this._gravity * dt * dt)
             // this._vy -= this._gravity * dt
         }
         if (this._moveType === Constants.BALL_JUMP_TYPE.MOVE_LEFT) {
@@ -75,6 +75,7 @@ export class Ball extends Component {
         
         if (Constants.BALL_JUMP_TYPE.DOWN === moveType || Constants.BALL_JUMP_TYPE.UP === moveType) {
             this._jumpTime =  ty
+            // this._vy += this._gravity * this._jumpTime
         } else {
             this._jumpTime =  tx
         }
@@ -82,6 +83,7 @@ export class Ball extends Component {
         this._moveType = moveType
         this._isMoving = true
         this._passTime = 0
+        
         console.log('ddd', this._moveType, pos, dst)
     }
 

@@ -6,6 +6,9 @@ const { ccclass, property } = _decorator;
 @ccclass('Tube')
 export class Tube extends Component {
 
+    public disabled: boolean = false
+    public isFinish: boolean = false
+
     private _tubeType: number = Constants.TUBE_TYPE.NO3
     private _ballCountMax: number = 0
     private _ballList: Ball[] = []
@@ -36,6 +39,14 @@ export class Tube extends Component {
         this._ballCountMax = ballCountMax || tubeType
     }
 
+    setDisabled(disabled: boolean) {
+        this.disabled = disabled
+    }
+
+    setIsFinish(isFinish: boolean) {
+        this.isFinish = isFinish
+    }
+
     getBallList() {
         return this._ballList
     }
@@ -52,8 +63,7 @@ export class Tube extends Component {
             const topBall = this.getTopBall()
             if (topBall.ballType === ballType) {
                 level = Constants.TUBE_LEVEL.POOR
-                const res = this.getAllTopBall()
-                if (res.length === this._ballList.length) {
+                if (this.isAllSame()) {
                     level = Constants.TUBE_LEVEL.EXCELLENT
                 }
             }
@@ -74,18 +84,30 @@ export class Tube extends Component {
 
     // 获取顶部类型相同的球
     getAllTopBall() {
-        let len = this._ballList.length, res = []
-        if (!len) return res
-        res[0] = this._ballList[len - 1]
+        let len = this._ballList.length, k = 1
+        if (!len) return []
+        const top = this._ballList[len - 1]
         for(let i = len - 2; i >= 0; i--) {
             const ball = this._ballList[i]
-            if (ball.ballType === res[0].ballType) {
-                res.push(ball)
+            if (ball.ballType === top.ballType) {
+                k++
             } else {
                 break
             }
         }
-        return res
+        return this._ballList.slice(-k)
+    }
+
+    // 颜色完全相同，不一定满
+    isAllSame() {
+        const sameBallList = this.getAllTopBall()
+        return sameBallList.length === this._ballList.length
+    }
+
+    // 颜色完全相同且满
+    isAllSameTube() {
+        const len = this._ballList.length
+        return len === this._ballCountMax && this.isAllSame()
     }
 
     // 塞入球体
