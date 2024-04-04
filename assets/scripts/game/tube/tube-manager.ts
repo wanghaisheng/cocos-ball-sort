@@ -28,7 +28,7 @@ export class TubeManager extends Component {
     tubeList: Tube[] = [] // 试管列表
 
     start() {
-        this.init()
+
     }
 
     onEnable () {
@@ -64,16 +64,13 @@ export class TubeManager extends Component {
         }
     }
 
-    init() {
-        this.tubeList = []
-    }
-
     getTubeList() {
         return this.tubeList
     }
 
     getTargetTube(ballType: string, list: Tube[]) {
-        let obj = null, curLevel = Constants.TUBE_LEVEL.NONE
+        // console.log('this.tubeList', this.tubeList)
+        let obj: Tube = null, curLevel = Constants.TUBE_LEVEL.NONE
         for(let i = 0; i < list.length; i++) {
             const tube = list[i]
             // console.log('tube', tube, tube.getBallList())
@@ -98,6 +95,7 @@ export class TubeManager extends Component {
 
     createTubes(type: number, count: number) {
         this.clearTubes()
+        this.tubeList = []
         const tubeHight = Tube.getTubeHeight(type)
         const layoutList = this._getTubeLayout(type, count)
         const leftY = this._getY(type, layoutList.length)

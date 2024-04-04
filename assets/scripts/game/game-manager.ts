@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, ConfigurableConstraint, EventTouch, geometry, Input, input, Node, PhysicsSystem, SystemEvent, systemEvent, Vec3 } from 'cc';
+import { _decorator, Camera, Component, ConfigurableConstraint, equals, EventTouch, geometry, Input, input, Node, PhysicsSystem, SystemEvent, systemEvent, Vec3 } from 'cc';
 import { TubeManager } from './tube/tube-manager';
 import { BallManager } from './ball/ball-manager';
 import { Constants } from '../utils/const';
@@ -23,6 +23,7 @@ export class GameManager extends Component {
 
     // ball
     private _ballCount: number = 0
+    private _jumpPosList: any[] = []
 
     __preload () {
         Constants.gameManager = this
@@ -41,7 +42,7 @@ export class GameManager extends Component {
     }
 
     init() {
-        this.initTubeBall(Constants.TUBE_TYPE.NO3, 6, 1, 3)
+        this.initTubeBall(Constants.TUBE_TYPE.NO3, 4, 2, 3)
     }
 
     initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number) {
@@ -62,48 +63,72 @@ export class GameManager extends Component {
         const hitTube = tube.getComponent(Tube)
         const topBall = hitTube.getTopBall()
         if (topBall) {
+            this._jumpPosList = []
+            const hPos = hitTube.getTubePosition()
             const bPos = topBall.getBallPosition()
             const oldBallY = bPos.y
             const oldBallX = bPos.x
             const tubeH = Tube.getTubeHeight(this._tubeType)
 
+            const newTubeList = this._tubeList.filter(item => item.uuid !== hitTube.uuid)
             // 寻找目标试管
-            const targetTube = this.tubeManager.getTargetTube(topBall.ballType, this._tubeList)
-            console.log('targetTube', targetTube)
+            const targetTube = this.tubeManager.getTargetTube(topBall.ballType, newTubeList)
+            // console.log('targetTube', targetTube)
+            
+            // console.log('bPos', bPos)
+
             if (targetTube) {
                 const tPos = targetTube.getTubePosition()
                 const ballNum = targetTube.getBallList().length
                 const bottomY = this.ballManager.getBottomY(tPos.y, tubeH)
                 // 弹出
-                const dstPos = new Vec3(oldBallX, tPos.y + tubeH / 2, tPos.z)
-                topBall.jumpBall(dstPos)
+                const popY = Math.max(hPos.y, tPos.y) + tubeH / 2
+                const dstPos = new Vec3(oldBallX, popY, tPos.z)
+                // const dstPos = new Vec3(tPos.x, oldBallY, tPos.z)
+                // topBall.jumpBall(dstPos)
+                this._jumpPosList.push([dstPos, Constants.BALL_JUMP_TYPE.UP])
                 // 横向跳动
-                const dstPos2 = new Vec3(dstPos.x, dstPos.y, dstPos.z)
-                this.JumpBallAsync(dstPos2, topBall)
+                if (!equals(tPos.x, oldBallX)) {// 正好是两个试管上下情况，x不会有位移的
+                    const dstPos2 = new Vec3(tPos.x, dstPos.y, dstPos.z)
+                    let moveType = tPos.x > oldBallX ? Constants.BALL_JUMP_TYPE.MOVE_RIGHT : Constants.BALL_JUMP_TYPE.MOVE_LEFT
+                    this._jumpPosList.push([dstPos2, moveType])
+                }
+                // topBall.jumpBall(dstPos2)
+                
                 // 下沉
-                const y = bottomY + Constants.BALL_RADIUS * (ballNum - 1)
-                const dstPos3 = new Vec3(dstPos2.x, y, dstPos2.z)
-                this.JumpBallAsync(dstPos3, topBall)
+                const downY = bottomY + Constants.BALL_RADIUS * ballNum
+                const dstPos3 = new Vec3(tPos.x, downY, tPos.z)
+                // this._jumpPosList.push(dstPos3)
+                // topBall.jumpBall(dstPos3)
+                this._jumpPosList.push([dstPos3, Constants.BALL_JUMP_TYPE.DOWN])
+
+                // console.log('tPos', tPos, dstPos3)
+
+                this.JumpBall(topBall)
 
                 hitTube.popBall()
+                
                 targetTube.pushBall(topBall)
             } else {
                 // 弹出
-                const tPos = hitTube.getTubePosition()
-                const dstPos = new Vec3(oldBallX, tPos.y + tubeH / 2, bPos.z)
-                topBall.jumpBall(dstPos)
+                const dstPos = new Vec3(oldBallX, hPos.y + tubeH / 2, bPos.z)
+                this._jumpPosList.push([dstPos, Constants.BALL_JUMP_TYPE.UP])
 
-                const dstPos4 = new Vec3(bPos.x, oldBallY, bPos.z)
-                this.JumpBallAsync(dstPos4, topBall)
+                const dstPos4 = new Vec3(oldBallX, oldBallY, bPos.z)
+                // this._jumpPosList.push(dstPos4)
+                this._jumpPosList.push([dstPos4, Constants.BALL_JUMP_TYPE.DOWN])
+
+                this.JumpBall(topBall)
             }
         }
     }
 
-    JumpBallAsync(dst: Vec3, ball: Ball) {
-        this.scheduleOnce(function() {
-            console.log('dst', dst)
-            ball.jumpBall(dst)
-        }, 0.1)
+    JumpBall(topBall: Ball) {
+        if (this._jumpPosList.length) {
+            const [pos, moveType] = this._jumpPosList[0]
+            this._jumpPosList.splice(0, 1)
+            topBall.jumpBall(pos, moveType)
+        }
     }
 
 }

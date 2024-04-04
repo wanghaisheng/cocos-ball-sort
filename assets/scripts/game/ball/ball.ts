@@ -1,4 +1,4 @@
-import { _decorator, Component, instantiate, Node, resources, Sprite, SpriteFrame, Texture2D, v3, Vec3 } from 'cc';
+import { _decorator, Component, equals, instantiate, math, Node, resources, Sprite, SpriteFrame, Texture2D, v3, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
 
@@ -7,7 +7,7 @@ export class Ball extends Component {
 
     ballType: string = ''
 
-    private _gravity: number = -10
+    private _gravity: number = 10
     private _vy: number = 100
     private _vx: number = 100
     private _jumpTime: number = 0
@@ -33,12 +33,14 @@ export class Ball extends Component {
 
         const pos = this.node.getPosition()
         if (this._moveType === Constants.BALL_JUMP_TYPE.UP) {
-            pos.y += (this._vy * dt + 0.5 * this._gravity * dt * dt)
-            this._vy += this._gravity * dt
+            pos.y += this._vy * dt
+            // pos.y += (this._vy * dt - 0.5 * this._gravity * dt * dt)
+            // this._vy -= this._gravity * dt
         }
         if (this._moveType === Constants.BALL_JUMP_TYPE.DOWN) {
-            pos.y -= (this._vy * dt - 0.5 * this._gravity * dt * dt)
-            this._vy -= this._gravity * dt
+            pos.y -= this._vy * dt
+            // pos.y -= (this._vy * dt + 0.5 * this._gravity * dt * dt)
+            // this._vy -= this._gravity * dt
         }
         if (this._moveType === Constants.BALL_JUMP_TYPE.MOVE_LEFT) {
             pos.x -= this._vx * dt
@@ -48,13 +50,15 @@ export class Ball extends Component {
         }
 
         this.node.setPosition(pos)
+        // console.log('pos', pos)
         if (this._passTime >= this._jumpTime) {// 跳跃完成
             this._isMoving = false
+            Constants.gameManager.JumpBall(this)
         }
     }
 
     // 小球跳跃
-    jumpBall(dst: Vec3) {
+    jumpBall(dst: Vec3, moveType: string) {
         if (this._isMoving) {
             return
         }
@@ -62,27 +66,23 @@ export class Ball extends Component {
         const tx = Math.abs(dst.x - pos.x) / this._vx
         const ty = Math.abs(dst.y - pos.y) / this._vy
 
-        if (tx <= 0 && ty <= 0) {
+        
+
+        if (equals(dst.x, pos.x) && equals(dst.y, pos.y)) {
             this._isMoving = false
             return
         }
-        if (dst.x > pos.x) {
-            this._moveType = Constants.BALL_JUMP_TYPE.MOVE_RIGHT
+        
+        if (Constants.BALL_JUMP_TYPE.DOWN === moveType || Constants.BALL_JUMP_TYPE.UP === moveType) {
+            this._jumpTime =  ty
+        } else {
+            this._jumpTime =  tx
         }
-        if (dst.x < pos.x) {
-            this._moveType = Constants.BALL_JUMP_TYPE.MOVE_LEFT
-        }
-        if (dst.y > pos.y) {
-            this._moveType = Constants.BALL_JUMP_TYPE.UP
-        }
-        if (dst.y < pos.y) {
-            this._moveType = Constants.BALL_JUMP_TYPE.DOWN
-        }
-        this._jumpTime = tx || ty
 
+        this._moveType = moveType
         this._isMoving = true
         this._passTime = 0
-        console.log('ddd')
+        console.log('ddd', this._moveType, pos, dst)
     }
 
     setBallProp(ballType: string) {
