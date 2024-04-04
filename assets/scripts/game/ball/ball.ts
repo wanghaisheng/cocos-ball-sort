@@ -53,7 +53,7 @@ export class Ball extends Component {
         // console.log('pos', pos)
         if (this._passTime >= this._jumpTime) {// 跳跃完成
             this._isMoving = false
-            Constants.gameManager.JumpBall(this)
+            Constants.ballControl.JumpBall(this)
         }
     }
 

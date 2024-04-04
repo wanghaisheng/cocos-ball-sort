@@ -8,10 +8,12 @@ export class Tube extends Component {
 
     public disabled: boolean = false
     public isFinish: boolean = false
+    public jumpBall: Ball = null
 
     private _tubeType: number = Constants.TUBE_TYPE.NO3
     private _ballCountMax: number = 0
     private _ballList: Ball[] = []
+    private _jumpBallOldPos: Vec3 = null
 
     public static getTubeHeight(type: number) {
         switch(type) {
@@ -45,6 +47,19 @@ export class Tube extends Component {
 
     setIsFinish(isFinish: boolean) {
         this.isFinish = isFinish
+    }
+
+    setJumpBall(jumpBal: Ball, oldPos: Vec3) {
+        this.jumpBall = jumpBal
+        this._jumpBallOldPos = oldPos
+    }
+
+    getJumpBall() {
+        return this.jumpBall
+    }
+
+    getJumpBallOldPos() {
+        return this._jumpBallOldPos
     }
 
     getBallList() {

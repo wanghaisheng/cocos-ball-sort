@@ -83,6 +83,10 @@ export class TubeManager extends Component {
         return target
     }
 
+    setDisabledTubes(tubeList: Tube[], disabled: boolean) {
+        tubeList.map(item => item.setDisabled(disabled))
+    }
+
     private _getTubePrefab(type: number) {
         switch(type) {
             case Constants.TUBE_TYPE.NO4:

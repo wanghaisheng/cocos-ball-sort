@@ -1,5 +1,6 @@
 import { _decorator, Vec3 } from "cc";
 import { GameManager } from "../game/game-manager";
+import { BallControl } from "../game/ball/ball-control";
 
 enum GAME_STATUS {
    /**
@@ -62,6 +63,21 @@ enum BALL_JUMP_TYPE {
    MOVE_RIGHT = 'MOVE_RIGHT',
 }
 
+enum GAME_FINISH_TYPE {
+   /**
+    * @zh 游戏输了
+    */
+   FAIL = 1,
+   /**
+    * @zh 游戏通关
+    */
+   PASS = 2,
+   /**
+    * @zh 游戏结束
+    */
+   FINISH = 3,
+}
+
 enum TUBE_LEVEL {
    /**
     * @zh 默认不符合
@@ -83,11 +99,13 @@ enum TUBE_LEVEL {
 
 export class Constants {
    static gameManager: GameManager;
+   static ballControl: BallControl;
 
    // score
    static MAX_SCORE = 0; // 历史最高
 
-   // 状态
+   // 游戏
+   static GAME_FINISH_TYPE = GAME_FINISH_TYPE // 游戏结束类型
    static GAME_STATUS = GAME_STATUS; // 游戏状态枚举
 
    // tube
