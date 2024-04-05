@@ -60,7 +60,6 @@ export class BallControl extends Component {
                 // 横向跳动
                 const dstPos2 = new Vec3(tPos.x, dstPos.y, dstPos.z)
                 
-                
                 // 下沉
                 const downY = bottomY + Constants.BALL_RADIUS * ballNum
                 const dstPos3 = new Vec3(tPos.x, downY, tPos.z)
