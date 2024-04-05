@@ -2,18 +2,18 @@
   "ver": "2.3.12",
   "importer": "fbx",
   "imported": true,
-  "uuid": "a3a76a77-929c-45b1-9e79-eb98f169cffa",
+  "uuid": "5e80d06f-5453-4591-aad0-b30109a29430",
   "files": [],
   "subMetas": {
-    "76aef": {
+    "b4299": {
       "importer": "gltf-mesh",
-      "uuid": "a3a76a77-929c-45b1-9e79-eb98f169cffa@76aef",
+      "uuid": "5e80d06f-5453-4591-aad0-b30109a29430@b4299",
       "displayName": "",
-      "id": "76aef",
-      "name": "球体.003.mesh",
+      "id": "b4299",
+      "name": "tube2.mesh",
       "userData": {
         "gltfIndex": 0,
-        "triangleCount": 544
+        "triangleCount": 896
       },
       "ver": "1.1.1",
       "imported": true,
@@ -23,12 +23,12 @@
       ],
       "subMetas": {}
     },
-    "22e2a": {
+    "b67cf": {
       "importer": "gltf-material",
-      "uuid": "a3a76a77-929c-45b1-9e79-eb98f169cffa@22e2a",
+      "uuid": "5e80d06f-5453-4591-aad0-b30109a29430@b67cf",
       "displayName": "",
-      "id": "22e2a",
-      "name": "材质.material",
+      "id": "b67cf",
+      "name": "glass2.material",
       "userData": {
         "gltfIndex": 0
       },
@@ -39,12 +39,12 @@
       ],
       "subMetas": {}
     },
-    "a5db0": {
+    "0f030": {
       "importer": "gltf-scene",
-      "uuid": "a3a76a77-929c-45b1-9e79-eb98f169cffa@a5db0",
+      "uuid": "5e80d06f-5453-4591-aad0-b30109a29430@0f030",
       "displayName": "",
-      "id": "a5db0",
-      "name": "tube.prefab",
+      "id": "0f030",
+      "name": "tube5.prefab",
       "userData": {
         "gltfIndex": 0
       },
@@ -61,7 +61,7 @@
     "fbx": {
       "smartMaterialEnabled": true
     },
-    "redirect": "a3a76a77-929c-45b1-9e79-eb98f169cffa@a5db0",
+    "redirect": "5e80d06f-5453-4591-aad0-b30109a29430@0f030",
     "lods": {
       "enable": false,
       "hasBuiltinLOD": false,
@@ -82,15 +82,15 @@
     },
     "assetFinder": {
       "meshes": [
-        "a3a76a77-929c-45b1-9e79-eb98f169cffa@76aef"
+        "5e80d06f-5453-4591-aad0-b30109a29430@b4299"
       ],
       "skeletons": [],
       "textures": [],
       "materials": [
-        "a3a76a77-929c-45b1-9e79-eb98f169cffa@22e2a"
+        "5e80d06f-5453-4591-aad0-b30109a29430@b67cf"
       ],
       "scenes": [
-        "a3a76a77-929c-45b1-9e79-eb98f169cffa@a5db0"
+        "5e80d06f-5453-4591-aad0-b30109a29430@0f030"
       ]
     }
   }

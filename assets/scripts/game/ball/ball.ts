@@ -1,4 +1,4 @@
-import { _decorator, Component, equals, instantiate, math, Node, resources, Sprite, SpriteFrame, Texture2D, v3, Vec3 } from 'cc';
+import { _decorator, Component, equals, instantiate, math, Node, resources, Sprite, SpriteFrame, Texture2D, tween, v3, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
 
@@ -49,7 +49,9 @@ export class Ball extends Component {
             pos.x += this._vx * dt
         }
 
+        
         this.node.setPosition(pos)
+        
         // console.log('pos', pos)
         if (this._passTime >= this._jumpTime) {// 跳跃完成
             this._isMoving = false
