@@ -1,7 +1,7 @@
 import { _decorator, Component, instantiate, Material, math, MeshRenderer, Node, Prefab, resources, Sprite, SpriteFrame, Texture2D, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 import { PoolManager } from '../../utils/pool-manager';
-import { getRandList } from '../../utils/util';
+import { getBallOnTubeY, getRandList } from '../../utils/util';
 import { Ball } from './ball';
 import { Tube } from '../tube/tube';
 const { ccclass, property } = _decorator;
@@ -51,6 +51,7 @@ export class BallManager extends Component {
             const tube = tubeList[i]
             const pos = tube.getTubePosition()
             const tubeHeight = Tube.getTubeHeight(tube.getTubeType())
+            // const initY = getBallOnTubeY(pos.y, tubeHeight)
             // 底部的位置
             const bottomY = this.getBottomY(pos.y, tubeHeight)
             for(let j = 0; j < ballCount; j++) {
@@ -60,6 +61,7 @@ export class BallManager extends Component {
                 
                 // 位置固定
                 const y = bottomY + Constants.BALL_RADIUS * j
+                // const initPos = new Vec3(pos.x, initY, pos.z)
                 const newPos = new Vec3(pos.x, y, pos.z)
                 const ball = this._createBall(newPos, ballType)
                 tube.pushBall(ball)
@@ -92,7 +94,7 @@ export class BallManager extends Component {
         // ball.setParent(this.node)
         ball.setPosition(pos)
         const ballComp = ball.getComponent(Ball)
-        ballComp.setBallProp(ballTexture)
+        ballComp.setBallProp(ballTexture, false)
 
         return ballComp
     }

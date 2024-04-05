@@ -1,7 +1,7 @@
 import { _decorator, Component, equals, Label, Layers, Node, tween, Vec3 } from 'cc';
 import { Tube } from '../tube/tube';
 import { Constants } from '../../utils/const';
-import { vibrateShort } from '../../utils/util';
+import { getBallOnTubeY, vibrateShort } from '../../utils/util';
 import { Ball } from './ball';
 import { TubeManager } from '../tube/tube-manager';
 import { BallManager } from './ball-manager';
@@ -54,7 +54,7 @@ export class BallControl extends Component {
                 const ballNum = targetTube.getBallList().length
                 const bottomY = ballManager.getBottomY(tPos.y, tubeH)
                 // 弹出
-                const popY = Math.max(hPos.y, tPos.y) + tubeH / 2 + Constants.BALL_RADIUS * 0.5
+                const popY = getBallOnTubeY(Math.max(hPos.y, tPos.y), tubeH)
                 const dstPos = new Vec3(oldBallX, popY, tPos.z)
 
                 // 横向跳动
@@ -70,7 +70,7 @@ export class BallControl extends Component {
                 
             } else {
                 // 弹出
-                const popY = hPos.y + tubeH / 2 + Constants.BALL_RADIUS * 0.5
+                const popY = getBallOnTubeY(hPos.y, tubeH)
                 const dstPos = new Vec3(oldBallX, popY, bPos.z)
 
                 topBall.moveUp(dstPos, true)

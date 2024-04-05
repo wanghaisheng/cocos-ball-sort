@@ -1,5 +1,6 @@
 import { math, log } from "cc"
 import { WECHAT, BYTEDANCE, BAIDU } from "cc/env"
+import { Constants } from "./const"
 
 /**
  * 获取固定相同数值的随机列表
@@ -18,6 +19,16 @@ export function getRandList(arr: any[], max: number = 10) {
     }
   }
   return 0
+}
+
+/**
+ * 获取球在试管上方的位置
+ * @param tubeY 试管y位置
+ * @param tubeH 试管高度
+ * @returns 
+ */
+export function getBallOnTubeY(tubeY: number, tubeH: number) {
+  return tubeY + tubeH / 2 + Constants.BALL_RADIUS * 0.5
 }
 
 /**

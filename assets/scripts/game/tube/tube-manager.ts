@@ -1,7 +1,8 @@
-import { _decorator, Camera, Component, EventTouch, geometry, Input, input, instantiate, math, Node, PhysicsSystem, Prefab, v3, Vec3, view } from 'cc';
+import { _decorator, Camera, Component, EventTouch, geometry, Input, input, instantiate, math, Node, PhysicsSystem, Prefab, tween, v3, Vec3, view } from 'cc';
 import { PoolManager } from '../../utils/pool-manager';
 import { Constants } from '../../utils/const';
 import { Tube } from './tube';
+import { getBallOnTubeY } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('TubeManager')
@@ -68,6 +69,47 @@ export class TubeManager extends Component {
         return this.tubeList
     }
 
+    initTubeBallJump() {
+        let ballMat = [], n = 0, taskList = []
+        const newTubeList = this.tubeList.filter(item => item.getBallList().length)
+        for(let i = 0; i < newTubeList.length; i++) {
+            const tube = newTubeList[i]
+            const tubeH = tube.getTubeHeight()
+            const tubePos = tube.getTubePosition()
+            const initY = getBallOnTubeY(tubePos.y, tubeH)
+            const ballList = tube.getBallList()
+
+            ballMat[i] = []
+            n = ballList.length
+
+            for(let j = 0; j < n; j++) {
+                ballMat[i][j] = [ballList[j], initY]
+            }
+        }
+
+        let lastBall = null
+        for(let j = 0; j < n; j++) {
+            const delayTime = j * 1
+            for(let i = 0; i < ballMat.length; i++) {
+                const [ball, initY] = ballMat[i][j]
+                const oldPos = ball.getBallPosition()
+                const oldY = oldPos.y
+                ball.setPosition(new Vec3(oldPos.x, initY, oldPos.z))
+
+                const t = tween(ball)
+                    .delay(delayTime)
+                    .call(() => {
+                        ball.setVisible(true)
+                        ball.jumpDown(new Vec3(oldPos.x, oldY, oldPos.z), () => {}, true)
+                    })
+                taskList.push(t)
+
+                lastBall = ball
+            }
+        }
+        tween(lastBall).parallel(...taskList).start()
+    }
+
     getTargetTube(ballType: string, list: Tube[]) {
         // console.log('this.tubeList', this.tubeList)
         let target: Tube = null, curLevel = Constants.TUBE_LEVEL.NONE
@@ -117,7 +159,7 @@ export class TubeManager extends Component {
                 const tube = PoolManager.instance().getNode(prefab, this.node)
                 tube.setPosition(pos)
                 const tubeComp = tube.getComponent(Tube)
-                tubeComp.setTubeProp(type)
+                tubeComp.setTubeProp(type, tubeHight)
 
                 this.tubeList.push(tubeComp)
             }

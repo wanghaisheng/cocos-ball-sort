@@ -6,15 +6,6 @@ const { ccclass, property } = _decorator;
 export class Ball extends Component {
 
     public ballType: string = ''
-
-    private _gravity: number = 10
-    private _vy: number = 100
-    private _vx: number = 100
-    private _jumpTime: number = 0
-    private _passTime: number = 0
-    private _isMoving: boolean = false
-    private _moveType: string = Constants.BALL_JUMP_TYPE.UP
-
     
     start() {
 
@@ -24,13 +15,22 @@ export class Ball extends Component {
 
     }
 
-    setBallProp(ballType: string) {
+    setBallProp(ballType: string, visible: boolean) {
         this.ballType = ballType
+        this.node.active = visible
+    }
+
+    setVisible(visible: boolean) {
+        this.node.active = visible
     }
 
     // 获取球的位置
     getBallPosition() {
         return this.node.position
+    }
+
+    setPosition(pos: Vec3) {
+        this.node.setPosition(pos)
     }
 
     moveUp(pos: Vec3, isExceed: boolean = false) {
@@ -56,6 +56,19 @@ export class Ball extends Component {
             // .by(0.05, { position: new Vec3(0, -0.8, 0)})
             .by(0.05, { position: new Vec3(0, 0.5, 0)})
             .by(0.05, { position: new Vec3(0, -0.5, 0)})
+            .call(() => { cb() })
+        return isExceed ? t.start() : t
+    }
+
+    jumpDown(pos: Vec3, cb: Function, isExceed: boolean = false) {
+        const t = tween(this.node)
+            .to(0.5, { position: pos }, { easing: "backIn" })
+            .by(0.1, { position: new Vec3(0, 2, 0)})
+            .by(0.1, { position: new Vec3(0, -2, 0)})
+            .by(0.1, { position: new Vec3(0, 1, 0)})
+            .by(0.1, { position: new Vec3(0, -1, 0)})
+            .by(0.1, { position: new Vec3(0, 0.5, 0)})
+            .by(0.1, { position: new Vec3(0, -0.5, 0)})
             .call(() => { cb() })
         return isExceed ? t.start() : t
     }

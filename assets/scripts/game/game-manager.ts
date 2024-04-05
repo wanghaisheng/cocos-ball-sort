@@ -63,6 +63,7 @@ export class GameManager extends Component {
         this._tubeList = this.tubeManager.getTubeList()
         const ballTubeList = this._tubeList.slice(0, tubeCount)
         this.ballManager.createBallList(ballTubeList, ballCount)
+        this.tubeManager.initTubeBallJump()
         // 当颜色不足时，创建的非空试管个数会变小
         this._tubeCount = this.ballManager.validTubeCount
     }
