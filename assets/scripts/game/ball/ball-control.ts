@@ -1,4 +1,4 @@
-import { _decorator, Component, equals, Label, Layers, Node, Vec3 } from 'cc';
+import { _decorator, Component, equals, Label, Layers, Node, tween, Vec3 } from 'cc';
 import { Tube } from '../tube/tube';
 import { Constants } from '../../utils/const';
 import { vibrateShort } from '../../utils/util';
@@ -9,11 +9,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BallControl')
 export class BallControl extends Component { 
-     // ball
-     private _jumpPosList: any[] = []
-     private _isDelay: boolean = false
  
-     private _timeoutId: number = 0
      private _tubeList: Tube[] = []
      private _newTubeList: Tube[] = []
      private _tubeCount: number = 0
@@ -31,7 +27,6 @@ export class BallControl extends Component {
     }
 
     onDestroy() {
-        clearTimeout(this._timeoutId)
         this.hideInvalidTip()
     }
 
@@ -42,7 +37,6 @@ export class BallControl extends Component {
         // 操作试管内的球体移动
         const topBall = hitTube.getTopBall()
         if (topBall) {
-            this._jumpPosList = []
             this._tubeList = tubeList
             this._tubeCount = tubeCount
             this._newTubeList = tubeList.filter(item => item.uuid !== hitTube.uuid)
@@ -54,9 +48,7 @@ export class BallControl extends Component {
             
             // 寻找目标试管
             const targetTube = tubeManager.getTargetTube(topBall.ballType, this._newTubeList)
-            // console.log('targetTube', targetTube)
             
-            // console.log('bPos', bPos)
             if (targetTube) {
                 const tPos = targetTube.getTubePosition()
                 const ballNum = targetTube.getBallList().length
@@ -64,49 +56,30 @@ export class BallControl extends Component {
                 // 弹出
                 const popY = Math.max(hPos.y, tPos.y) + tubeH / 2 + Constants.BALL_RADIUS * 0.5
                 const dstPos = new Vec3(oldBallX, popY, tPos.z)
-                // const dstPos = new Vec3(tPos.x, oldBallY, tPos.z)
-                topBall.jumpBall(dstPos, Constants.BALL_JUMP_TYPE.UP)
-                
-                // this._jumpPosList.push([dstPos, Constants.BALL_JUMP_TYPE.UP])
+
                 // 横向跳动
-                if (!equals(tPos.x, oldBallX)) {// 正好是两个试管上下情况，x不会有位移的
-                    const dstPos2 = new Vec3(tPos.x, dstPos.y, dstPos.z)
-                    let moveType = tPos.x > oldBallX ? Constants.BALL_JUMP_TYPE.MOVE_RIGHT : Constants.BALL_JUMP_TYPE.MOVE_LEFT
-                    this._jumpPosList.push([dstPos2, moveType])
-                }
-                // topBall.jumpBall(dstPos2)
+                const dstPos2 = new Vec3(tPos.x, dstPos.y, dstPos.z)
+                
                 
                 // 下沉
                 const downY = bottomY + Constants.BALL_RADIUS * ballNum
                 const dstPos3 = new Vec3(tPos.x, downY, tPos.z)
-                // this._jumpPosList.push(dstPos3)
-                // topBall.jumpBall(dstPos3)
-                this._jumpPosList.push([dstPos3, Constants.BALL_JUMP_TYPE.DOWN])
 
-                // console.log('tPos', tPos, dstPos3)
-
-                this.delayJumpBall(topBall)
-
-                this.setTubeBall(hitTube, targetTube)
+                topBall.moveBall([dstPos, dstPos2, dstPos3], () => {
+                    this.setTubeBall(hitTube, targetTube)
+                })
                 
             } else {
                 // 弹出
                 const popY = hPos.y + tubeH / 2 + Constants.BALL_RADIUS * 0.5
                 const dstPos = new Vec3(oldBallX, popY, bPos.z)
-                // this._jumpPosList.push([dstPos, Constants.BALL_JUMP_TYPE.UP])
 
-                topBall.jumpBall(dstPos, Constants.BALL_JUMP_TYPE.UP)
+                topBall.moveUp(dstPos, true)
                 // 调用振动
                 vibrateShort()
                 // 告訴用户弹出无效
                 const oldPos = new Vec3(oldBallX, oldBallY, bPos.z)
                 this.setJumpBall(tubeManager, hitTube, topBall, oldPos, popY)
-                
-                // const dstPos4 = new Vec3(oldBallX, oldBallY, bPos.z)
-                // // this._jumpPosList.push(dstPos4)
-                // this._jumpPosList.push([dstPos4, Constants.BALL_JUMP_TYPE.DOWN])
-
-                // this.JumpBall(topBall)
             }
         }
     }
@@ -120,30 +93,6 @@ export class BallControl extends Component {
         return true
     }
 
-    // 球跳动
-    JumpBall(topBall: Ball) {
-        if (this._isDelay) return
-        if (this._jumpPosList.length) {
-            const [pos, moveType] = this._jumpPosList[0]
-            this._jumpPosList.splice(0, 1)
-            topBall.jumpBall(pos, moveType)
-        } else {
-            // 检查是否结束
-            if (this.checkFinish()) {
-                console.log('游戏通关')
-                Constants.gameManager.gameOver(Constants.GAME_FINISH_TYPE.PASS)
-            }
-        }
-    }
-
-    // 延迟跳动
-    delayJumpBall(ball: Ball) {
-        this._isDelay = true
-        this._timeoutId = setTimeout(() => {
-            this._isDelay = false
-            this.JumpBall(ball)
-        }, 300)
-    }
 
     setJumpBall(tubeManager: TubeManager, hitTube: Tube, topBall: Ball, oldPos: Vec3, popY: number) {
         // 设置其他tube不可用
@@ -156,7 +105,8 @@ export class BallControl extends Component {
         const jumpBall = hitTube.getJumpBall()
         const oldPos = hitTube.getJumpBallOldPos()
         if (jumpBall && oldPos) {
-            jumpBall.jumpBall(oldPos, Constants.BALL_JUMP_TYPE.DOWN)
+            // jumpBall.jumpBall(oldPos, Constants.BALL_JUMP_TYPE.DOWN)
+            jumpBall.moveDown(oldPos, () => {}, true)
         }
         tubeManager.setDisabledTubes(this._newTubeList, false)
         hitTube.setJumpBall(null, null)
@@ -195,6 +145,11 @@ export class BallControl extends Component {
         if (targetTube.isAllSameTube()) {
             // 颜色完全相同且满的试管
             targetTube.setIsFinish(true)
+            // 检查是否结束
+            if (this.checkFinish()) {
+                console.log('游戏通关')
+                Constants.gameManager.gameOver(Constants.GAME_FINISH_TYPE.PASS)
+            }
         }
     }
 

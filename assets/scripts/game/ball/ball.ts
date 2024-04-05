@@ -21,72 +21,7 @@ export class Ball extends Component {
     }
 
     update(deltaTime: number) {
-        let dt = deltaTime
-        if (this._isMoving === false) {
-            return
-        }
 
-        this._passTime += dt
-        if (this._passTime > this._jumpTime) {
-            dt -= this._passTime - this._jumpTime 
-        }
-
-        const pos = this.node.getPosition()
-        if (this._moveType === Constants.BALL_JUMP_TYPE.UP) {
-            pos.y += this._vy * dt
-            // pos.y += (this._vy * dt - 10 * this._gravity * dt * dt)
-            // this._vy -= this._gravity * dt
-        }
-        if (this._moveType === Constants.BALL_JUMP_TYPE.DOWN) {
-            pos.y -= this._vy * dt
-            // pos.y -= (this._vy * dt + this._gravity * dt * dt)
-            // this._vy -= this._gravity * dt
-        }
-        if (this._moveType === Constants.BALL_JUMP_TYPE.MOVE_LEFT) {
-            pos.x -= this._vx * dt
-        }
-        if (this._moveType === Constants.BALL_JUMP_TYPE.MOVE_RIGHT) {
-            pos.x += this._vx * dt
-        }
-
-        
-        this.node.setPosition(pos)
-        
-        // console.log('pos', pos)
-        if (this._passTime >= this._jumpTime) {// 跳跃完成
-            this._isMoving = false
-            Constants.ballControl.JumpBall(this)
-        }
-    }
-
-    // 小球跳跃
-    jumpBall(dst: Vec3, moveType: string) {
-        if (this._isMoving) {
-            return
-        }
-        const pos = this.node.getPosition()
-        const tx = Math.abs(dst.x - pos.x) / this._vx
-        const ty = Math.abs(dst.y - pos.y) / this._vy
-
-        
-
-        if (equals(dst.x, pos.x) && equals(dst.y, pos.y)) {
-            this._isMoving = false
-            return
-        }
-        
-        if (Constants.BALL_JUMP_TYPE.DOWN === moveType || Constants.BALL_JUMP_TYPE.UP === moveType) {
-            this._jumpTime =  ty
-            // this._vy += this._gravity * this._jumpTime
-        } else {
-            this._jumpTime =  tx
-        }
-
-        this._moveType = moveType
-        this._isMoving = true
-        this._passTime = 0
-        
-        console.log('ddd', this._moveType, pos, dst)
     }
 
     setBallProp(ballType: string) {
@@ -98,5 +33,39 @@ export class Ball extends Component {
         return this.node.position
     }
 
+    moveUp(pos: Vec3, isExceed: boolean = false) {
+        const t = tween(this.node)
+            .to(0.05, { position: pos })
+            .delay(0.1)
+        return isExceed ? t.start() : t
+    }
+
+    moveX(pos: Vec3, isExceed: boolean = false) {
+        const t = tween(this.node)
+            .to(0.05, { position: pos })
+            .delay(0.1)
+        return isExceed ? t.start() : t
+    }
+
+    moveDown(pos: Vec3, cb: Function, isExceed: boolean = false) {
+        const t = tween(this.node)
+            .to(0.05, { position: pos })
+            .by(0.05, { position: new Vec3(0, 1, 0)})
+            .by(0.05, { position: new Vec3(0, -1, 0)})
+            // .by(0.05, { position: new Vec3(0, 0.8, 0)})
+            // .by(0.05, { position: new Vec3(0, -0.8, 0)})
+            .by(0.05, { position: new Vec3(0, 0.5, 0)})
+            .by(0.05, { position: new Vec3(0, -0.5, 0)})
+            .call(() => { cb() })
+        return isExceed ? t.start() : t
+    }
+
+    moveBall(posList: Vec3[], cb: Function) {
+        if (posList.length === 0) return
+        const t1 = this.moveUp(posList[0])
+        const t2 = this.moveX(posList[1])
+        const t3 = this.moveDown(posList[2], cb)
+        tween(this.node).sequence(t1, t2, t3).start()
+    }
 }
 
