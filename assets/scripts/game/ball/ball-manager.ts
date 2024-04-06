@@ -46,15 +46,16 @@ export class BallManager extends Component {
         }
         // 有效的试管个数
         this.validTubeCount = ballTypeCount
-        const exists = new Array(ballTypeList.length).fill(ballCount)
+        const validBallCount = tubeList[0] && tubeList[0].ballCountMax <= ballCount ? tubeList[0].ballCountMax : ballCount
+        const exists = new Array(ballTypeList.length).fill(validBallCount)
         for(let i = 0; i < ballTypeCount; i++) {
             const tube = tubeList[i]
             const pos = tube.getTubePosition()
-            const tubeHeight = Tube.getTubeHeight(tube.getTubeType())
+            const tubeHeight = tube.getTubeHeight()
             // const initY = getBallOnTubeY(pos.y, tubeHeight)
             // 底部的位置
             const bottomY = this.getBottomY(pos.y, tubeHeight)
-            for(let j = 0; j < ballCount; j++) {
+            for(let j = 0; j < validBallCount; j++) {
                 // 纹理颜色随机，但生成相同的纹理个数有上限
                 let randIndex = getRandList(exists)
                 let ballType = ballTypeList[randIndex]

@@ -483,9 +483,15 @@
       "__uuid__": "507e3018-c9e0-4688-a4c7-332c8acbfaf0",
       "__expectedType__": "cc.Prefab"
     },
+    "tube7": {
+      "__uuid__": "5617e15f-1cf8-4336-bf89-56cdd22abd63",
+      "__expectedType__": "cc.Prefab"
+    },
+    "tube8": {
+      "__uuid__": "b16346da-6293-41cb-bb53-63a7bbc3846f",
+      "__expectedType__": "cc.Prefab"
+    },
     "lineMax": 5,
-    "spaceX": 3,
-    "spaceY": 2,
     "_id": "82CBAQVWpET540Pvsr0+WE"
   },
   {
@@ -548,7 +554,7 @@
       "__expectedType__": "cc.Prefab"
     },
     "buttomSpace": 0,
-    "ballTypeMax": 5,
+    "ballTypeMax": 6,
     "_id": "cdhx+b+pdG2p65eZ0vWQG2"
   },
   {

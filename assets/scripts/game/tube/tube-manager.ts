@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, EventTouch, geometry, Input, input, inst
 import { PoolManager } from '../../utils/pool-manager';
 import { Constants } from '../../utils/const';
 import { Tube } from './tube';
-import { getBallOnTubeY } from '../../utils/util';
+import { getBallOnTubeY, getTubeHeight, getTubeSpaceX, getTubeSpaceY } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('TubeManager')
@@ -17,14 +17,14 @@ export class TubeManager extends Component {
     tube4: Prefab = null
     @property(Prefab)
     tube5: Prefab = null
+    @property(Prefab)
+    tube7: Prefab = null
+    @property(Prefab)
+    tube8: Prefab = null
 
     // layout
     @property
     lineMax: number = 0 // 一行最大试管个数
-    @property
-    spaceX: number = 0 // 试管横向间距
-    @property
-    spaceY: number = 0 // 试管纵向间距
 
     tubeList: Tube[] = [] // 试管列表
 
@@ -135,6 +135,10 @@ export class TubeManager extends Component {
                 return this.tube4
             case Constants.TUBE_TYPE.NO5:
                 return this.tube5
+            case Constants.TUBE_TYPE.NO7:
+                return this.tube7
+            case Constants.TUBE_TYPE.NO8:
+                return this.tube8
             default:
                 return this.tube3
         }
@@ -143,17 +147,20 @@ export class TubeManager extends Component {
     createTubes(type: number, count: number) {
         this.clearTubes()
         this.tubeList = []
-        const tubeHight = Tube.getTubeHeight(type)
+        const tubeHight = getTubeHeight(type)
         const layoutList = this._getTubeLayout(type, count)
-        const leftY = this._getY(type, layoutList.length)
+        const colMax = layoutList.reduce((pre, cur) => Math.max(pre, cur), 0)
+        const spaceX = getTubeSpaceX(type, colMax)
+        const spaceY = getTubeSpaceY(type, layoutList.length)
+        const leftY = this._getY(type, layoutList.length, spaceY)
         for(let row = 0; row < layoutList.length; row++) {
             const colNum = layoutList[row]
             // x的偏移由横向个数决定，因此需要重新计算
-            const leftX = this._getX(type, colNum)
+            const leftX = this._getX(type, colNum, spaceX)
             for(let col = 0; col < colNum; col++) {
                 let pos = new Vec3(0, 0, 0)
-                pos.y = leftY - row * (tubeHight + this.spaceY)
-                pos.x = leftX + col * this.spaceX
+                pos.y = leftY - row * (tubeHight + spaceY)
+                pos.x = leftX + col * spaceX
 
                 const prefab = this._getTubePrefab(type)
                 const tube = PoolManager.instance().getNode(prefab, this.node)
@@ -176,36 +183,36 @@ export class TubeManager extends Component {
     }
 
     // 获取最左边节点X的偏移量
-    private _getX(type: number, totalCol: number) {
+    private _getX(type: number, totalCol: number, spaceX: number) {
         let x = 0
         const n = Math.floor(totalCol / 2)
         if (totalCol % 2) {// 奇数
-            x -= n * this.spaceX
+            x -= n * spaceX
         } else {
-            x -= ((this.spaceX / 2) + (n - 1) * this.spaceX)
+            x -= ((spaceX / 2) + (n - 1) * spaceX)
         }
         return x
     }
 
     // 获取最左边节点Y的偏移量
-    private _getY(type: number, totalRow: number) {
+    private _getY(type: number, totalRow: number, spaceY: number) {
         let y = 0
-        const tubeHight = Tube.getTubeHeight(type)
+        const tubeHight = getTubeHeight(type)
         if (totalRow === 2) {
-            y += (tubeHight + this.spaceY) / 2
+            y += (tubeHight + spaceY) / 2
         }
         if (totalRow === 3) {
-            y += (tubeHight + this.spaceY)
+            y += (tubeHight + spaceY)
         }
         return y
     }
 
     // 试管横向纵向的最大布局
     private _getTubeLayoutMax(type: number) {
-        if (type >= Constants.TUBE_TYPE.NO12) {
+        if (type >= Constants.TUBE_TYPE.NO8) {
             return [1, this.lineMax]
         }
-        if (type >= Constants.TUBE_TYPE.NO8) {
+        if (type >= Constants.TUBE_TYPE.NO5) {
             return [2, this.lineMax]
         }
         return [3, this.lineMax]

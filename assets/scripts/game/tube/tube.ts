@@ -9,25 +9,12 @@ export class Tube extends Component {
     public disabled: boolean = false
     public isFinish: boolean = false
     public jumpBall: Ball = null
+    public ballCountMax: number = 0
 
     private _tubeType: number = Constants.TUBE_TYPE.NO3
     private _tubeHeight: number = 0
-    private _ballCountMax: number = 0
     private _ballList: Ball[] = []
     private _jumpBallOldPos: Vec3 = null
-
-    public static getTubeHeight(type: number) {
-        switch(type) {
-            case Constants.TUBE_TYPE.NO3:
-                return 7
-            case Constants.TUBE_TYPE.NO4:
-                return 8
-            case Constants.TUBE_TYPE.NO5:
-                return 10
-            default:
-                return 2 * type
-        }
-    }
 
     start () {
         
@@ -40,7 +27,7 @@ export class Tube extends Component {
     setTubeProp(tubeType: number, height: number, ballCountMax: number = 0) {
         this._tubeType = tubeType
         this._tubeHeight = height
-        this._ballCountMax = ballCountMax || tubeType
+        this.ballCountMax = ballCountMax && ballCountMax < tubeType ?  ballCountMax : tubeType
     }
 
     setDisabled(disabled: boolean) {
@@ -80,7 +67,7 @@ export class Tube extends Component {
     getTargetTubeLevel(ballType: string) {
         let level = Constants.TUBE_LEVEL.NONE
         if (!this._ballList.length) return Constants.TUBE_LEVEL.GOOD
-        if (this._ballList.length < this._ballCountMax) {
+        if (this._ballList.length < this.ballCountMax) {
             const topBall = this.getTopBall()
             if (topBall.ballType === ballType) {
                 level = Constants.TUBE_LEVEL.POOR
@@ -128,12 +115,12 @@ export class Tube extends Component {
     // 颜色完全相同且满
     isAllSameTube() {
         const len = this._ballList.length
-        return len === this._ballCountMax && this.isAllSame()
+        return len === this.ballCountMax && this.isAllSame()
     }
 
     // 塞入球体
     pushBall(ball: Ball) {
-        if (this._ballList.length >= this._ballCountMax) {
+        if (this._ballList.length >= this.ballCountMax) {
             return false
         }
 

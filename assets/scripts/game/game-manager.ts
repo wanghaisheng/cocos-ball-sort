@@ -49,7 +49,7 @@ export class GameManager extends Component {
     }
 
     init() {
-        this.initTubeBall(Constants.TUBE_TYPE.NO4, 4, 2, 4)
+        this.initTubeBall(Constants.TUBE_TYPE.NO3, 2, 1, 7)
     }
 
     initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number) {
@@ -69,16 +69,19 @@ export class GameManager extends Component {
     }
 
     clickTube(tube: Node) {
-        this.ballControl.tubeBallJump(this.tubeManager, this.ballManager, tube, this._tubeType, this._tubeList, this._tubeCount)
+        this.ballControl.tubeBallJump(this.tubeManager, this.ballManager, tube, this._tubeList, this._tubeCount)
     }
 
     gameOver(type: number) {
         switch(type) {
             case Constants.GAME_FINISH_TYPE.FAIL:
+                console.log('game fail')
                 break;
             case Constants.GAME_FINISH_TYPE.FINISH:
+                console.log('game finish')
                 break;  
             default:
+                console.log('game pass')
                 // 游戏通关
                 break;
         }

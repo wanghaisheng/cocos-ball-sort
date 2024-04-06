@@ -31,7 +31,7 @@ export class BallControl extends Component {
     }
 
     // 试管球的跳跃控制
-    tubeBallJump(tubeManager: TubeManager, ballManager: BallManager, tube: Node, tubeType: number, tubeList: Tube[], tubeCount: number) {
+    tubeBallJump(tubeManager: TubeManager, ballManager: BallManager, tube: Node, tubeList: Tube[], tubeCount: number) {
         const hitTube = tube.getComponent(Tube)
         if (!this.checkValid(tubeManager, hitTube)) return
         // 操作试管内的球体移动
@@ -44,7 +44,7 @@ export class BallControl extends Component {
             const bPos = topBall.getBallPosition()
             const oldBallY = bPos.y
             const oldBallX = bPos.x
-            const tubeH = Tube.getTubeHeight(tubeType)
+            const tubeH = hitTube.getTubeHeight()
             
             // 寻找目标试管
             const targetTube = tubeManager.getTargetTube(topBall.ballType, this._newTubeList)
@@ -146,7 +146,6 @@ export class BallControl extends Component {
             targetTube.setIsFinish(true)
             // 检查是否结束
             if (this.checkFinish()) {
-                console.log('游戏通关')
                 Constants.gameManager.gameOver(Constants.GAME_FINISH_TYPE.PASS)
             }
         }
