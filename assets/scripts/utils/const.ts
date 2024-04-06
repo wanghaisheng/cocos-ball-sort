@@ -1,6 +1,7 @@
 import { _decorator, Vec3 } from "cc";
 import { GameManager } from "../game/game-manager";
 import { BallControl } from "../game/ball/ball-control";
+import { TipManager } from "../game/page/tip-manager";
 
 enum GAME_STATUS {
    /**
@@ -104,6 +105,7 @@ enum TUBE_LEVEL {
 export class Constants {
    static gameManager: GameManager;
    static ballControl: BallControl;
+   static tipManager: TipManager;
 
    // score
    static MAX_SCORE = 0; // 历史最高

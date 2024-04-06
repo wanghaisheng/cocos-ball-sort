@@ -13,10 +13,6 @@ export class BallControl extends Component {
      private _tubeList: Tube[] = []
      private _newTubeList: Tube[] = []
      private _tubeCount: number = 0
-
-    __preload () {
-        Constants.ballControl = this
-    }
      
     start() {
 
@@ -27,7 +23,7 @@ export class BallControl extends Component {
     }
 
     onDestroy() {
-        this.hideInvalidTip()
+        
     }
 
     // 试管球的跳跃控制
@@ -78,63 +74,16 @@ export class BallControl extends Component {
                 vibrateShort()
                 // 告訴用户弹出无效
                 const oldPos = new Vec3(oldBallX, oldBallY, bPos.z)
-                this.setJumpBall(tubeManager, hitTube, topBall, oldPos, popY)
+                Constants.tipManager.showTipLabel('没有合适的位置', () => {
+                    topBall.moveDown(oldPos, () => {}, true)
+                })
             }
         }
     }
 
     checkValid(tubeManager: TubeManager, hitTube: Tube) {
         if (hitTube.disabled || hitTube.isFinish) return false
-        if (hitTube.jumpBall) {
-            this.hideJumpBall(tubeManager, hitTube)
-            return false
-        }
         return true
-    }
-
-
-    setJumpBall(tubeManager: TubeManager, hitTube: Tube, topBall: Ball, oldPos: Vec3, popY: number) {
-        // 设置其他tube不可用
-        tubeManager.setDisabledTubes(this._newTubeList, true)
-        hitTube.setJumpBall(topBall, oldPos)
-        this.showInvalidTip(hitTube, popY)
-    }
-
-    hideJumpBall(tubeManager: TubeManager, hitTube: Tube) {
-        const jumpBall = hitTube.getJumpBall()
-        const oldPos = hitTube.getJumpBallOldPos()
-        if (jumpBall && oldPos) {
-            // jumpBall.jumpBall(oldPos, Constants.BALL_JUMP_TYPE.DOWN)
-            jumpBall.moveDown(oldPos, () => {}, true)
-        }
-        tubeManager.setDisabledTubes(this._newTubeList, false)
-        hitTube.setJumpBall(null, null)
-        this.hideInvalidTip()
-    }
-
-    showInvalidTip(hitTube: Tube, popY: number) {
-        const canvasNode = this.node.parent.getChildByName('Canvas')
-        if (canvasNode) {
-            // 动态创建label节点
-            let node = new Node()
-            node.layer = Layers.Enum.UI_2D
-            node.name = 'TipLabel'
-            let label = node.addComponent(Label)
-            label.fontSize = 14
-            label.lineHeight = 20
-            label.string = '没有可跳的位置'
-            const pos = hitTube.getTubePosition()
-            node.setPosition(pos.x, popY + 100, pos.z)
-            canvasNode.addChild(node)
-        }
-    }
-
-    hideInvalidTip() {
-        const canvasNode = this.node.parent.getChildByName('Canvas')
-        if (canvasNode) {
-            const node = canvasNode.getChildByName('TipLabel')
-            node.destroy()
-        }
     }
 
     // 设置目标试管
