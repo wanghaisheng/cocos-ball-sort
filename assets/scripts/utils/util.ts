@@ -81,9 +81,9 @@ export function getTubeSpaceX(type: number, totalCol: number) {
 export function getTubeSpaceY(type: number, totalRow: number) {
   switch(type) {
       case Constants.TUBE_TYPE.NO3:
-        return totalRow >= 3 ? 2 : 2.5
+        return totalRow >= 3 ? 1.5 : 2.5
       case Constants.TUBE_TYPE.NO4:
-        return totalRow >= 3 ? 1.5 : 2
+        return totalRow >= 3 ? 1 : 2
       case Constants.TUBE_TYPE.NO5:
         return totalRow > 1 ? 1.5 : 2
       case Constants.TUBE_TYPE.NO7:

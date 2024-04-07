@@ -49,7 +49,7 @@ export class GameManager extends Component {
     }
 
     init() {
-        this.initTubeBall(Constants.TUBE_TYPE.NO4, 4, 1, 7)
+        this.initTubeBall(Constants.TUBE_TYPE.NO3, 15, 1, 7)
     }
 
     initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number) {

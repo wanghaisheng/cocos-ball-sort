@@ -17,9 +17,9 @@ export class UIManager extends Component {
     }
 
     init() {
-        this.bloodRoot.active = true
-        // this.bloodFace.setScale(1, 1, 1)
-        this.bloodFace.setScale(0.3 / 1, 1, 1)
+        // this.bloodRoot.active = true
+        // // this.bloodFace.setScale(1, 1, 1)
+        // this.bloodFace.setScale(0.3 / 1, 1, 1)
     }
 }
 
