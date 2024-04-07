@@ -37,7 +37,7 @@ export class GameManager extends Component {
     }
 
     start() {
-        this.init()
+        // this.init()
     }
 
     update(deltaTime: number) {
