@@ -165,9 +165,10 @@ export class TubeManager extends Component {
         for(let col = 0; col < colNum; col++) {
             if (col === colNum - 1) {
                 const prefab = this._getTubePrefab(type)
-                const tube = PoolManager.instance().getNode(prefab, this.node)
+                const tube = instantiate(prefab)
                 const pos = lastTube.getTubePosition()
                 const tubeHight = lastTube.getTubeHeight()
+                tube.setParent(this.node)
                 tube.setPosition(new Vec3(leftX + col * spaceX, pos.y, pos.z))
                 const tubeComp = tube.getComponent(Tube)
                 tubeComp.setTubeProp(type, tubeHight, lastTube.ballCountMax)
@@ -209,7 +210,9 @@ export class TubeManager extends Component {
                 pos.x = leftX + col * spaceX
 
                 const prefab = this._getTubePrefab(type)
-                const tube = PoolManager.instance().getNode(prefab, this.node)
+                // const tube = PoolManager.instance().getNode(prefab, this.node)
+                const tube = instantiate(prefab)
+                tube.setParent(this.node)
                 tube.setPosition(pos)
                 const tubeComp = tube.getComponent(Tube)
                 tubeComp.setTubeProp(type, tubeHight, ballCountMax)
@@ -223,7 +226,8 @@ export class TubeManager extends Component {
         const children = this.node.children
         if (children && children.length) {
             for(let i = children.length - 1; i >= 0; i--) {
-                PoolManager.instance().putNode(children[i])
+                // PoolManager.instance().putNode(children[i])
+                children[i].removeFromParent()
             }
         }
     }

@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, EventTouch, geometry, input, Input, Node, PhysicsSystem, SystemEvent, Vec3 } from 'cc';
+import { _decorator, Camera, Component, EventTouch, geometry, input, Input, Node, PhysicsSystem, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 import { Ball } from '../ball/ball';
 import { PoolManager } from '../../utils/pool-manager';
@@ -148,7 +148,8 @@ export class Tube extends Component {
     // 移除球并清空列表
     distroyBallList() {
         this._ballList.map((item) => {
-            PoolManager.instance().putNode(item.node)
+            // PoolManager.instance().putNode(item.node)
+            item.node.removeFromParent()
         })
         this._ballList = []
     }

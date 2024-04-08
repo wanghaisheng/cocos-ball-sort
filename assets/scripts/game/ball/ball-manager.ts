@@ -89,10 +89,10 @@ export class BallManager extends Component {
     }
 
     private _createBall(pos: Vec3, ballTexture: string) {
-        // const ball = instantiate(this.prefab)
-        const ball = PoolManager.instance().getNode(this.prefab, this.node)
+        const ball = instantiate(this.prefab)
+        // const ball = PoolManager.instance().getNode(this.prefab, this.node)
         this._setMaterial(ball, ballTexture)
-        // ball.setParent(this.node)
+        ball.setParent(this.node)
         ball.setPosition(pos)
         const ballComp = ball.getComponent(Ball)
         ballComp.setBallProp(ballTexture, false)
@@ -104,7 +104,8 @@ export class BallManager extends Component {
         const children = this.node.children
         if (children && children.length) {
             for(let i = children.length - 1; i >= 0; i--) {
-                PoolManager.instance().putNode(children[i])
+                // PoolManager.instance().putNode(children[i])
+                children[i].removeFromParent()
             }
         }
     }

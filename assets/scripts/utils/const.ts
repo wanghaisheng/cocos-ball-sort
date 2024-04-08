@@ -114,6 +114,12 @@ const PROP_COIN = {
    addTube: 100, // 添加试管
 }
 
+// 结束奖励
+const GAME_PRIZE_TYPE = {
+   successNormal: 40, // 成功
+   failNormal: 10, // 失败
+}
+
 export class Constants {
    static gameManager: GameManager;
    static ballControl: BallControl;
@@ -129,6 +135,9 @@ export class Constants {
 
    // 道具
    static PROP_COIN = PROP_COIN; // 道具星币
+
+   // 奖励
+   static GAME_PRIZE_TYPE = GAME_PRIZE_TYPE; // 结束奖励
 
    // tube
    static TUBE_TYPE = TUBE_TYPE // 试管类型

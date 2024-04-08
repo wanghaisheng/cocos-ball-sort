@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, ConfigurableConstraint, equals, EventTouch, geometry, Input, input, Label, Layers, math, Node, PhysicsSystem, SystemEvent, systemEvent, v3, Vec3 } from 'cc';
+import { _decorator, Camera, Component, ConfigurableConstraint, equals, EventTouch, geometry, Input, input, Label, Layers, math, Node, PhysicsSystem, v3, Vec3 } from 'cc';
 import { TubeManager } from './tube/tube-manager';
 import { BallManager } from './ball/ball-manager';
 import { Constants } from '../utils/const';
@@ -22,6 +22,12 @@ export class GameManager extends Component {
 
     @property(PageGame)
     pageGame: PageGame = null
+
+    @property(Node)
+    pageFail: Node = null
+
+    @property(Node)
+    pageSuccess: Node = null
 
     // game
     public gameStatus: number = Constants.GAME_STATUS.INIT
@@ -236,12 +242,14 @@ export class GameManager extends Component {
         switch(type) {
             case Constants.GAME_FINISH_TYPE.FAIL:
                 console.log('game fail')
+                this.pageFail.active = true
                 break;
             case Constants.GAME_FINISH_TYPE.FINISH:
                 console.log('game finish')
                 break;  
             default:
                 console.log('game pass')
+                this.pageSuccess.active = true
                 // 游戏通关
                 break;
         }
