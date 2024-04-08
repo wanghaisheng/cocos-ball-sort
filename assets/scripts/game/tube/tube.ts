@@ -1,6 +1,7 @@
 import { _decorator, Camera, Component, EventTouch, geometry, input, Input, Node, PhysicsSystem, SystemEvent, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 import { Ball } from '../ball/ball';
+import { PoolManager } from '../../utils/pool-manager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Tube')
@@ -84,6 +85,10 @@ export class Tube extends Component {
         return this.node.position
     }
 
+    setTubePosition(pos: Vec3) {
+        this.node.position = pos
+    }
+
     // 获取顶部球
     getTopBall() {
         if (!this._ballList.length) return null
@@ -133,5 +138,19 @@ export class Tube extends Component {
         return this._ballList.pop()
     }
 
+    // 清空列表
+    clearBallList() {
+        if (this._ballList.length) {
+            this._ballList = []
+        }
+    }
+
+    // 移除球并清空列表
+    distroyBallList() {
+        this._ballList.map((item) => {
+            PoolManager.instance().putNode(item.node)
+        })
+        this._ballList = []
+    }
 }
 

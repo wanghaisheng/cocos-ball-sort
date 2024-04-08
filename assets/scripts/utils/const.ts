@@ -6,21 +6,25 @@ import { AudioManager } from "../game/audio/audio-manager";
 
 enum GAME_STATUS {
    /**
-    * @zh 准备中
+    * @zh 初始化
     */
-   READY = 'READY',
+   INIT = 1,
+   /**
+    * @zh 已准备
+    */
+   READY = 3,
    /**
     * @zh 游戏中
     */
-   PLAYING = 'PLAYING',
+   PLAYING = 5,
    /**
     * @zh 暂停
     */
-   PAUSE = 'PAUSE',
+   PAUSE = 7,
    /**
     * @zh 游戏结束
     */
-   GAMEOVER = 'GAMEOVER',
+   GAMEOVER = 9,
 }
 
 enum TUBE_TYPE {
@@ -103,6 +107,13 @@ enum TUBE_LEVEL {
    EXCELLENT = 99,
 }
 
+// 道具星币
+const PROP_COIN = {
+   withdraw: 30, // 回撤
+   dissolve: 50, // 溶解
+   addTube: 100, // 添加试管
+}
+
 export class Constants {
    static gameManager: GameManager;
    static ballControl: BallControl;
@@ -116,11 +127,24 @@ export class Constants {
    static GAME_FINISH_TYPE = GAME_FINISH_TYPE // 游戏结束类型
    static GAME_STATUS = GAME_STATUS; // 游戏状态枚举
 
+   // 道具
+   static PROP_COIN = PROP_COIN; // 道具星币
+
    // tube
    static TUBE_TYPE = TUBE_TYPE // 试管类型
    static TUBE_LEVEL = TUBE_LEVEL // 目标试管等级
+   static TUBE_LINE_NUM_MAX = 5; // 试管一行的最大数量
+   static TUBE_ADD_NUM = 1 // 试管添加次数
 
    // ball
    static BALL_RADIUS = 1.5; // 球的半径
    static BALL_JUMP_TYPE = BALL_JUMP_TYPE // 球运动类型
+   static BALL_TYPE_MAX = 5 // 球的类型最大值
+
+   // user
+   static USER_PROTECT_MIN_LEVEL = 2 // 用户最低保护等级
+   static USER_PROTECT_LEVEL_TIME = 2 // 用户等级保护最低次数
+
+   // advert
+   static ADVERT_STATUS = 0 // 广告接入状态
 }

@@ -24,6 +24,10 @@ export class Ball extends Component {
         this.node.active = visible
     }
 
+    getVisible() {
+        return this.node.active
+    }
+
     // 获取球的位置
     getBallPosition() {
         return this.node.position
@@ -31,6 +35,15 @@ export class Ball extends Component {
 
     setPosition(pos: Vec3) {
         this.node.setPosition(pos)
+    }
+
+    dissolve() {
+        tween(this.node)
+            .to(0.5, { scale: new Vec3(0, 0, 0) }, { easing: "fade" })
+            .call(() => {
+                // 销毁节点
+                this.node.destroy()
+            }).start()
     }
 
     moveUp(pos: Vec3, isExceed: boolean = false) {

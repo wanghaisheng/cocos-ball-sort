@@ -22,11 +22,8 @@ export class TubeManager extends Component {
     @property(Prefab)
     tube8: Prefab = null
 
-    // layout
-    @property
-    lineMax: number = 0 // 一行最大试管个数
-
-    tubeList: Tube[] = [] // 试管列表
+    private _tubeList: Tube[] = [] // 试管列表
+    layoutList: number[] = [] // 布局列表
 
     start() {
 
@@ -66,12 +63,12 @@ export class TubeManager extends Component {
     }
 
     getTubeList() {
-        return this.tubeList
+        return this._tubeList
     }
 
-    initTubeBallJump() {
+    initTubeBallJump(cb: Function) {
         let ballMat = [], n = 0, taskList = []
-        const newTubeList = this.tubeList.filter(item => item.getBallList().length)
+        const newTubeList = this._tubeList.filter(item => item.getBallList().length)
         for(let i = 0; i < newTubeList.length; i++) {
             const tube = newTubeList[i]
             const tubeH = tube.getTubeHeight()
@@ -107,11 +104,11 @@ export class TubeManager extends Component {
                 lastBall = ball
             }
         }
-        tween(lastBall).parallel(...taskList).start()
+        tween(lastBall).parallel(...taskList).call(() => {cb()}).start()
     }
 
     getTargetTube(ballType: string, list: Tube[]) {
-        // console.log('this.tubeList', this.tubeList)
+        // console.log('this._tubeList', this._tubeList)
         let target: Tube = null, curLevel = Constants.TUBE_LEVEL.NONE
         for(let i = 0; i < list.length; i++) {
             const tube = list[i]
@@ -144,15 +141,64 @@ export class TubeManager extends Component {
         }
     }
 
-    createTubes(type: number, count: number) {
+    addEmptyTube(type: number, cb: Function) {
+        const [maxRow, maxCol] = this.getTubeLayoutMax(type)
+        let r = -1
+        for(let i = this.layoutList.length - 1; i >= 0; i--) {
+            if (this.layoutList[i] < maxCol) {
+                r = i
+                break
+            }
+        }
+        if (r < 0) return false
+        const colNum = this.layoutList[r] + 1
+        const spaceX = getTubeSpaceX(type, colNum)
+        const leftX = this._getX(type, colNum, spaceX)
+        const index = this.layoutList.reduce((pre, cur, i) => {
+            if (i < r) {
+                return pre + cur
+            }
+            return pre
+        }, 0)
+
+        let lastTube = null
+        for(let col = 0; col < colNum; col++) {
+            if (col === colNum - 1) {
+                const prefab = this._getTubePrefab(type)
+                const tube = PoolManager.instance().getNode(prefab, this.node)
+                const pos = lastTube.getTubePosition()
+                const tubeHight = lastTube.getTubeHeight()
+                tube.setPosition(new Vec3(leftX + col * spaceX, pos.y, pos.z))
+                const tubeComp = tube.getComponent(Tube)
+                tubeComp.setTubeProp(type, tubeHight, lastTube.ballCountMax)
+                this._tubeList.splice(index + col, 0, tubeComp)
+            } else {
+                const x = leftX + col * spaceX
+                lastTube = this._tubeList[index + col]
+                const pos = lastTube.getTubePosition()
+                lastTube.setTubePosition(new Vec3(x, pos.y, pos.z))
+                for(let i = 0; i < lastTube.getBallList().length; i++) {
+                    const ball = lastTube.getBallList()[i]
+                    const ballPos = ball.getBallPosition()
+                    ball.setPosition(new Vec3(x, ballPos.y, ballPos.z))
+                }
+            }
+        }
+        this.layoutList.splice(r, 1, colNum)
+        // 回调
+        cb()
+    }
+
+    createTubes(type: number, count: number, ballCountMax: number) {
         this.clearTubes()
-        this.tubeList = []
+        this._tubeList = []
         const tubeHight = getTubeHeight(type)
         const layoutList = this._getTubeLayout(type, count)
         const colMax = layoutList.reduce((pre, cur) => Math.max(pre, cur), 0)
         const spaceX = getTubeSpaceX(type, colMax)
         const spaceY = getTubeSpaceY(type, layoutList.length)
         const leftY = this._getY(type, layoutList.length, spaceY)
+        this.layoutList = layoutList
         for(let row = 0; row < layoutList.length; row++) {
             const colNum = layoutList[row]
             // x的偏移由横向个数决定，因此需要重新计算
@@ -166,9 +212,9 @@ export class TubeManager extends Component {
                 const tube = PoolManager.instance().getNode(prefab, this.node)
                 tube.setPosition(pos)
                 const tubeComp = tube.getComponent(Tube)
-                tubeComp.setTubeProp(type, tubeHight)
+                tubeComp.setTubeProp(type, tubeHight, ballCountMax)
 
-                this.tubeList.push(tubeComp)
+                this._tubeList.push(tubeComp)
             }
         }
     }
@@ -208,21 +254,26 @@ export class TubeManager extends Component {
     }
 
     // 试管横向纵向的最大布局
-    private _getTubeLayoutMax(type: number) {
+    public getTubeLayoutMax(type: number) {
         if (type >= Constants.TUBE_TYPE.NO8) {
-            return [1, this.lineMax]
+            return [1, Constants.TUBE_LINE_NUM_MAX]
         }
         if (type >= Constants.TUBE_TYPE.NO5) {
-            return [2, this.lineMax]
+            return [2, Constants.TUBE_LINE_NUM_MAX]
         }
-        return [3, this.lineMax]
+        return [3, Constants.TUBE_LINE_NUM_MAX]
+    }
+
+    public getTubeCountMax(type: number) {
+        const [rowMax, colMax] = this.getTubeLayoutMax(type)
+        return rowMax * colMax
     }
 
     // 获取试管的布局，个数超过极限，按最大极限算
     private _getTubeLayout(type: number, count: number) {
         if (count <= 0) return [1]
 
-        const [maxRow, maxCol] = this._getTubeLayoutMax(type)
+        const [maxRow, maxCol] = this.getTubeLayoutMax(type)
         if (maxRow === 1) {
             return count >= maxCol ? [maxCol] : [count]
         }

@@ -73,6 +73,36 @@ export function getTubeSpaceX(type: number, totalCol: number) {
 }
 
 /**
+ * 设置本地数据
+ * @param key 
+ * @param data 
+ */
+export function setLocalStorage(key: string, data: any) {
+  try {
+      localStorage.setItem(key, JSON.stringify(data))
+  } catch (e) {
+      console.error(e)
+  }
+}
+
+/**
+ * 获取本地数据
+ * @param key 
+ */
+export function getLocalStorage(key: string) {
+  try {
+    const dataStr = localStorage.getItem(key)
+    if (dataStr) {
+        const data = JSON.parse(dataStr)
+        return data
+    }
+  } catch(e) {
+    console.error(e)
+  }
+  return null
+}
+
+/**
  * 获取试管纵向间隔
  * @param type 
  * @param totalRow 当前纵向的个数（最大为3） 

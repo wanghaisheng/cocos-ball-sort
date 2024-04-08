@@ -49,6 +49,19 @@ export class TipManager extends Component {
         .start()
     }
 
+    showLevelTip(level: number, target: number) {
+        const label = this.LevelTip.getChildByName('Level').getComponent(Label)
+        label.string = `第 ${level} 关     ${target}`
+        
+        tween(this.LevelTip)
+        .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }) 
+        .call(() => {
+            this.LevelTip.active = true
+            this.hideLevelTip()
+        })
+        .start()
+    }
+
     hideLevelTip() {
         tween(this.LevelTip)
         .delay(1)
