@@ -6,6 +6,7 @@ import { Tube } from './tube/tube';
 import { BallControl } from './ball/ball-control';
 import { User } from '../utils/user';
 import { PageGame } from './page/page-game';
+import { Ball } from './ball/ball';
 const { ccclass, property } = _decorator;
 
 @ccclass('GameManager')
@@ -49,6 +50,7 @@ export class GameManager extends Component {
     private _data: any = {}
     private _targetCombinateCount: number = 0
     private _eliminateBallCount: number = 0
+    private _ballTypeNum: number = 0
 
     __preload () {
         Constants.gameManager = this
@@ -69,7 +71,7 @@ export class GameManager extends Component {
     // 初始化
     init() {
         // const userLevel = User.instance().getLevel()
-        const userLevel = 2
+        const userLevel = 1
         this.gameStatus = Constants.GAME_STATUS.INIT
         const data = this.getLevelData(userLevel)
         this._data = data
@@ -77,9 +79,10 @@ export class GameManager extends Component {
         this._isDissolve = false
         this.finishStep = 0
         this._eliminateBallCount = 0
+        this._ballTypeNum = data.ballTypeNum
         this._targetCombinateCount = data.targetCombinateCount
 
-        this.initTubeBall(data.tubeType, data.tubeCount, data.emptyTubeCount, data.ballCount, data.ballCountMax, data.ballRandMax)
+        this.initTubeBall(data.tubeType, data.tubeCount, data.emptyTubeCount, data.ballCount, data.ballCountMax, data.ballTypeNum)
         this.ballControl.init()
 
         // 弹出目标
@@ -88,7 +91,7 @@ export class GameManager extends Component {
         this.updateProgress(0, 0)
     }
 
-    initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number, ballCountMax: number, ballRandMax: number) {
+    initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number, ballCountMax: number, ballTypeNum: number) {
         this._tubeType = tubeType
         this._tubeCount = tubeCount
         this._emptyTubeCount = emptyTubeCount
@@ -102,7 +105,7 @@ export class GameManager extends Component {
         this.tubeManager.createTubes(tubeType, tubeNum, ballCountMax)
         this._tubeList = this.tubeManager.getTubeList()
         const ballTubeList = this._tubeList.slice(0, tubeCount)
-        this.ballManager.createBallList(ballTubeList, ballCount)
+        this.ballManager.createBallList(ballTubeList, ballCount, ballTypeNum)
         this.tubeManager.initTubeBallJump(
             () => {
                 this.gameStatus = Constants.GAME_STATUS.READY
@@ -142,8 +145,35 @@ export class GameManager extends Component {
         }
     }
 
+    // 派发
+    dispatchBall() {
+        // 派发球的过程中，不允许操作
+        this.gameStatus = Constants.GAME_STATUS.PAUSE
+        this.ballManager.dispatchBall(
+            this.ballControl,
+            this._tubeCount,
+            this._ballTypeNum,
+            this._tubeList,
+            () => {
+                console.log('dispatch ball finish')
+                // 清除已满的试管
+                this._tubeList.forEach((item) => {
+                    this.ballControl.checkTubeFull(item)
+                })
+                // 判断是否所有试管都已经满了
+                if (this._tubeList.every(item => item.isFull())) {
+                    this.gameOver(Constants.GAME_FINISH_TYPE.FAIL)
+                } else {
+                    // 球派发完成，可以操作了
+                    this.gameStatus = Constants.GAME_STATUS.PLAYING
+                }
+            }
+        )
+    }
+
     // 清空试管
     dissolveTube() {
+        if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
         this._isDissolve = true
         Constants.tipManager.showTipLabel('选择要清空的试管', () => {})
     }
@@ -153,10 +183,10 @@ export class GameManager extends Component {
             tubeType: Constants.TUBE_TYPE.NO3, // 试管类型
             tubeCount: 2, // 有球试管个数
             emptyTubeCount: 1, // 空管个数
-            ballCount: 3, // 初始球的个数
+            ballCount: 2, // 初始球的个数
             ballCountMax: 0,// 试管最大球个数
-            ballRandMax: 2, // 试管随机球的类型数
-            targetCombinateCount: 3,// 组合次数
+            ballTypeNum: 2, // 试管随机球的类型数
+            targetCombinateCount: 13,// 组合次数
         }
         
         // 制定游戏规则
@@ -171,8 +201,8 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             data.tubeCount = tubeNumMax - 1
             data.ballCount = data.tubeType - 4
-            data.ballRandMax = Math.min(this._ballCountMax, 15)
-            data.targetCombinateCount = userLevel * userLevel * data.ballRandMax
+            data.ballTypeNum = Math.min(this._ballCountMax, 15)
+            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
         }
         if (userLevel > 25) {
             // [5, 7]
@@ -185,8 +215,8 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             data.tubeCount = tubeNumMax - 1
             data.ballCount = data.tubeType - 3
-            data.ballRandMax = Math.min(this._ballCountMax, 15)
-            data.targetCombinateCount = userLevel * userLevel * data.ballRandMax
+            data.ballTypeNum = Math.min(this._ballCountMax, 15)
+            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
         }
         if (userLevel > 15) {
             // [4, 5]
@@ -195,8 +225,8 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             data.tubeCount = tubeNumMax - 1
             data.ballCount = data.tubeType - 3
-            data.ballRandMax = Math.min(this._ballCountMax, data.tubeCount + 3)
-            data.targetCombinateCount = userLevel * userLevel * data.ballRandMax
+            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount + 3)
+            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
         }
         if (userLevel > 10) {
             // [3, 4, 5]
@@ -209,7 +239,7 @@ export class GameManager extends Component {
                 data.tubeCount = tubeNumMax - 1
             }
             data.ballCount = data.tubeType - 2
-            data.ballRandMax = Math.min(this._ballCountMax, data.tubeCount)
+            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
         }
         if (userLevel > 5) {
             // [3, 4]
@@ -222,7 +252,7 @@ export class GameManager extends Component {
                 data.tubeCount = tubeNumMax - 1
             }
             data.ballCount = data.tubeType - 2
-            data.ballRandMax = Math.min(this._ballCountMax, data.tubeCount)
+            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
         }
         if (userLevel > 1) {
             data.tubeType = Constants.TUBE_TYPE.NO3
@@ -232,10 +262,10 @@ export class GameManager extends Component {
             } else {
                 data.tubeCount = tubeNumMax - 1
             }
-            data.ballRandMax = Math.min(this._ballCountMax, data.tubeCount)
+            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
         }
 
-        data.targetCombinateCount = userLevel * userLevel * data.tubeType
+        // data.targetCombinateCount = userLevel * userLevel * data.tubeType
         
         return data
     }
@@ -260,7 +290,6 @@ export class GameManager extends Component {
 
     // 更新进度
     updateProgress(eliminateBallCount: number, stepCount: number) {
-        if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
         this._eliminateBallCount += eliminateBallCount
         this.pageGame.updateProgressNode(this._eliminateBallCount, this._targetCombinateCount)
 

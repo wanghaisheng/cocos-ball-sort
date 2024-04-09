@@ -123,6 +123,27 @@ export class Tube extends Component {
         return len === this.ballCountMax && this.isAllSame()
     }
 
+    // 是否空管
+    isEmpty() {
+        return this._ballList.length === 0
+    }
+
+    // 是否满了
+    isFull() {
+        return this._ballList.length >= this.ballCountMax
+    }
+
+    // 有球的试管，但未满
+    haveBallNotFull() {
+        const len = this._ballList.length
+        return len > 0 && len < this.ballCountMax
+    }
+
+    // 空的位置
+    getEmptyBallCount() {
+        return this.ballCountMax - this._ballList.length
+    }
+
     // 塞入球体
     pushBall(ball: Ball) {
         if (this._ballList.length >= this.ballCountMax) {

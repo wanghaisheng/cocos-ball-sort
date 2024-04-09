@@ -204,7 +204,7 @@ export class TubeManager extends Component {
         this.clearTubes()
         this._tubeList = []
         const tubeHight = getTubeHeight(type)
-        const layoutList = this._getTubeLayout(type, count)
+        const layoutList = this.getTubeLayout(type, count)
         const colMax = layoutList.reduce((pre, cur) => Math.max(pre, cur), 0)
         const spaceX = getTubeSpaceX(type, colMax)
         const spaceY = getTubeSpaceY(type, layoutList.length)
@@ -284,7 +284,7 @@ export class TubeManager extends Component {
     }
 
     // 获取试管的布局，个数超过极限，按最大极限算
-    private _getTubeLayout(type: number, count: number) {
+    public getTubeLayout(type: number, count: number) {
         if (count <= 0) return [1]
 
         const [maxRow, maxCol] = this.getTubeLayoutMax(type)

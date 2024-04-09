@@ -11,7 +11,7 @@
     "6c48a": {
       "importer": "texture",
       "uuid": "f34424ae-0943-481e-9c46-b829e8214f8f@6c48a",
-      "displayName": "icon-sound01",
+      "displayName": "icon-sound-disable",
       "id": "6c48a",
       "name": "texture",
       "userData": {
@@ -35,7 +35,7 @@
     "f9941": {
       "importer": "sprite-frame",
       "uuid": "f34424ae-0943-481e-9c46-b829e8214f8f@f9941",
-      "displayName": "icon-sound01",
+      "displayName": "icon-sound-disable",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {

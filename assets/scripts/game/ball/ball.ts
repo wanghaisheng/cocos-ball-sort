@@ -101,5 +101,13 @@ export class Ball extends Component {
         }
         tween(this.node).sequence(...taskList).start()
     }
+
+    // 派发球
+    dispatchBallAction(pos: Vec3, cb: Function, isExceed: boolean = false) {
+        const t = tween(this.node)
+            .to(0.5, { position: pos, scale: new Vec3(2.5, 2.5, 2.5) }, { easing: "smooth" })
+            .call(() => { cb() })
+        return isExceed ? t.start() : t
+    }
 }
 

@@ -26,6 +26,7 @@ export class PageFail extends Component {
     }
 
     hideNode() {
+        Constants.gameManager.init()
         this.node.active = false
     }
 }

@@ -44,14 +44,13 @@ export class TipManager extends Component {
         .call(() => {
             this.MsgTip.active = false
             cb()
-            console.log('hide')
         })
         .start()
     }
 
     showLevelTip(level: number, target: number) {
         const label = this.LevelTip.getChildByName('Level').getComponent(Label)
-        label.string = `第 ${level} 关     ${target}`
+        label.string = `第 ${level} 关     目标 ${target}`
         
         tween(this.LevelTip)
         .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }) 

@@ -8,8 +8,6 @@ export class PageGame extends Component {
     @property(Node)
     public goldLabel: Node = null
     @property(Node)
-    public levelRoot: Node = null
-    @property(Node)
     public targetRoot: Node = null
     @property(Node)
     public progressRoot: Node = null
@@ -41,8 +39,6 @@ export class PageGame extends Component {
         Constants.gameManager.init()
         // 更新用户金币
         this.refreshGold()
-        // 更新等级
-        this.levelRoot.getComponent(Label).string = user.getLevel() + ''
     }
     
     // 更新进度
@@ -68,7 +64,8 @@ export class PageGame extends Component {
         // iconNode.spriteFrame = Constants.spriteFrameManager.getSpriteFrame('sound_on')
         // iconNode.spriteFrame = 
         // const url = 'texture/common/'+ this._isSupportSound ? 'icon-sound/icon-sound' : 'icon-sound01/icon-sound01';
-        const url = 'texture/common/icon-sound/icon-sound'
+        const url = 'texture/common/icon-sound-enabled/icon-sound-enabled'
+        // const url = 'texture/common/icon-sound/icon-sound'
         // resources.load(url, SpriteFrame, (err: any, spriteFrame) => {
         //     console.log('spriteFrame', err, spriteFrame)
         //     if (spriteFrame) {
@@ -76,9 +73,15 @@ export class PageGame extends Component {
         //         sprite.spriteFrame = spriteFrame;
         //     }
         // });
-        resources.load("texture/common/spriteFrame", SpriteFrame, (err,spriteFrame)=>{
-            console.log('spriteFrame',err,spriteFrame)
+        resources.load(url, SpriteFrame, (err, spriteFrame)=>{
+            console.log('spriteFrame',err, spriteFrame)
         })
+        // resources.load("texture/common/icon-sound/icon-sound", SpriteFrame, (err,spriteFrame)=>{
+        //     console.log('spriteFrame',err,spriteFrame)
+        // })
+        // resources.load("texture/common/spriteFrame/spriteFrame", SpriteFrame, (err,spriteFrame)=>{
+        //     console.log('spriteFrame',err,spriteFrame)
+        // })
     }
 
     // 回退
@@ -98,6 +101,11 @@ export class PageGame extends Component {
         Constants.gameManager.addEmptyTube(() => {
             console.log('加管成功')
         })
+    }
+
+    // 派发球
+    onDispatchBall() {
+        Constants.gameManager.dispatchBall()
     }
 
     // 商店

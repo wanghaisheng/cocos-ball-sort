@@ -112,6 +112,11 @@ export class BallControl extends Component {
     setTubeBall(hitTube: Tube, targetTube: Tube) {
         const topBall = hitTube.popBall()
         targetTube.pushBall(topBall)
+        this.checkTubeFull(targetTube)
+    }
+
+    // 判断是否已经满了，并清空
+    checkTubeFull(targetTube: Tube) {
         if (targetTube.isAllSameTube()) {
             // // 颜色完全相同且满的试管
             // targetTube.setIsFinish(true)
@@ -123,6 +128,9 @@ export class BallControl extends Component {
         }
     }
 
+    
+
+    // 回退上一次操作
     returnBallLastStep(ballManager: BallManager, cb: Function) {
         if (this._stepList.length === 0) return
         const [ball, jumpTube, targetTube] = this._stepList.pop()

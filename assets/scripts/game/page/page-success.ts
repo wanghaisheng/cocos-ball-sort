@@ -18,8 +18,8 @@ export class PageSuccess extends Component {
     }
 
     protected onEnable(): void {
-        this._prizeGold = Constants.GAME_PRIZE_TYPE.successNormal
-        const gold = math.randomRangeInt(this._prizeGold - 10, this._prizeGold + 11)
+        const prizeNum = Constants.GAME_PRIZE_TYPE.successNormal
+        const gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
         this._prizeGold = gold
         const step = Constants.gameManager.finishStep || 1
 
@@ -34,8 +34,7 @@ export class PageSuccess extends Component {
 
     onNormalReceive() {
         const user = User.instance()
-        const gold = Constants.GAME_PRIZE_TYPE.successNormal
-        user.setGold(gold + user.getGold())
+        user.setGold(this._prizeGold + user.getGold())
         user.setLevel(user.getLevel() + 1)
         this.hideNode()
     }
@@ -45,6 +44,7 @@ export class PageSuccess extends Component {
     }
 
     hideNode() {
+        Constants.gameManager.init()
         this.node.active = false
     }
 }
