@@ -71,12 +71,7 @@ export class BallManager extends Component {
 
     dispatchBall(ballControl: BallControl, totalCount: number, ballTypeNum: number, tubeList: Tube[], cb: Function) {
         // 有效试管
-        let targetTubeList = this.getDispatchTubeList(totalCount, tubeList)
-        let ballCount = totalCount
-        if (targetTubeList === null) {// 有效位置已经不够
-            targetTubeList = tubeList.filter(item => !item.isFull())
-            ballCount = targetTubeList.reduce((pre, cur) => pre + cur.getEmptyBallCount(), 0)
-        }
+        const [targetTubeList, ballCount] = this.getDispatchTubeList(totalCount, tubeList)
         const tubeLen = targetTubeList.length
         // 发球个数，颜色个数
         const dispatchBallList = this.createDispatchBallList(ballCount, ballTypeNum)
@@ -122,28 +117,20 @@ export class BallManager extends Component {
         })
     }
 
-    // 找出有效试管
-    getDispatchTubeList(totalCount: number, tubeList: Tube[]) {
-        // 先找非空的
-        const primaryTubeList = tubeList.filter(item => item.haveBallNotFull())
-        if (primaryTubeList.length >= totalCount) {
-            return primaryTubeList.slice(0, totalCount + 1)
+    // 动态调整分发球的个数，根据试管派发球的个数
+    getDispatchTubeList(totalCount: number, tubeList: Tube[]): [Tube[], number] {
+        const totalEmptyNum = tubeList.reduce((pre, cur) => pre + cur.getEmptyBallCount(), 0)
+        const targetTubeList = tubeList.filter(item => !item.isFull())
+        // console.log('totalEmptyNum', totalEmptyNum)
+        // console.log('targetTubeList', targetTubeList)
+        if (totalEmptyNum <= totalCount) {
+            return [targetTubeList, totalEmptyNum]
         }
-        const num = primaryTubeList.reduce((pre, cur) => pre + cur.getEmptyBallCount(), 0)
-        if (num >= totalCount) {
-            return primaryTubeList
+        const k = Math.floor(totalEmptyNum / totalCount)
+        if (k >= 2) {
+            return [targetTubeList, (k - 1) * totalCount]
         }
-        // 开始找空试管
-        const emptyTubeList = tubeList.filter(item => item.isEmpty())
-        let total = num, emptyList = []
-        for(let i = 0; i < emptyTubeList.length; i++) {
-            total += emptyTubeList[i].ballCountMax
-            if (total >= totalCount) {
-                emptyList = emptyTubeList.slice(0, i + 1)
-                return primaryTubeList.concat(emptyList)
-            }
-        }
-        return null
+        return [targetTubeList, totalCount]
     }
 
     createDispatchBallList(ballCount: number, ballTypeNum: number) {

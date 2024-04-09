@@ -9,6 +9,10 @@ import { PageGame } from './page/page-game';
 import { Ball } from './ball/ball';
 const { ccclass, property } = _decorator;
 
+/**
+ * 游戏管理器
+ * 1）可增加炸弹道具
+ */
 @ccclass('GameManager')
 export class GameManager extends Component {
 
@@ -71,7 +75,7 @@ export class GameManager extends Component {
     // 初始化
     init() {
         // const userLevel = User.instance().getLevel()
-        const userLevel = 1
+        const userLevel = 2
         this.gameStatus = Constants.GAME_STATUS.INIT
         const data = this.getLevelData(userLevel)
         this._data = data
@@ -131,7 +135,11 @@ export class GameManager extends Component {
     // 回撤
     returnBackLastStep(cb: Function) {
         if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
-        this.ballControl.returnBallLastStep(this.ballManager, cb)
+        const res = this.ballControl.returnBallLastStep(this.ballManager, cb)
+        if (res === null) {
+            // 没有回撤的球
+            Constants.tipManager.showTipLabel('没有可回撤的球', () => {})
+        }
     }
 
     // 加管
@@ -186,7 +194,7 @@ export class GameManager extends Component {
             ballCount: 2, // 初始球的个数
             ballCountMax: 0,// 试管最大球个数
             ballTypeNum: 2, // 试管随机球的类型数
-            targetCombinateCount: 13,// 组合次数
+            targetCombinateCount: 10,// 组合次数
         }
         
         // 制定游戏规则
@@ -255,17 +263,18 @@ export class GameManager extends Component {
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
         }
         if (userLevel > 1) {
+            // 增加一支试管或颜色
             data.tubeType = Constants.TUBE_TYPE.NO3
-            const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            if (tubeNumMax - 1 > userLevel) {
-                data.tubeCount += userLevel
+            const randX = math.randomRangeInt(0, 2)
+            if (randX === 0) {
+                // 增加一支试管
+                data.tubeCount += (userLevel - 1)
             } else {
-                data.tubeCount = tubeNumMax - 1
+                // 增加一种颜色
+                data.ballTypeNum += (userLevel - 1)
             }
-            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 40
         }
-
-        // data.targetCombinateCount = userLevel * userLevel * data.tubeType
         
         return data
     }

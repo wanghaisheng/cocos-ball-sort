@@ -132,9 +132,9 @@ export class BallControl extends Component {
 
     // 回退上一次操作
     returnBallLastStep(ballManager: BallManager, cb: Function) {
-        if (this._stepList.length === 0) return
+        if (this._stepList.length === 0) return null
         const [ball, jumpTube, targetTube] = this._stepList.pop()
-        if (ball && jumpTube && targetTube) {
+        if (ball && ball.node && !jumpTube.isFull()) {
             // 重新获取试管的位置，是为了防止增加新试管后，位置发生变化
             const tubePos = jumpTube.getTubePosition()
             const ballY = this.getDownBallPosY(ballManager, jumpTube)
@@ -143,6 +143,9 @@ export class BallControl extends Component {
             targetTube.popBall()
             jumpTube.pushBall(ball)
             cb()
+            return true
+        } else {
+            return null
         }
     }
 
