@@ -64,9 +64,9 @@ export class TipManager extends Component {
 
     hideLevelTip() {
         tween(this.LevelTip)
-        .delay(1)
-        .to(0.5, { position: new Vec3(0, 300, 0), scale: new Vec3(0.1, 0.1, 0.1) }, { 
-            easing: "fade",
+        .delay(1.2)
+        .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, { 
+            easing: "smooth",
         }) 
         .call(() => {
             this.LevelTip.active = false

@@ -68,7 +68,8 @@ export class BallManager extends Component {
                 tube.pushBall(ball)
             }
             if (tube.isAllSameTube()) {
-                tube.setIsFinish(true)
+                console.log('生成颜色完全相同')
+                // tube.setIsFinish(true)
             }
         }
     }

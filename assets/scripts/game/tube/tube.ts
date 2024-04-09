@@ -102,7 +102,7 @@ export class Tube extends Component {
         const top = this._ballList[len - 1]
         for(let i = len - 2; i >= 0; i--) {
             const ball = this._ballList[i]
-            if (ball.ballType === top.ballType) {
+            if (ball && top && ball.ballType === top.ballType) {
                 k++
             } else {
                 break
@@ -138,19 +138,19 @@ export class Tube extends Component {
         return this._ballList.pop()
     }
 
-    // 清空列表
-    clearBallList() {
-        if (this._ballList.length) {
-            this._ballList = []
+    // 移除球，清除试管
+    clearTubeAction(isWithAction: boolean = false) {
+        const ballList = this._ballList
+        if (isWithAction) {
+            for(let i = ballList.length - 1; i >= 0; i--) {
+                ballList[i].dissolve()
+            }
+        } else {
+            ballList.map((item) => {
+                // PoolManager.instance().putNode(item.node)
+                item.node.destroy()
+            })
         }
-    }
-
-    // 移除球并清空列表
-    distroyBallList() {
-        this._ballList.map((item) => {
-            // PoolManager.instance().putNode(item.node)
-            item.node.removeFromParent()
-        })
         this._ballList = []
     }
 }

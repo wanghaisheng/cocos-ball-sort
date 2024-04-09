@@ -39,17 +39,18 @@ export class Ball extends Component {
 
     dissolve() {
         tween(this.node)
-            .to(0.5, { scale: new Vec3(0, 0, 0) }, { easing: "fade" })
+            .by(0.2, { position: new Vec3(0, 0, 0) }, { easing: "fade" })
+            .to(0.3, { scale: new Vec3(0, 0, 0) }, { easing: "fade" })
             .call(() => {
                 // 销毁节点
                 this.node.destroy()
             }).start()
     }
 
-    moveUp(pos: Vec3, isExceed: boolean = false) {
+    moveUp(pos: Vec3, delayTime: number = 0.1, isExceed: boolean = false) {
         const t = tween(this.node)
             .to(0.05, { position: pos })
-            .delay(0.1)
+            .delay(delayTime)
         return isExceed ? t.start() : t
     }
 
@@ -86,12 +87,19 @@ export class Ball extends Component {
         return isExceed ? t.start() : t
     }
 
-    moveBall(posList: Vec3[], cb: Function) {
+    jumpBall(posList: Vec3[], cb: Function) {
         if (posList.length === 0) return
-        const t1 = this.moveUp(posList[0])
-        const t2 = this.moveX(posList[1])
-        const t3 = this.moveDown(posList[2], cb)
-        tween(this.node).sequence(t1, t2, t3).start()
+        const taskList = []
+        if (posList.length === 3) {
+            taskList.push(this.moveUp(posList[0]))
+            taskList.push(this.moveX(posList[1]))
+            taskList.push(this.moveDown(posList[2], cb))
+        }
+        if (posList.length === 2) {
+            taskList.push(this.moveUp(posList[0], 0.5))
+            taskList.push(this.moveDown(posList[1], cb))
+        }
+        tween(this.node).sequence(...taskList).start()
     }
 }
 

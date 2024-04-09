@@ -107,11 +107,11 @@ enum TUBE_LEVEL {
    EXCELLENT = 99,
 }
 
-// 道具星币
-const PROP_COIN = {
+// 道具价格
+const PROP_PRICE = {
    withdraw: 30, // 回撤
    dissolve: 50, // 溶解
-   addTube: 100, // 添加试管
+   addTube: 300, // 添加试管
 }
 
 // 结束奖励
@@ -134,7 +134,7 @@ export class Constants {
    static GAME_STATUS = GAME_STATUS; // 游戏状态枚举
 
    // 道具
-   static PROP_COIN = PROP_COIN; // 道具星币
+   static PROP_PRICE = PROP_PRICE; // 道具价格
 
    // 奖励
    static GAME_PRIZE_TYPE = GAME_PRIZE_TYPE; // 结束奖励

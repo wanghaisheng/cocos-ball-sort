@@ -56,9 +56,9 @@ export class PageShop extends Component {
         this.dissolveNumNode.getComponent(Label).string = user.getDissolveNum() + ''
         this.addTubeNumNode.getComponent(Label).string = user.getAddTubeNum() + ''
 
-        const withdrawPrice = Constants.PROP_COIN.withdraw
-        const dissolvePrice = Constants.PROP_COIN.dissolve
-        const tubePrice = Constants.PROP_COIN.addTube
+        const withdrawPrice = Constants.PROP_PRICE.withdraw
+        const dissolvePrice = Constants.PROP_PRICE.dissolve
+        const tubePrice = Constants.PROP_PRICE.addTube
         // 设置价格
         this.buyWithdrawCoinNode.getChildByName('coin').getComponent(Label).string = withdrawPrice + ''
         this.buyDissolveCoinNode.getChildByName('coin').getComponent(Label).string = dissolvePrice + ''
@@ -66,15 +66,15 @@ export class PageShop extends Component {
 
 
         // 设置显示属性
-        if (totalGold < Constants.PROP_COIN.withdraw) {
+        if (totalGold < Constants.PROP_PRICE.withdraw) {
             this.buyWithdrawCoinNode.getComponent(Button).interactable = false
         }
 
-        if (totalGold < Constants.PROP_COIN.dissolve) {
+        if (totalGold < Constants.PROP_PRICE.dissolve) {
             this.buyDissolveCoinNode.getComponent(Button).interactable = false
         }
 
-        if (totalGold < Constants.PROP_COIN.addTube) {
+        if (totalGold < Constants.PROP_PRICE.addTube) {
             this.buyTubeCoinNode.getComponent(Button).interactable = false
         }
         
@@ -88,10 +88,10 @@ export class PageShop extends Component {
     buyWithdrawCoin() {
         const user = User.instance()
         const totalGold = user.getGold()
-        if (totalGold < Constants.PROP_COIN.withdraw) {
+        if (totalGold < Constants.PROP_PRICE.withdraw) {
             return
         }
-        user.setGold(totalGold - Constants.PROP_COIN.withdraw)
+        user.setGold(totalGold - Constants.PROP_PRICE.withdraw)
         user.setWithdrawNum(user.getWithdrawNum() + 1)
         this.init()
     }
@@ -101,10 +101,10 @@ export class PageShop extends Component {
         const user = User.instance()
         const totalGold = user.getGold()
 
-        if (totalGold < Constants.PROP_COIN.dissolve) {
+        if (totalGold < Constants.PROP_PRICE.dissolve) {
             return
         }
-        user.setGold(totalGold - Constants.PROP_COIN.dissolve)
+        user.setGold(totalGold - Constants.PROP_PRICE.dissolve)
         user.setDissolveNum(user.getDissolveNum() + 1)
         this.init()
     }
@@ -114,10 +114,10 @@ export class PageShop extends Component {
         const user = User.instance()
         const totalGold = user.getGold()
 
-        if (totalGold < Constants.PROP_COIN.addTube) {
+        if (totalGold < Constants.PROP_PRICE.addTube) {
             return
         }
-        user.setGold(totalGold - Constants.PROP_COIN.addTube)
+        user.setGold(totalGold - Constants.PROP_PRICE.addTube)
         user.setAddTubeNum(user.getAddTubeNum() + 1)
         this.init()
     }

@@ -13,9 +13,7 @@ export class BallControl extends Component {
      private _tubeList: Tube[] = []
      private _newTubeList: Tube[] = []
      private _tubeCount: number = 0
-     private _lastJumpBall: Ball = null
-     private _lastJumpTube: Tube = null
-     private _lastTargetTube: Tube = null
+     private _stepList: any[] = []
      
     start() {
 
@@ -33,15 +31,13 @@ export class BallControl extends Component {
         this._tubeList = []
         this._newTubeList = []
         this._tubeCount = 0
-        this._lastJumpBall = null
-        this._lastJumpTube = null
-        this._lastTargetTube = null
+        this._stepList = []
     }
 
     // 试管球的跳跃控制
     tubeBallJump(tubeManager: TubeManager, ballManager: BallManager, tube: Node, tubeList: Tube[], tubeCount: number) {
         const hitTube = tube.getComponent(Tube)
-        if (!this.checkValid(tubeManager, hitTube)) return
+        // if (!this.checkValid(tubeManager, hitTube)) return
         // 操作试管内的球体移动
         const topBall = hitTube.getTopBall()
         if (topBall) {
@@ -73,12 +69,11 @@ export class BallControl extends Component {
                 const downY = this.getDownBallPosY(ballManager, targetTube)
                 const dstPos3 = new Vec3(tPos.x, downY, tPos.z)
 
-                topBall.moveBall([dstPos, dstPos2, dstPos3], () => {
-                    this.setTubeBall(hitTube, targetTube)
+                topBall.jumpBall([dstPos, dstPos2, dstPos3], () => {
                     // 记录上一次跳的位置
-                    this._lastJumpBall = topBall
-                    this._lastJumpTube = hitTube
-                    this._lastTargetTube = targetTube
+                    this._stepList.push([topBall, hitTube, targetTube])
+                    // 设置试管和球
+                    this.setTubeBall(hitTube, targetTube)
                 })
                 
             } else {
@@ -86,14 +81,15 @@ export class BallControl extends Component {
                 const popY = getBallOnTubeY(hPos.y, tubeH)
                 const dstPos = new Vec3(oldBallX, popY, bPos.z)
 
-                topBall.moveUp(dstPos, true)
+                // topBall.moveUp(dstPos, true)
                 // 调用振动
                 vibrateShort()
                 // 告訴用户弹出无效
                 const oldPos = new Vec3(oldBallX, oldBallY, bPos.z)
-                Constants.tipManager.showTipLabel('没有合适的位置', () => {
-                    topBall.moveDown(oldPos, () => {}, true)
+                Constants.tipManager.showTipLabel('没有可跳的位置', () => {
+                    // topBall.moveDown(oldPos, () => {}, true)
                 })
+                topBall.jumpBall([dstPos, oldPos], () => {})
             }
         }
     }
@@ -117,30 +113,28 @@ export class BallControl extends Component {
         const topBall = hitTube.popBall()
         targetTube.pushBall(topBall)
         if (targetTube.isAllSameTube()) {
-            // 颜色完全相同且满的试管
-            targetTube.setIsFinish(true)
-            // 检查是否结束
-            if (this.checkFinish()) {
-                Constants.gameManager.gameOver(Constants.GAME_FINISH_TYPE.PASS)
-            }
+            // // 颜色完全相同且满的试管
+            // targetTube.setIsFinish(true)
+            const ballCount = targetTube.getBallList().length
+            // 执行清除
+            targetTube.clearTubeAction(true)
+            // 更新进度
+            Constants.gameManager.updateProgress(ballCount, this._stepList.length)
         }
     }
 
     returnBallLastStep(ballManager: BallManager, cb: Function) {
-        if (this._lastJumpBall && this._lastJumpTube) {
-            if (this._lastJumpBall.getVisible()) {
-                // 重新获取试管的位置，是为了防止增加新试管后，位置发生变化
-                const tubePos = this._lastJumpTube.getTubePosition()
-                const ballY = this.getDownBallPosY(ballManager, this._lastJumpTube)
-                const oldPos = new Vec3(tubePos.x, ballY, tubePos.z)
-                this._lastJumpBall.setPosition(oldPos)
-                this._lastTargetTube.popBall()
-                this._lastJumpTube.pushBall(this._lastJumpBall)
-                cb()
-            }
-            this._lastJumpBall = null
-            this._lastJumpTube = null
-            this._lastTargetTube = null
+        if (this._stepList.length === 0) return
+        const [ball, jumpTube, targetTube] = this._stepList.pop()
+        if (ball && jumpTube && targetTube) {
+            // 重新获取试管的位置，是为了防止增加新试管后，位置发生变化
+            const tubePos = jumpTube.getTubePosition()
+            const ballY = this.getDownBallPosY(ballManager, jumpTube)
+            const oldPos = new Vec3(tubePos.x, ballY, tubePos.z)
+            ball.setPosition(oldPos)
+            targetTube.popBall()
+            jumpTube.pushBall(ball)
+            cb()
         }
     }
 

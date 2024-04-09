@@ -31,6 +31,7 @@ export class GameManager extends Component {
 
     // game
     public gameStatus: number = Constants.GAME_STATUS.INIT
+    public finishStep: number = 0
 
     // tube
     private _tubeList: Tube[] = []
@@ -46,6 +47,8 @@ export class GameManager extends Component {
 
     // data
     private _data: any = {}
+    private _targetCombinateCount: number = 0
+    private _eliminateBallCount: number = 0
 
     __preload () {
         Constants.gameManager = this
@@ -66,20 +69,23 @@ export class GameManager extends Component {
     // 初始化
     init() {
         // const userLevel = User.instance().getLevel()
-        const userLevel = 5
+        const userLevel = 2
         this.gameStatus = Constants.GAME_STATUS.INIT
-        
         const data = this.getLevelData(userLevel)
-        this.initTubeBall(data.tubeType, data.tubeCount, data.emptyTubeCount, data.ballCount, data.ballCountMax, data.ballRandMax)
-        // 弹出目标
-        Constants.tipManager.showLevelTip(userLevel, data.targetCombinateCount)
-        // 更新进度
-        this.pageGame.updateProgressNode(0, data.targetCombinateCount)
-
-        this.ballControl.init()
         this._data = data
         this._addTubeNum = 0
         this._isDissolve = false
+        this.finishStep = 0
+        this._eliminateBallCount = 0
+        this._targetCombinateCount = data.targetCombinateCount
+
+        this.initTubeBall(data.tubeType, data.tubeCount, data.emptyTubeCount, data.ballCount, data.ballCountMax, data.ballRandMax)
+        this.ballControl.init()
+
+        // 弹出目标
+        Constants.tipManager.showLevelTip(userLevel, data.targetCombinateCount)
+        // 更新进度
+        this.updateProgress(0, 0)
     }
 
     initTubeBall(tubeType: number, tubeCount: number, emptyTubeCount: number, ballCount: number, ballCountMax: number, ballRandMax: number) {
@@ -88,7 +94,7 @@ export class GameManager extends Component {
         this._emptyTubeCount = emptyTubeCount
         this._ballCount = ballCount
         this._tubeList.map(item => {
-            item.distroyBallList()
+            item.clearTubeAction(false)
         })
         this._tubeList = []
 
@@ -112,11 +118,7 @@ export class GameManager extends Component {
         if (this._isDissolve) {
             // 溶解试管
             const hitTube = tube.getComponent(Tube)
-            const ballList = hitTube.getBallList()
-            for(let i = ballList.length - 1; i >= 0; i--) {
-                ballList[i].dissolve()
-            }
-            hitTube.clearBallList()
+            hitTube.clearTubeAction(true)
             this._isDissolve = false
             return
         }
@@ -140,10 +142,10 @@ export class GameManager extends Component {
         }
     }
 
-    // 溶解
+    // 清空试管
     dissolveTube() {
         this._isDissolve = true
-        Constants.tipManager.showTipLabel('选择要溶解的试管', () => {})
+        Constants.tipManager.showTipLabel('选择要清空的试管', () => {})
     }
 
     getLevelData(userLevel: number) {
@@ -253,6 +255,21 @@ export class GameManager extends Component {
                 // 游戏通关
                 break;
         }
+        this.gameStatus = Constants.GAME_STATUS.GAMEOVER
     }
+
+    // 更新进度
+    updateProgress(eliminateBallCount: number, stepCount: number) {
+        if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
+        this._eliminateBallCount += eliminateBallCount
+        this.pageGame.updateProgressNode(this._eliminateBallCount, this._targetCombinateCount)
+
+        if (this._eliminateBallCount >= this._targetCombinateCount) {
+            this.finishStep = stepCount
+            this.gameOver(Constants.GAME_FINISH_TYPE.PASS)
+        }
+    }
+
+
 }
 

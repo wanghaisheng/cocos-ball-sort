@@ -23,22 +23,32 @@ export class TubeManager extends Component {
     tube8: Prefab = null
 
     private _tubeList: Tube[] = [] // 试管列表
+    private _clickMinTime: number = 0 // 点击时间
+    private _lastClickTime: number = 0 // 上一次点击时间
     layoutList: number[] = [] // 布局列表
 
     start() {
-
+        this._clickMinTime = 1000
+        this._lastClickTime = Date.now()
     }
 
     onEnable () {
-        input.on(Input.EventType.TOUCH_START, this.onTouchStart, this)
+        input.on(Input.EventType.TOUCH_END, this.onTouchStart, this)
     }
 
     onDisable () {
-        input.off(Input.EventType.TOUCH_START, this.onTouchStart, this);
+        input.off(Input.EventType.TOUCH_END, this.onTouchStart, this);
     }
     
 
     onTouchStart(event: EventTouch) {
+        // 防止频繁点击
+        const now = Date.now()
+        if (now - this._lastClickTime < this._clickMinTime) return
+        console.log(now, this._lastClickTime, now - this._lastClickTime)
+        this._lastClickTime = now
+        
+
         const outRay = new geometry.Ray()
         this.mainCamera.screenPointToRay(event.getLocationX(), event.getLocationY(), outRay)
         // if (PhysicsSystem.instance.raycast(outRay)) {

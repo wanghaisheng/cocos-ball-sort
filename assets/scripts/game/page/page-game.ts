@@ -76,7 +76,7 @@ export class PageGame extends Component {
         //         sprite.spriteFrame = spriteFrame;
         //     }
         // });
-        resources.load("texture/bg/theme1/theme1", SpriteFrame, (err,spriteFrame)=>{
+        resources.load("texture/common/spriteFrame", SpriteFrame, (err,spriteFrame)=>{
             console.log('spriteFrame',err,spriteFrame)
         })
     }
@@ -88,7 +88,7 @@ export class PageGame extends Component {
         })
     }
 
-    // 溶解
+    // 清空
     onDissolve() {
         Constants.gameManager.dissolveTube()
     }
