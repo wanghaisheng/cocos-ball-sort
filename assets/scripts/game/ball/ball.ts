@@ -64,12 +64,12 @@ export class Ball extends Component {
     moveDown(pos: Vec3, cb: Function, isExceed: boolean = false) {
         const t = tween(this.node)
             .to(0.05, { position: pos })
-            .by(0.05, { position: new Vec3(0, 1, 0)})
-            .by(0.05, { position: new Vec3(0, -1, 0)})
-            // .by(0.05, { position: new Vec3(0, 0.8, 0)})
-            // .by(0.05, { position: new Vec3(0, -0.8, 0)})
-            .by(0.05, { position: new Vec3(0, 0.5, 0)})
-            .by(0.05, { position: new Vec3(0, -0.5, 0)})
+            // .by(0.05, { position: new Vec3(0, 1, 0)})
+            // .by(0.05, { position: new Vec3(0, -1, 0)})
+            // // .by(0.05, { position: new Vec3(0, 0.8, 0)})
+            // // .by(0.05, { position: new Vec3(0, -0.8, 0)})
+            // .by(0.05, { position: new Vec3(0, 0.5, 0)})
+            // .by(0.05, { position: new Vec3(0, -0.5, 0)})
             .call(() => { cb() })
         return isExceed ? t.start() : t
     }
@@ -87,7 +87,7 @@ export class Ball extends Component {
         return isExceed ? t.start() : t
     }
 
-    jumpBall(posList: Vec3[], cb: Function) {
+    jumpBallAction(posList: Vec3[], delayTime: number, cb: Function) {
         if (posList.length === 0) return
         const taskList = []
         if (posList.length === 3) {
@@ -99,7 +99,7 @@ export class Ball extends Component {
             taskList.push(this.moveUp(posList[0], 0.5))
             taskList.push(this.moveDown(posList[1], cb))
         }
-        tween(this.node).sequence(...taskList).start()
+        tween(this.node).delay(delayTime).sequence(...taskList).start()
     }
 
     // 派发球

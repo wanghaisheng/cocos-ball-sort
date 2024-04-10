@@ -135,11 +135,7 @@ export class GameManager extends Component {
     // 回撤
     returnBackLastStep(cb: Function) {
         if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
-        const res = this.ballControl.returnBallLastStep(this.ballManager, cb)
-        if (res === null) {
-            // 没有回撤的球
-            Constants.tipManager.showTipLabel('没有可回撤的球', () => {})
-        }
+        this.ballControl.returnBallLastStep(this.ballManager, cb)
     }
 
     // 加管
@@ -262,18 +258,23 @@ export class GameManager extends Component {
             data.ballCount = data.tubeType - 2
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
         }
+        if (userLevel > 3) {
+            // 4号试管，增加一种颜色
+            data.tubeType = Constants.TUBE_TYPE.NO4
+            data.tubeCount += (userLevel - 2)
+            // 增加一种颜色
+            data.ballTypeNum += (userLevel - 1)
+        }
         if (userLevel > 1) {
-            // 增加一支试管或颜色
-            data.tubeType = Constants.TUBE_TYPE.NO3
-            const randX = math.randomRangeInt(0, 2)
-            if (randX === 0) {
-                // 增加一支试管
-                data.tubeCount += (userLevel - 1)
-            } else {
-                // 增加一种颜色
-                data.ballTypeNum += (userLevel - 1)
-            }
-            data.targetCombinateCount = userLevel * (userLevel + 5) + 40
+            // 增加一支试管和颜色[3, 4]
+            // data.tubeType = Constants.TUBE_TYPE.NO3
+            // 3号试管
+            data.tubeType = Constants.TUBE_TYPE.NO7
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            // 增加一种颜色
+            data.ballTypeNum += (userLevel - 1 - 1)
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 50
         }
         
         return data

@@ -114,7 +114,8 @@ export class Tube extends Component {
     // 颜色完全相同，不一定满
     isAllSame() {
         const sameBallList = this.getAllTopBall()
-        return sameBallList.length === this._ballList.length
+        const len = this._ballList.length
+        return len && sameBallList.length === len
     }
 
     // 颜色完全相同且满

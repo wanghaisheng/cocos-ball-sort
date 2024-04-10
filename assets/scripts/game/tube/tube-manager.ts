@@ -117,16 +117,23 @@ export class TubeManager extends Component {
         tween(lastBall).parallel(...taskList).call(() => {cb()}).start()
     }
 
-    getTargetTube(ballType: string, list: Tube[]) {
+    getTargetTube(ballType: string, emptyNum: number, list: Tube[]) {
         // console.log('this._tubeList', this._tubeList)
         let target: Tube = null, curLevel = Constants.TUBE_LEVEL.NONE
         for(let i = 0; i < list.length; i++) {
             const tube = list[i]
             const level = tube.getTargetTubeLevel(ballType)
+            const emptyBallCount = tube.getEmptyBallCount()
             // console.log('level', level)
+            // if (level > curLevel && emptyBallCount >= emptyNum) {
+            //     target = tube
+            //     curLevel = level
+            // }
             if (level > curLevel) {
-                target = tube
-                curLevel = level
+                if (emptyBallCount >= emptyNum || tube.isAllSame()) {
+                    target = tube
+                    curLevel = level
+                }
             }
         }
         return target
