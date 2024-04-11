@@ -64,12 +64,12 @@ export class Ball extends Component {
     moveDown(pos: Vec3, cb: Function, isExceed: boolean = false) {
         const t = tween(this.node)
             .to(0.05, { position: pos })
-            // .by(0.05, { position: new Vec3(0, 1, 0)})
-            // .by(0.05, { position: new Vec3(0, -1, 0)})
-            // // .by(0.05, { position: new Vec3(0, 0.8, 0)})
-            // // .by(0.05, { position: new Vec3(0, -0.8, 0)})
-            // .by(0.05, { position: new Vec3(0, 0.5, 0)})
-            // .by(0.05, { position: new Vec3(0, -0.5, 0)})
+            .by(0.05, { position: new Vec3(0, 1, 0)})
+            .by(0.05, { position: new Vec3(0, -1, 0)})
+            // .by(0.05, { position: new Vec3(0, 0.8, 0)})
+            // .by(0.05, { position: new Vec3(0, -0.8, 0)})
+            .by(0.05, { position: new Vec3(0, 0.5, 0)})
+            .by(0.05, { position: new Vec3(0, -0.5, 0)})
             .call(() => { cb() })
         return isExceed ? t.start() : t
     }

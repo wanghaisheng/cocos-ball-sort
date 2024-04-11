@@ -127,8 +127,8 @@ export class BallManager extends Component {
             return [targetTubeList, totalEmptyNum]
         }
         const k = Math.floor(totalEmptyNum / totalCount)
-        if (k >= 2) {
-            return [targetTubeList, (k - 1) * totalCount]
+        if (k >= 5) {
+            return [targetTubeList, (k - 3) * totalCount]
         }
         return [targetTubeList, totalCount]
     }

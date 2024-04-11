@@ -127,6 +127,7 @@ export class GameManager extends Component {
             const hitTube = tube.getComponent(Tube)
             hitTube.clearTubeAction(true)
             this._isDissolve = false
+            this.pageGame.handleDissolveCB()
             return
         }
         this.ballControl.tubeBallJump(this.tubeManager, this.ballManager, tube, this._tubeList, this._tubeCount)
@@ -267,14 +268,13 @@ export class GameManager extends Component {
         }
         if (userLevel > 1) {
             // 增加一支试管和颜色[3, 4]
-            // data.tubeType = Constants.TUBE_TYPE.NO3
+            data.tubeType = Constants.TUBE_TYPE.NO5
             // 3号试管
-            data.tubeType = Constants.TUBE_TYPE.NO7
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
             // 增加一种颜色
-            data.ballTypeNum += (userLevel - 1 - 1)
-            data.targetCombinateCount = userLevel * (userLevel + 5) + 50
+            data.ballTypeNum += userLevel
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 30
         }
         
         return data

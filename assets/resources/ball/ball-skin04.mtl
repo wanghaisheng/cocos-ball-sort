@@ -11,8 +11,7 @@
   "_techIdx": 0,
   "_defines": [
     {
-      "USE_TEXTURE": true,
-      "SAMPLE_FROM_RT": true
+      "USE_TEXTURE": true
     },
     {},
     {}
@@ -49,7 +48,7 @@
   "_props": [
     {
       "mainTexture": {
-        "__uuid__": "96a1f700-1490-4642-93ec-fb2819291abf@6c48a",
+        "__uuid__": "96e669c7-54dd-42c0-8821-2a96f4498286@6c48a",
         "__expectedType__": "cc.Texture2D"
       }
     },

@@ -17,6 +17,7 @@ export class PageGame extends Component {
     public pageShopRoot: Node = null
 
     private _isSupportSound: boolean = true
+    private _user: User = null
 
     start() {
         this.init()
@@ -36,6 +37,7 @@ export class PageGame extends Component {
 
     init() {
         const user = User.instance()
+        this._user = user
         Constants.gameManager.init()
         // 更新用户金币
         this.refreshGold()
@@ -48,8 +50,7 @@ export class PageGame extends Component {
     }
 
     refreshGold() {
-        const user = User.instance()
-        this.goldLabel.getComponent(Label).string = user.getGold() + ''
+        this.goldLabel.getComponent(Label).string = this._user.getGold() + ''
     }
 
     // 重置
@@ -86,20 +87,42 @@ export class PageGame extends Component {
 
     // 回退
     onWithdraw() {
+        if (this._user.getWithdrawNum() < 1) {
+            return this.onShop()
+        }
         Constants.gameManager.returnBackLastStep(() => {
             console.log('回退成功')
+            this._user.setWithdrawNum(this._user.getWithdrawNum() - 1)
+            this._user.setGold(this._user.getGold() - Constants.PROP_PRICE.withdraw)
+            this.refreshGold()
         })
     }
 
     // 清空
     onDissolve() {
+        if (this._user.getDissolveNum() < 1) {
+            return this.onShop()
+        }
         Constants.gameManager.dissolveTube()
+    }
+
+    // 清空属于两个动作
+    handleDissolveCB() {
+        this._user.setDissolveNum(this._user.getDissolveNum() - 1)
+        this._user.setGold(this._user.getGold() - Constants.PROP_PRICE.dissolve)
+        this.refreshGold()
     }
 
     // 加管 
     onAddTube() {
+        if (this._user.getAddTubeNum() < 1) {
+            return this.onShop()
+        }
         Constants.gameManager.addEmptyTube(() => {
             console.log('加管成功')
+            this._user.setAddTubeNum(this._user.getAddTubeNum() - 1)
+            this._user.setGold(this._user.getGold() - Constants.PROP_PRICE.addTube)
+            this.refreshGold()
         })
     }
 
