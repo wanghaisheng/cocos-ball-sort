@@ -1,6 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { Constants } from '../../utils/const';
 import { User } from '../../utils/user';
+import { activeShare } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageFail')
@@ -23,6 +24,12 @@ export class PageFail extends Component {
 
     onMoreReceive() {
         // 调用分享接口
+        activeShare()
+        const user = User.instance()
+        const gold = Constants.GAME_PRIZE_TYPE.failNormal
+        user.setGold(gold * 5 + user.getGold())
+        user.setLevel(user.getLevel() + 1)
+        this.hideNode()
     }
 
     hideNode() {

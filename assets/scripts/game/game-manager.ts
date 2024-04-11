@@ -7,6 +7,7 @@ import { BallControl } from './ball/ball-control';
 import { User } from '../utils/user';
 import { PageGame } from './page/page-game';
 import { Ball } from './ball/ball';
+import { passiveShare } from '../utils/util';
 const { ccclass, property } = _decorator;
 
 /**
@@ -61,7 +62,8 @@ export class GameManager extends Component {
     }
 
     onLoad() {
-
+        // 监听微信分享
+        passiveShare()
     }
 
     update(deltaTime: number) {
@@ -74,8 +76,8 @@ export class GameManager extends Component {
 
     // 初始化
     init() {
-        // const userLevel = User.instance().getLevel()
-        const userLevel = 2
+        const userLevel = User.instance().getLevel()
+        // const userLevel = 8
         this.gameStatus = Constants.GAME_STATUS.INIT
         const data = this.getLevelData(userLevel)
         this._data = data
@@ -208,6 +210,8 @@ export class GameManager extends Component {
             data.ballCount = data.tubeType - 4
             data.ballTypeNum = Math.min(this._ballCountMax, 15)
             data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+            
+            return data
         }
         if (userLevel > 25) {
             // [5, 7]
@@ -222,6 +226,8 @@ export class GameManager extends Component {
             data.ballCount = data.tubeType - 3
             data.ballTypeNum = Math.min(this._ballCountMax, 15)
             data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+
+            return data
         }
         if (userLevel > 15) {
             // [4, 5]
@@ -232,6 +238,8 @@ export class GameManager extends Component {
             data.ballCount = data.tubeType - 3
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount + 3)
             data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+
+            return data
         }
         if (userLevel > 10) {
             // [3, 4, 5]
@@ -245,19 +253,19 @@ export class GameManager extends Component {
             }
             data.ballCount = data.tubeType - 2
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+
+            return data
         }
         if (userLevel > 5) {
             // [3, 4]
-            const randTubeType = math.randomRangeInt(3, 5)
-            data.tubeType = randTubeType === 3 ? Constants.TUBE_TYPE.NO3 : Constants.TUBE_TYPE.NO4
-            const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            if (tubeNumMax - 1 > userLevel) {
-                data.tubeCount += userLevel - 2
-            } else {
-                data.tubeCount = tubeNumMax - 1
-            }
+            const randTubeType = math.randomRangeInt(5, 7)
+            data.tubeType = randTubeType === 5 ? Constants.TUBE_TYPE.NO5 : Constants.TUBE_TYPE.NO7
+            // const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
+            data.tubeCount = randTubeType === 5 ? userLevel - 2 : 4
             data.ballCount = data.tubeType - 2
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+
+            return data
         }
         if (userLevel > 3) {
             // 4号试管，增加一种颜色
@@ -265,16 +273,20 @@ export class GameManager extends Component {
             data.tubeCount += (userLevel - 2)
             // 增加一种颜色
             data.ballTypeNum += (userLevel - 1)
+
+            return data
         }
         if (userLevel > 1) {
             // 增加一支试管和颜色[3, 4]
-            data.tubeType = Constants.TUBE_TYPE.NO5
+            data.tubeType = Constants.TUBE_TYPE.NO4
             // 3号试管
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.targetCombinateCount = userLevel * (userLevel + 5) + 30
+
+            return data
         }
         
         return data

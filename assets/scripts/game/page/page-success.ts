@@ -1,6 +1,7 @@
 import { _decorator, Component, Label, math, Node } from 'cc';
 import { User } from '../../utils/user';
 import { Constants } from '../../utils/const';
+import { activeShare } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageSuccess')
@@ -41,6 +42,11 @@ export class PageSuccess extends Component {
 
     onMoreReceive() {
         // 调用分享接口
+        activeShare()
+        const user = User.instance()
+        user.setGold(this._prizeGold * 3 + user.getGold())
+        user.setLevel(user.getLevel() + 1)
+        this.hideNode()
     }
 
     hideNode() {

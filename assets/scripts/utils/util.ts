@@ -1,4 +1,4 @@
-import { math, log } from "cc"
+import { math, log, url } from "cc"
 import { WECHAT, BYTEDANCE, BAIDU } from "cc/env"
 import { Constants } from "./const"
 
@@ -146,5 +146,69 @@ export function vibrateShort() {
       success: () => log('调用振动成功'),
       fail: (err) => log('调用振动失败', err),
     });
+  }
+}
+
+/**
+ * 调用主动分享
+ */
+export function activeShare() {
+  // 主动分享按钮
+  if (WECHAT && typeof (<any>window).wx !== undefined) {// 微信
+    (<any>window).wx.shareAppMessage({
+      // imageUrl: '',
+      query: 'shareMsg='+'share user1'  // query最大长度(length)为2048
+    });
+  }
+}
+
+/**
+ * 被动分享
+ */
+export function passiveShare() {
+  if (WECHAT && typeof (<any>window).wx !== undefined) {// 微信
+    // 显示当前页面的转发按钮
+    (<any>window).wx.showShareMenu({
+      withShareTicket: false,
+      menus: ['shareAppMessage', 'shareTimeline'],
+      success: (res) => {
+          console.log('开启被动转发成功！');
+      },
+      fail: (res) => {
+          console.log(res);
+          console.log('开启被动转发失败！');
+      }
+    });
+    
+    // 监听用户点击右上角分享按钮
+    (<any>window).wx.onShareAppMessage((res) => {
+        console.log('用户点击右上角分享按钮', res);
+        return {
+          // title: '',
+          query: 'shareMsg='+'share user2'  // query最大长度(length)为2048
+        }
+    })
+    // 监听用户点击右上角分享按钮
+    (<any>window).wx.onShareTimeline((res) => {
+        console.log('用户点击右上角分享按钮', res);
+        return {
+          // title: '', 
+          query: 'shareMsg='+'share user3'  // query最大长度(length)为2048
+        }
+    })
+  }
+}
+
+/**
+ * 获取微信分享数据
+ * 当其他玩家从分享卡片上点击进入时，获取query参数
+ * @returns 
+ */
+export function getWXQuery() {
+  if (WECHAT && typeof (<any>window).wx !== undefined) {// 微信
+    let object = (<any>window).wx.getLaunchOptionsSync();
+    let shareMsg = object.query['shareMsg'];
+    console.log(shareMsg);
+    return shareMsg;
   }
 }
