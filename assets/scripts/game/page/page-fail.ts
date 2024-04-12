@@ -28,7 +28,7 @@ export class PageFail extends Component {
         const user = User.instance()
         const gold = Constants.GAME_PRIZE_TYPE.failNormal
         user.setGold(gold * 5 + user.getGold())
-        user.setLevel(user.getLevel() + 1)
+        user.setLosed()
         this.hideNode()
     }
 

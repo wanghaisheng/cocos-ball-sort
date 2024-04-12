@@ -12,7 +12,7 @@ const { ccclass, property } = _decorator;
 
 /**
  * 游戏管理器
- * 1）可增加炸弹道具
+ * 1）可增加炸弹球、彩虹球道具
  */
 @ccclass('GameManager')
 export class GameManager extends Component {
@@ -62,7 +62,11 @@ export class GameManager extends Component {
     }
 
     onLoad() {
-        // 监听微信分享
+        
+    }
+    
+    start() {
+         // 监听微信分享
         passiveShare()
     }
 
@@ -77,7 +81,7 @@ export class GameManager extends Component {
     // 初始化
     init() {
         const userLevel = User.instance().getLevel()
-        // const userLevel = 8
+        // const userLevel = 2
         this.gameStatus = Constants.GAME_STATUS.INIT
         const data = this.getLevelData(userLevel)
         this._data = data
@@ -253,6 +257,7 @@ export class GameManager extends Component {
             }
             data.ballCount = data.tubeType - 2
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 60
 
             return data
         }
@@ -264,6 +269,7 @@ export class GameManager extends Component {
             data.tubeCount = randTubeType === 5 ? userLevel - 2 : 4
             data.ballCount = data.tubeType - 2
             data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 50
 
             return data
         }
@@ -273,6 +279,7 @@ export class GameManager extends Component {
             data.tubeCount += (userLevel - 2)
             // 增加一种颜色
             data.ballTypeNum += (userLevel - 1)
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 30
 
             return data
         }
