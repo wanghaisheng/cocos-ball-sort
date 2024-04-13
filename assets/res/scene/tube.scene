@@ -829,6 +829,7 @@
     "pageSuccess": {
       "__id__": 77
     },
+    "userLevelTest": 0,
     "_id": "64i+U5Y6ZGJ72Jpt+57gEQ"
   },
   {
@@ -13832,8 +13833,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 35.59371887450199,
-      "height": 25.2
+      "width": 35.59370293674699,
+      "height": 25.200000000000003
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -13865,7 +13866,7 @@
     "_string": "9999",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.1,
+    "_actualFontSize": 24.9,
     "_fontSize": 16,
     "_fontFamily": "Arial",
     "_lineHeight": 20,
@@ -15241,7 +15242,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 30.56639652328187,
+      "width": 30.57609343624498,
       "height": 22.68
     },
     "_anchorPoint": {
@@ -15274,7 +15275,7 @@
     "_string": "0 / 100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 15.6875,
+    "_actualFontSize": 15.5625,
     "_fontSize": 10,
     "_fontFamily": "Arial",
     "_lineHeight": 18,
@@ -15941,8 +15942,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.99680185507968,
-      "height": 50.400000000000006
+      "width": 27.990359877008032,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -15974,7 +15975,7 @@
     "_string": "回撤",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 21.962500000000002,
+    "_actualFontSize": 21.787499999999998,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -16366,8 +16367,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.99680185507968,
-      "height": 50.400000000000006
+      "width": 27.990359877008032,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -16399,7 +16400,7 @@
     "_string": "清管",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 21.962500000000002,
+    "_actualFontSize": 21.787499999999998,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -16791,8 +16792,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.99680185507968,
-      "height": 50.400000000000006
+      "width": 27.990359877008032,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -16824,7 +16825,7 @@
     "_string": "加管",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 21.962500000000002,
+    "_actualFontSize": 21.787499999999998,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -17216,8 +17217,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.99680185507968,
-      "height": 50.400000000000006
+      "width": 27.990359877008032,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -17249,7 +17250,7 @@
     "_string": "派发",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 21.962500000000002,
+    "_actualFontSize": 21.787499999999998,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,

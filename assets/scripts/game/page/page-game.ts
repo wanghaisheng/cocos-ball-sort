@@ -93,8 +93,6 @@ export class PageGame extends Component {
         Constants.gameManager.returnBackLastStep(() => {
             console.log('回退成功')
             this._user.setWithdrawNum(this._user.getWithdrawNum() - 1)
-            this._user.setGold(this._user.getGold() - Constants.PROP_PRICE.withdraw)
-            this.refreshGold()
         })
     }
 
@@ -109,8 +107,6 @@ export class PageGame extends Component {
     // 清空属于两个动作
     handleDissolveCB() {
         this._user.setDissolveNum(this._user.getDissolveNum() - 1)
-        this._user.setGold(this._user.getGold() - Constants.PROP_PRICE.dissolve)
-        this.refreshGold()
     }
 
     // 加管 
@@ -121,8 +117,6 @@ export class PageGame extends Component {
         Constants.gameManager.addEmptyTube(() => {
             console.log('加管成功')
             this._user.setAddTubeNum(this._user.getAddTubeNum() - 1)
-            this._user.setGold(this._user.getGold() - Constants.PROP_PRICE.addTube)
-            this.refreshGold()
         })
     }
 

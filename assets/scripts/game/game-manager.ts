@@ -35,6 +35,9 @@ export class GameManager extends Component {
     @property(Node)
     pageSuccess: Node = null
 
+    @property
+    userLevelTest: number = 0
+
     // game
     public gameStatus: number = Constants.GAME_STATUS.INIT
     public finishStep: number = 0
@@ -80,8 +83,8 @@ export class GameManager extends Component {
 
     // 初始化
     init() {
-        const userLevel = User.instance().getLevel()
-        // const userLevel = 2
+        // const userLevel = User.instance().getLevel()
+        const userLevel = this.userLevelTest || User.instance().getLevel()
         this.gameStatus = Constants.GAME_STATUS.INIT
         const data = this.getLevelData(userLevel)
         this._data = data
@@ -148,12 +151,10 @@ export class GameManager extends Component {
     // 加管
     addEmptyTube(cb: Function) {
         if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
-        if (this._addTubeNum < Constants.TUBE_ADD_NUM) {
-            const res = this.tubeManager.addEmptyTube(this._data.tubeType, cb)
-            if (res) {
-                this._addTubeNum++
-            }
+        if (this._addTubeNum++ >= Constants.TUBE_ADD_NUM) {
+            return Constants.tipManager.showTipLabel('当局已使用过该道具', () => {})
         }
+        this.tubeManager.addEmptyTube(this._data.tubeType, cb)
     }
 
     // 派发
@@ -202,45 +203,59 @@ export class GameManager extends Component {
         
         // 制定游戏规则
         if (userLevel > 50) {
-            // [7, 8]
-            const randTubeType = math.randomRangeInt(7, 9)
-            if (randTubeType === 7) {
-                data.tubeType = Constants.TUBE_TYPE.NO7
-            } else {
-                data.tubeType = Constants.TUBE_TYPE.NO8
-            }
+            // [3]
+            data.tubeType = Constants.TUBE_TYPE.NO3
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            data.tubeCount = tubeNumMax - 1
-            data.ballCount = data.tubeType - 4
-            data.ballTypeNum = Math.min(this._ballCountMax, 15)
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            // 增加一种颜色
+            data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
             data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
             
             return data
+        }if (userLevel > 30) {
+            // [7, 8]
+            const randTubeType = math.randomRangeInt(7, 9)
+            data.tubeType = randTubeType === 7 ? Constants.TUBE_TYPE.NO7 : Constants.TUBE_TYPE.NO8
+            const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            // 增加一种颜色
+            data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
+            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+
+            return data
         }
         if (userLevel > 25) {
-            // [5, 7]
-            const randTubeType = math.randomRangeInt(5, 7)
-            if (randTubeType === 5) {
-                data.tubeType = Constants.TUBE_TYPE.NO5
-            } else {
-                data.tubeType = Constants.TUBE_TYPE.NO7
-            }
+            // [5, 7, 8]
+            const randTubeType = math.randomRangeInt(5, 8)
+            data.tubeType = randTubeType === 5 ? Constants.TUBE_TYPE.NO5 : (randTubeType === 7 ? Constants.TUBE_TYPE.NO7 : Constants.TUBE_TYPE.NO8)
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            data.tubeCount = tubeNumMax - 1
-            data.ballCount = data.tubeType - 3
-            data.ballTypeNum = Math.min(this._ballCountMax, 15)
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            // 增加一种颜色
+            data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
             data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
 
             return data
         }
         if (userLevel > 15) {
-            // [4, 5]
+            // [5, 7]
             const randTubeType = math.randomRangeInt(4, 6)
-            data.tubeType = randTubeType === 4 ? Constants.TUBE_TYPE.NO4 : Constants.TUBE_TYPE.NO5
+            data.tubeType = randTubeType === 4 ? Constants.TUBE_TYPE.NO5 : Constants.TUBE_TYPE.NO7
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            data.tubeCount = tubeNumMax - 1
-            data.ballCount = data.tubeType - 3
-            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount + 3)
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            // 增加一种颜色
+            data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
             data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
 
             return data
@@ -250,47 +265,41 @@ export class GameManager extends Component {
             const randTubeType = math.randomRangeInt(3, 6)
             data.tubeType = randTubeType > 4 ? Constants.TUBE_TYPE.NO5 : (randTubeType > 3 ? Constants.TUBE_TYPE.NO4 : Constants.TUBE_TYPE.NO3)
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            if (tubeNumMax - 1 > userLevel) {
-                data.tubeCount += userLevel - 1
-            } else {
-                data.tubeCount = tubeNumMax - 1
-            }
-            data.ballCount = data.tubeType - 2
-            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            // 增加一种颜色
+            data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
             data.targetCombinateCount = userLevel * (userLevel + 5) + 60
 
             return data
         }
         if (userLevel > 5) {
-            // [3, 4]
-            const randTubeType = math.randomRangeInt(5, 7)
-            data.tubeType = randTubeType === 5 ? Constants.TUBE_TYPE.NO5 : Constants.TUBE_TYPE.NO7
-            // const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
-            data.tubeCount = randTubeType === 5 ? userLevel - 2 : 4
-            data.ballCount = data.tubeType - 2
-            data.ballTypeNum = Math.min(this._ballCountMax, data.tubeCount)
+            // [4, 5]
+            const randTubeType = math.randomRangeInt(4, 6)
+            data.tubeType = randTubeType === 5 ? Constants.TUBE_TYPE.NO5 : Constants.TUBE_TYPE.NO4
+            const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
+            // 增加一支试管
+            data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            // 增加一种颜色
+            data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
             data.targetCombinateCount = userLevel * (userLevel + 5) + 50
 
             return data
         }
-        if (userLevel > 3) {
-            // 4号试管，增加一种颜色
-            data.tubeType = Constants.TUBE_TYPE.NO4
-            data.tubeCount += (userLevel - 2)
-            // 增加一种颜色
-            data.ballTypeNum += (userLevel - 1)
-            data.targetCombinateCount = userLevel * (userLevel + 5) + 30
-
-            return data
-        }
         if (userLevel > 1) {
-            // 增加一支试管和颜色[3, 4]
+            // [4]
             data.tubeType = Constants.TUBE_TYPE.NO4
-            // 3号试管
+            const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
+            data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
             data.targetCombinateCount = userLevel * (userLevel + 5) + 30
 
             return data

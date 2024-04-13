@@ -148,7 +148,8 @@ export class Constants {
    // ball
    static BALL_RADIUS = 1.5; // 球的半径
    static BALL_JUMP_TYPE = BALL_JUMP_TYPE // 球运动类型
-   static BALL_TYPE_MAX = 5 // 球的类型最大值
+   static BALL_TYPE_MAX = 15 // 球的类型最大值
+
 
    // user
    static USER_PROTECT_MIN_LEVEL = 2 // 用户最低保护等级
