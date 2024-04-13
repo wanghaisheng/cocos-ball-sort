@@ -135,7 +135,7 @@ export class BallManager extends Component {
         const ballTypeList = this.getBallTypeList([0, ballTypeNum -1])
         for(let i = 0; i < ballCount; i++) {
             const rand = math.randomRangeInt(1, 100)
-            console.log(i, rand)
+            // console.log(i, rand)
             // 起始位置，大概是派发按钮的位置
             const initPos = new Vec3(6, -15, 0)
             const ballType = ballTypeList[i * rand % ballTypeList.length]

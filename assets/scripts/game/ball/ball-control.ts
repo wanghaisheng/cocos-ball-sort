@@ -49,7 +49,7 @@ export class BallControl extends Component {
         const tubeH = hitTube.getTubeHeight()
         // 寻找目标试管
         const ballType = topBallList[0].ballType
-        console.log('ballType', ballType)
+        // console.log('ballType', ballType)
         const targetTube = tubeManager.getTargetTube(ballType, ballCount, this._newTubeList)
         const emptyBallCount = targetTube && targetTube.isAllSame() ? targetTube.getEmptyBallCount() : 0
         const targetBallCount = targetTube && targetTube.getBallList().length
