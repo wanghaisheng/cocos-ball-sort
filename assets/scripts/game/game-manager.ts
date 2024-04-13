@@ -206,27 +206,29 @@ export class GameManager extends Component {
             // [3]
             data.tubeType = Constants.TUBE_TYPE.NO3
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
+            
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
-            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+            data.targetCombinateCount = userLevel * userLevel
             
             return data
-        }if (userLevel > 30) {
+        }
+        if (userLevel > 30) {
             // [7, 8]
             const randTubeType = math.randomRangeInt(7, 9)
             data.tubeType = randTubeType === 7 ? Constants.TUBE_TYPE.NO7 : Constants.TUBE_TYPE.NO8
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
-            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+            data.targetCombinateCount = userLevel * userLevel
 
             return data
         }
@@ -237,11 +239,11 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
-            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+            data.targetCombinateCount = userLevel * userLevel
 
             return data
         }
@@ -252,11 +254,11 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
-            data.targetCombinateCount = userLevel * userLevel * data.ballTypeNum
+            data.targetCombinateCount = userLevel * userLevel + 50
 
             return data
         }
@@ -267,11 +269,11 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
-            data.targetCombinateCount = userLevel * (userLevel + 5) + 60
+            data.targetCombinateCount = userLevel * userLevel + 70
 
             return data
         }
@@ -282,11 +284,11 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)
-            data.targetCombinateCount = userLevel * (userLevel + 5) + 50
+            data.targetCombinateCount = userLevel * (userLevel + 5) + 40
 
             return data
         }
@@ -296,7 +298,7 @@ export class GameManager extends Component {
             const tubeNumMax = this.tubeManager.getTubeCountMax(data.tubeType)
             // 增加一支试管
             data.tubeCount += (userLevel - 1)
-            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - 1)
+            data.tubeCount = Math.min(data.tubeCount, tubeNumMax - data.emptyTubeCount - 1)
             // 增加一种颜色
             data.ballTypeNum += userLevel
             data.ballTypeNum = Math.min(data.ballTypeNum, this._ballCountMax)

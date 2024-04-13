@@ -16,10 +16,7 @@ export class BallManager extends Component {
     buttomSpace: number = 0
 
     public validTubeCount: number = 0
-
-    private _materialAssetsPrefix = 'ball/'
-    private _texturePrefix = 'ball-skin0'
-    private _BottomY: number = 0 
+    private _skinStyle = 'Style1'
 
     onLoad() {
         // this.loadAllTexture()
@@ -153,10 +150,11 @@ export class BallManager extends Component {
     getBallTypeList(typeIndexRange: number[]) {
         const ballTypeList: string[] = []
         const [min, max] = typeIndexRange
+        const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
         for(let i = min; i <= max; i++) {
             let j = i % Constants.BALL_TYPE_MAX
             j = j === 0 ? Constants.BALL_TYPE_MAX : j
-            ballTypeList.push(this._texturePrefix + j)
+            ballTypeList.push(ballSkin.TexturePrefix + j)
         }
         return ballTypeList
     }
@@ -166,8 +164,8 @@ export class BallManager extends Component {
     }
 
     private _setMaterial(ball: Node, ballTexture: string) {
-
-        const ballTextPath = this._materialAssetsPrefix + ballTexture
+        const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
+        const ballTextPath = ballSkin.AssetsPrefix + ballTexture
         const ballNode = ball ? ball.children[0] : null
         if (ballNode) {
             resources.load(ballTextPath, Material, (err, material) => {

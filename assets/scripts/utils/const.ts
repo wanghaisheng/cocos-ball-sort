@@ -120,6 +120,14 @@ const GAME_PRIZE_TYPE = {
    failNormal: 10, // 失败
 }
 
+// 球皮肤管理
+const BALL_SKIN_TYPE = {
+   Style1: {// 类型1
+      AssetsPrefix: 'ball/',
+      TexturePrefix: 'ball-skin-'
+   },
+}
+
 export class Constants {
    static gameManager: GameManager;
    static ballControl: BallControl;
@@ -149,6 +157,7 @@ export class Constants {
    static BALL_RADIUS = 1.5; // 球的半径
    static BALL_JUMP_TYPE = BALL_JUMP_TYPE // 球运动类型
    static BALL_TYPE_MAX = 15 // 球的类型最大值
+   static BALL_SKIN_TYPE = BALL_SKIN_TYPE // 球皮肤
 
 
    // user
