@@ -1,4 +1,4 @@
-import { _decorator, Component, equals, Label, Layers, Node, tween, Vec3 } from 'cc';
+import { _decorator, Camera, Component, equals, Label, Layers, Node, tween, Vec3 } from 'cc';
 import { Tube } from '../tube/tube';
 import { Constants } from '../../utils/const';
 import { getBallOnTubeY, vibrateShort } from '../../utils/util';
@@ -9,7 +9,11 @@ const { ccclass, property } = _decorator;
 
 @ccclass('BallControl')
 export class BallControl extends Component { 
- 
+    @property(Camera)
+    mainCamera: Camera = null
+    @property(Node)
+    flowerEffect: Node = null
+
      private _tubeList: Tube[] = []
      private _newTubeList: Tube[] = []
      private _tubeCount: number = 0
@@ -85,16 +89,24 @@ export class BallControl extends Component {
                 console.log(dstPos3)
                 if (i === ballCount - 1) {
                     topBall.jumpBallAction([dstPos, dstPos2, dstPos3], i * 0.05, () => {
+                        Constants.audioManager.play('ball_pop')
+                    }, () => {
+                        Constants.audioManager.play('ball_down')
                         // 最后一次才设置球，防止球还没跳到指定位置就被销毁
                         topBallList.forEach(() => {
                             // 设置试管和球
                             this.setTubeBall(hitTube, targetTube)
                         })
+                        
                     })
                     // 记录上一次跳的位置
                     this._stepList.push([topBallList, hitTube, targetTube])
                 } else {
-                    topBall.jumpBallAction([dstPos, dstPos2, dstPos3], i * 0.05, () => {})
+                    topBall.jumpBallAction([dstPos, dstPos2, dstPos3], i * 0.05, () => {
+                        Constants.audioManager.play('ball_pop')
+                    }, () => {
+                        Constants.audioManager.play('ball_down')
+                    })
                 }
             } else {
                 // 弹出
@@ -107,7 +119,9 @@ export class BallControl extends Component {
                 const popY = getBallOnTubeY(hPos.y, tubeH)
                 const dstPos = new Vec3(oldBallX, popY - i * Constants.BALL_RADIUS, bPos.z)
                 const oldPos = new Vec3(oldBallX, oldBallY, bPos.z)
-                topBall.jumpBallAction([dstPos, oldPos], i * 0.05, () => {})
+                topBall.jumpBallAction([dstPos, oldPos], i * 0.05, () => {
+                    Constants.audioManager.play('ball_pop')
+                }, () => {})
             }
         }
     }
@@ -129,8 +143,25 @@ export class BallControl extends Component {
     }
 
     // 判断是否已经满了，并清空
-    checkTubeFull(targetTube: Tube) {
+    checkTubeFull(targetTube: Tube, palyEffect: boolean = true) {
+        
+
         if (targetTube.isAllSameTube()) {
+            if (palyEffect) {
+                // 播放音效
+                Constants.audioManager.play('explosion')
+
+                const wpos = targetTube.getTubeTopWordPosition()
+
+                let pos = new Vec3()
+                // 转换为UI节点坐标
+                // @ts-ignore
+                this.mainCamera._camera.update();
+                this.mainCamera.convertToUINode(wpos, this.flowerEffect.parent, pos)
+                // 播放特效
+                Constants.effectManager.playFlowerEffect(pos)
+                
+            }
             // // 颜色完全相同且满的试管
             // targetTube.setIsFinish(true)
             const ballCount = targetTube.getBallList().length

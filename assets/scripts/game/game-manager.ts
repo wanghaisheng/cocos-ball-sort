@@ -139,6 +139,7 @@ export class GameManager extends Component {
             this.pageGame.handleDissolveCB()
             return
         }
+        console.log('this.gameStatus', this.gameStatus)
         this.ballControl.tubeBallJump(this.tubeManager, this.ballManager, tube, this._tubeList, this._tubeCount)
     }
 

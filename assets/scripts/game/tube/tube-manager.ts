@@ -84,6 +84,7 @@ export class TubeManager extends Component {
             const tubeH = tube.getTubeHeight()
             const tubePos = tube.getTubePosition()
             const initY = getBallOnTubeY(tubePos.y, tubeH)
+            // console.log('initY', initY)
             const ballList = tube.getBallList()
 
             ballMat[i] = []
@@ -107,14 +108,20 @@ export class TubeManager extends Component {
                     .delay(delayTime)
                     .call(() => {
                         ball.setVisible(true)
-                        ball.jumpDown(new Vec3(oldPos.x, oldY, oldPos.z), () => {}, true)
+                        ball.jumpDown(new Vec3(oldPos.x, oldY, oldPos.z), () => {
+                            if (i === 0) {
+                                Constants.audioManager.play('ball_down')
+                            }
+                        }, true)
                     })
                 taskList.push(t)
 
                 lastBall = ball
             }
         }
-        tween(lastBall).parallel(...taskList).call(() => {cb()}).start()
+        tween(lastBall).parallel(...taskList).call(() => {
+            cb()
+        }).start()
     }
 
     getTargetTube(ballType: string, emptyNum: number, list: Tube[]) {

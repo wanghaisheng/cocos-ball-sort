@@ -47,10 +47,12 @@ export class Ball extends Component {
             }).start()
     }
 
-    moveUp(pos: Vec3, delayTime: number = 0.1, isExceed: boolean = false) {
+    moveUp(pos: Vec3, cb: Function, delayTime: number = 0.1, isExceed: boolean = false) {
         const t = tween(this.node)
             .to(0.05, { position: pos })
+            .call(() => { cb() })
             .delay(delayTime)
+            
         return isExceed ? t.start() : t
     }
 
@@ -87,17 +89,17 @@ export class Ball extends Component {
         return isExceed ? t.start() : t
     }
 
-    jumpBallAction(posList: Vec3[], delayTime: number, cb: Function) {
+    jumpBallAction(posList: Vec3[], delayTime: number, upCB: Function, downCB: Function) {
         if (posList.length === 0) return
         const taskList = []
         if (posList.length === 3) {
-            taskList.push(this.moveUp(posList[0]))
+            taskList.push(this.moveUp(posList[0], upCB))
             taskList.push(this.moveX(posList[1]))
-            taskList.push(this.moveDown(posList[2], cb))
+            taskList.push(this.moveDown(posList[2], downCB))
         }
         if (posList.length === 2) {
-            taskList.push(this.moveUp(posList[0], 0.5))
-            taskList.push(this.moveDown(posList[1], cb))
+            taskList.push(this.moveUp(posList[0], upCB, 0.5))
+            taskList.push(this.moveDown(posList[1], downCB))
         }
         tween(this.node).delay(delayTime).sequence(...taskList).start()
     }

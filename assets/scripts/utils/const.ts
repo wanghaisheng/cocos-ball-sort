@@ -3,6 +3,7 @@ import { GameManager } from "../game/game-manager";
 import { BallControl } from "../game/ball/ball-control";
 import { TipManager } from "../game/page/tip-manager";
 import { AudioManager } from "../game/audio/audio-manager";
+import { EffectManager } from "../game/effect/EffectManager";
 
 enum GAME_STATUS {
    /**
@@ -133,6 +134,7 @@ export class Constants {
    static ballControl: BallControl;
    static tipManager: TipManager;
    static audioManager: AudioManager;
+   static effectManager: EffectManager;
 
    // score
    static MAX_SCORE = 0; // 历史最高

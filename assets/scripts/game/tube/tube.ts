@@ -43,6 +43,12 @@ export class Tube extends Component {
         return this._tubeHeight
     }
 
+    getTubeTopWordPosition() {
+        const pos = this.node.worldPosition
+        const h = this.getTubeHeight()
+        return new Vec3(pos.x, pos.y + h, pos.z)
+    }
+
     setJumpBall(jumpBal: Ball, oldPos: Vec3) {
         this.jumpBall = jumpBal
         this._jumpBallOldPos = oldPos

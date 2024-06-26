@@ -45,6 +45,7 @@ export class BallManager extends Component {
             const pos = tube.getTubePosition()
             const tubeHeight = tube.getTubeHeight()
             // const initY = getBallOnTubeY(pos.y, tubeHeight)
+
             // 底部的位置
             const bottomY = this.getBottomY(pos.y, tubeHeight)
             for(let j = 0; j < validBallCount; j++) {
@@ -107,9 +108,12 @@ export class BallManager extends Component {
         // 设置每个球的目标位置
         dispatchBallList.forEach((item, index) => {
             if (index === dispatchBallList.length - 1) {
-                item.dispatchBallAction(newPosList[index], cb, true)
+                item.dispatchBallAction(newPosList[index], () => {
+                    cb()
+                }, true)
             } else {
-                item.dispatchBallAction(newPosList[index], () => {}, true)
+                item.dispatchBallAction(newPosList[index], () => {
+                }, true)
             }
         })
     }

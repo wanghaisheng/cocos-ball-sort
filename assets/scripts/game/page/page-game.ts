@@ -61,28 +61,29 @@ export class PageGame extends Component {
     // 声音
     onSound() {
         this._isSupportSound = !this._isSupportSound
-        // Constants.audioManager.playBgm()
-        // iconNode.spriteFrame = Constants.spriteFrameManager.getSpriteFrame('sound_on')
-        // iconNode.spriteFrame = 
-        // const url = 'texture/common/'+ this._isSupportSound ? 'icon-sound/icon-sound' : 'icon-sound01/icon-sound01';
-        const url = 'texture/common/icon-sound-enabled/icon-sound-enabled'
-        // const url = 'texture/common/icon-sound/icon-sound'
-        // resources.load(url, SpriteFrame, (err: any, spriteFrame) => {
-        //     console.log('spriteFrame', err, spriteFrame)
-        //     if (spriteFrame) {
-        //         const sprite = this.soundRoot.getChildByName('icon').getComponent(Sprite)
-        //         sprite.spriteFrame = spriteFrame;
-        //     }
-        // });
-        resources.load(url, SpriteFrame, (err, spriteFrame)=>{
-            console.log('spriteFrame',err, spriteFrame)
+        let url = 'texture/sound';
+        url += this._isSupportSound ? '/icon-sound-enabled' : '/icon-sound-disable'
+        url += '/spriteFrame'
+        // console.log('url', url)
+
+        if (this._isSupportSound) {
+            // 音乐打开
+            Constants.audioManager.onSound()
+            // Constants.audioManager.playBgm()
+        } else {
+            // 音乐关闭
+            Constants.audioManager.offSound()
+            // Constants.audioManager.stopBgm()
+        }
+        resources.load(url, SpriteFrame, (err, spriteFrame) => {
+            // console.log(err, spriteFrame)
+            if (spriteFrame) {
+                const sprite = this.soundRoot.getChildByName('icon').getComponent(Sprite)
+                if (sprite) {
+                    sprite.spriteFrame = spriteFrame;
+                }
+            }
         })
-        // resources.load("texture/common/icon-sound/icon-sound", SpriteFrame, (err,spriteFrame)=>{
-        //     console.log('spriteFrame',err,spriteFrame)
-        // })
-        // resources.load("texture/common/spriteFrame/spriteFrame", SpriteFrame, (err,spriteFrame)=>{
-        //     console.log('spriteFrame',err,spriteFrame)
-        // })
     }
 
     // 回退

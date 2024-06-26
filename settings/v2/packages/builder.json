@@ -35,5 +35,15 @@
         }
       }
     }
+  },
+  "splash-setting": {
+    "logo": {
+      "type": "none",
+      "image": "project://settings/theme3.png"
+    },
+    "background": {
+      "type": "default"
+    },
+    "totalTime": 1000
   }
 }
