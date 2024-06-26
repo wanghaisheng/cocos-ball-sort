@@ -180,14 +180,14 @@ export function passiveShare() {
       }
     });
     
-    // 监听用户点击右上角分享按钮
-    (<any>window).wx.onShareAppMessage((res) => {
-        console.log('用户点击右上角分享按钮', res);
-        return {
-          // title: '',
-          query: 'shareMsg='+'share user2'  // query最大长度(length)为2048
-        }
-    })
+    // // 监听用户点击右上角分享按钮
+    // (<any>window).wx.onShareAppMessage((res) => {
+    //     console.log('用户点击右上角分享按钮', res);
+    //     return {
+    //       // title: '',
+    //       query: 'shareMsg='+'share user2'  // query最大长度(length)为2048
+    //     }
+    // })
     // 监听用户点击右上角分享按钮
     (<any>window).wx.onShareTimeline((res) => {
         console.log('用户点击右上角分享按钮', res);

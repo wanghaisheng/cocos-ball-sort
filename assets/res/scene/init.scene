@@ -983,7 +983,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 119.9808578187251,
+      "width": 119.99124829234972,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1016,7 +1016,7 @@
     "_string": "正在加载……",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 31.375,
+    "_actualFontSize": 34.3125,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
