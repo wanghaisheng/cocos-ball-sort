@@ -10,7 +10,7 @@ export class PageLoading extends Component {
 
     start() {
         this.schedule(this.updateProgressNode, 0.5)
-        director.preloadScene("tube", function () {
+        director.preloadScene("sort", function () {
             log("Next scene preloaded");
         });
     }
@@ -25,7 +25,7 @@ export class PageLoading extends Component {
         this.progressRoot.getComponent(ProgressBar).progress = value
         if (value >= 1) {
             this.unschedule(this.updateProgressNode)
-            director.loadScene("tube")
+            director.loadScene("sort")
         } else {
             this._progress = value
         }
