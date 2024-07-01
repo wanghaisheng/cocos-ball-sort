@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
-import { getLocalStorage, setLocalStorage } from './util';
-import { Constants } from './const';
+import { getLocalStorage, setLocalStorage } from '../utils/util';
+import { Constants } from '../utils/const';
 const { ccclass, property } = _decorator;
 
 @ccclass('User')
@@ -11,19 +11,21 @@ export class User {
     private losed: number = 0
 
     // 物资
-    // 回撤次数
+    /** 回撤次数 */ 
     private withdrawNum: number = 0
-    // 溶解次数
+    /** 溶解次数 */ 
     private dissolveNum: number = 0
-    // 加管次数
+    /** 加管次数 */ 
     private addTubeNum: number = 0
+    /** 加时次数 */ 
+    private addTimeNum: number = 0
     private static _instance: User = null
 
     public static instance() {
         if (!this._instance) {
             const user = getLocalStorage('user')
             if (user) {
-                this._instance = new User(user.level, user.gold, user.losed, user.withdrawNum, user.dissolveNum, user.addTubeNum)
+                this._instance = new User(user.level, user.gold, user.losed, user.withdrawNum, user.dissolveNum, user.addTubeNum, user.addTimeNum)
             } else {
                 this._instance = new User()
             }
@@ -31,13 +33,14 @@ export class User {
         return this._instance
     }
 
-    constructor(level: number = 1, gold: number = 100, losed: number = 0, withdrawNum: number = 0, dissolveNum: number = 0, addTubeNum: number = 0) {
+    constructor(level: number = 1, gold: number = 100, losed: number = 0, withdrawNum: number = 0, dissolveNum: number = 0, addTubeNum: number = 0, addTimeNum: number = 0) {
         this.level = level
         this.gold = gold
         this.losed = losed
         this.withdrawNum = withdrawNum
         this.dissolveNum = dissolveNum
         this.addTubeNum = addTubeNum
+        this.addTimeNum = addTimeNum
     }
 
     public getLevel() {
@@ -92,6 +95,15 @@ export class User {
 
     public setDissolveNum(num: number) {
         this.dissolveNum = num
+        setLocalStorage('user', this)
+    }
+
+    public getAddTimeNum() {
+        return this.addTimeNum
+    }
+
+    public setAddTimeNum(num: number) {
+        this.addTimeNum = num
         setLocalStorage('user', this)
     }
 

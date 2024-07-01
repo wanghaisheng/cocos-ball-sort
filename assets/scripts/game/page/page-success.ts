@@ -1,7 +1,7 @@
 import { _decorator, Component, Label, math, Node } from 'cc';
-import { User } from '../../utils/user';
+import { User } from '../../data/user';
 import { Constants } from '../../utils/const';
-import { activeShare } from '../../utils/util';
+import { activeShare, getLocalStorage } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageSuccess')
@@ -22,11 +22,17 @@ export class PageSuccess extends Component {
         const prizeNum = Constants.GAME_PRIZE_TYPE.successNormal
         const gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
         this._prizeGold = gold
-        const step = Constants.gameManager.finishStep || 1
-
+        let step = 1
+        if (getLocalStorage('scene') == 'GameManager') {
+            step = Constants.gameManager.finishStep || step
+        } else {
+            step = Constants.sortGameManager.finishStep || step
+        }
+        
         // 显示金币
         this.prizeGoldLabel.getComponent(Label).string = gold.toString()
         this.tipLabel.getComponent(Label).string = `太棒了，本局共用了 ${step} 步`
+        
     }
 
     update(deltaTime: number) {
@@ -50,8 +56,12 @@ export class PageSuccess extends Component {
     }
 
     hideNode() {
-        Constants.gameManager.init()
         this.node.active = false
+        if (getLocalStorage('scene') == 'GameManager') {
+            Constants.gameManager.init()
+        } else {
+            Constants.sortGameManager.init()
+        }
     }
 }
 

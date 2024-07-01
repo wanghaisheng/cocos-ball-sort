@@ -1,4 +1,4 @@
-import { math, log, url } from "cc"
+import { math, log, url, sys } from "cc"
 import { WECHAT, BYTEDANCE, BAIDU } from "cc/env"
 import { Constants } from "./const"
 
@@ -29,6 +29,24 @@ export function getRandList(arr: any[], max: number = 10) {
  */
 export function getBallOnTubeY(tubeY: number, tubeH: number) {
   return tubeY + tubeH / 2 + Constants.BALL_RADIUS * 0.5
+}
+
+/**
+ * 获取试管的类型
+ * @param type 
+ * @returns 
+ */
+export function getTubeType(type: number) {
+  switch(type) {
+      case Constants.TUBE_TYPE.NO3:
+      case Constants.TUBE_TYPE.NO4:
+      case Constants.TUBE_TYPE.NO5:
+      case Constants.TUBE_TYPE.NO7:
+      case Constants.TUBE_TYPE.NO8:
+          return type
+      default:
+          return Constants.TUBE_TYPE.NO8
+  }
 }
 
 /**
@@ -70,36 +88,6 @@ export function getTubeSpaceX(type: number, totalCol: number) {
       default:
           return 3
   }
-}
-
-/**
- * 设置本地数据
- * @param key 
- * @param data 
- */
-export function setLocalStorage(key: string, data: any) {
-  try {
-      localStorage.setItem(key, JSON.stringify(data))
-  } catch (e) {
-      console.error(e)
-  }
-}
-
-/**
- * 获取本地数据
- * @param key 
- */
-export function getLocalStorage(key: string) {
-  try {
-    const dataStr = localStorage.getItem(key)
-    if (dataStr) {
-        const data = JSON.parse(dataStr)
-        return data
-    }
-  } catch(e) {
-    console.error(e)
-  }
-  return null
 }
 
 /**
@@ -211,4 +199,34 @@ export function getWXQuery() {
     console.log(shareMsg);
     return shareMsg;
   }
+}
+
+/**
+ * 设置本地数据
+ * @param key 
+ * @param data 
+ */
+export function setLocalStorage(key: string, data: any) {
+  try {
+    sys.localStorage.setItem(key, JSON.stringify(data))
+  } catch (e) {
+      console.error(e)
+  }
+}
+
+/**
+ * 获取本地数据
+ * @param key 
+ */
+export function getLocalStorage(key: string) {
+  try {
+    const dataStr = sys.localStorage.getItem(key)
+    if (dataStr) {
+        const data = JSON.parse(dataStr)
+        return data
+    }
+  } catch(e) {
+    console.error(e)
+  }
+  return null
 }

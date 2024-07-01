@@ -4,6 +4,7 @@ import { BallControl } from "../game/ball/ball-control";
 import { TipManager } from "../game/page/tip-manager";
 import { AudioManager } from "../game/audio/audio-manager";
 import { EffectManager } from "../game/effect/EffectManager";
+import { SortGameManager } from "../game/sort-game-manager";
 
 enum GAME_STATUS {
    /**
@@ -112,6 +113,7 @@ enum TUBE_LEVEL {
 const PROP_PRICE = {
    withdraw: 30, // 回撤
    dissolve: 50, // 溶解
+   addTime: 50, // 加时
    addTube: 300, // 添加试管
 }
 
@@ -130,6 +132,7 @@ const BALL_SKIN_TYPE = {
 }
 
 export class Constants {
+   static sortGameManager: SortGameManager;
    static gameManager: GameManager;
    static ballControl: BallControl;
    static tipManager: TipManager;

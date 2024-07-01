@@ -1,7 +1,7 @@
 import { _decorator, Component, Node } from 'cc';
 import { Constants } from '../../utils/const';
-import { User } from '../../utils/user';
-import { activeShare } from '../../utils/util';
+import { User } from '../../data/user';
+import { activeShare, getLocalStorage } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageFail')
@@ -33,8 +33,12 @@ export class PageFail extends Component {
     }
 
     hideNode() {
-        Constants.gameManager.init()
         this.node.active = false
+        if (getLocalStorage('scene') == 'GameManager') {
+            Constants.gameManager.init()
+        } else {
+            Constants.sortGameManager.init()
+        }
     }
 }
 

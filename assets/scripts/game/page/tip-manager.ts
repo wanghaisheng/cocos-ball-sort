@@ -48,9 +48,13 @@ export class TipManager extends Component {
         .start()
     }
 
-    showLevelTip(level: number, target: number) {
+    showLevelTip(level: number, target: number = 0) {
         const label = this.LevelTip.getChildByName('Level').getComponent(Label)
-        label.string = `第 ${level} 关     目标 ${target}`
+        let str = `第 ${level} 关`
+        if (target > 0) {
+            str += `     目标 ${target}`
+        }
+        label.string = str
         
         tween(this.LevelTip)
         .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }) 

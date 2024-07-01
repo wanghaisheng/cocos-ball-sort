@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, EventTouch, geometry, Input, input, inst
 import { PoolManager } from '../../utils/pool-manager';
 import { Constants } from '../../utils/const';
 import { Tube } from './tube';
-import { getBallOnTubeY, getTubeHeight, getTubeSpaceX, getTubeSpaceY } from '../../utils/util';
+import { getBallOnTubeY, getLocalStorage, getTubeHeight, getTubeSpaceX, getTubeSpaceY } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('TubeManager')
@@ -65,7 +65,11 @@ export class TubeManager extends Component {
             console.log('hitNode', hitNode)
             if (hitNode.name.startsWith('tube')) {
                 console.log('击中试管')
-                Constants.gameManager.clickTube(hitNode)
+                if (getLocalStorage('scene') == 'GameManager') {
+                    Constants.gameManager.clickTube(hitNode)
+                } else {
+                    Constants.sortGameManager.clickTube(hitNode)
+                }
             }
         } else {
             console.log('射线不包含')

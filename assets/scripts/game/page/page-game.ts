@@ -1,6 +1,6 @@
 import { _decorator, Component, EventTouch, Input, input, Label, Node, ProgressBar, resources, Sprite, SpriteFrame } from 'cc';
 import { Constants } from '../../utils/const';
-import { User } from '../../utils/user';
+import { User } from '../../data/user';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageGame')

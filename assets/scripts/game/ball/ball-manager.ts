@@ -30,6 +30,35 @@ export class BallManager extends Component {
         
     }
 
+    createSortBallList(tubeList: Tube[], list: number[][]) {
+        // 有效的试管个数
+        for(let i = 0; i < list.length; i++) {
+            const tube = tubeList[i]
+            const pos = tube.getTubePosition()
+            const tubeHeight = tube.getTubeHeight()
+
+            // 底部的位置
+            const bottomY = this.getBottomY(pos.y, tubeHeight)
+            for(let j = 0; j < list[i].length; j++) {
+                const code = list[i][j]
+
+                if (code) {
+                    const ballType = this.getBallType(code)
+                    // 位置固定
+                    const y = bottomY + Constants.BALL_RADIUS * j
+                    // const initPos = new Vec3(pos.x, initY, pos.z)
+                    const newPos = new Vec3(pos.x, y, pos.z)
+                    const ball = this._createBall(newPos, ballType)
+                    tube.pushBall(ball)
+                } 
+            }
+            if (tube.isAllSameTube()) {
+                console.log('生成颜色完全相同')
+                tube.setIsFinish(true)
+            }
+        }
+    }
+
     createBallList(tubeList: Tube[], ballCount: number, ballTypeNum: number) {
         const len = tubeList.length
         let ballTypeList = this.getBallTypeList([0, ballTypeNum - 1])
@@ -161,6 +190,13 @@ export class BallManager extends Component {
             ballTypeList.push(ballSkin.TexturePrefix + j)
         }
         return ballTypeList
+    }
+
+    getBallType(index: number) {
+        const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
+        let j = index % Constants.BALL_TYPE_MAX
+        j = j === 0 ? Constants.BALL_TYPE_MAX : j
+        return ballSkin.TexturePrefix + j
     }
 
     getBottomY(tubeY: number, tubeHeight: number) {

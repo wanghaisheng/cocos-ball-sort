@@ -1,7 +1,7 @@
 import { _decorator, Camera, Component, equals, Label, Layers, Node, tween, Vec3 } from 'cc';
 import { Tube } from '../tube/tube';
 import { Constants } from '../../utils/const';
-import { getBallOnTubeY, vibrateShort } from '../../utils/util';
+import { getBallOnTubeY, getLocalStorage, vibrateShort } from '../../utils/util';
 import { Ball } from './ball';
 import { TubeManager } from '../tube/tube-manager';
 import { BallManager } from './ball-manager';
@@ -143,25 +143,23 @@ export class BallControl extends Component {
     }
 
     // 判断是否已经满了，并清空
-    checkTubeFull(targetTube: Tube, palyEffect: boolean = true) {
-        
+    checkTubeFull(targetTube: Tube) {
+        if (!targetTube.isAllSameTube()) return
 
-        if (targetTube.isAllSameTube()) {
-            if (palyEffect) {
-                // 播放音效
-                Constants.audioManager.play('explosion')
+        // 播放音效
+        Constants.audioManager.play('explosion')
 
-                const wpos = targetTube.getTubeTopWordPosition()
+        const wpos = targetTube.getTubeTopWordPosition()
 
-                let pos = new Vec3()
-                // 转换为UI节点坐标
-                // @ts-ignore
-                this.mainCamera._camera.update();
-                this.mainCamera.convertToUINode(wpos, this.flowerEffect.parent, pos)
-                // 播放特效
-                Constants.effectManager.playFlowerEffect(pos)
-                
-            }
+        let pos = new Vec3()
+        // 转换为UI节点坐标
+        // @ts-ignore
+        this.mainCamera._camera.update();
+        this.mainCamera.convertToUINode(wpos, this.flowerEffect.parent, pos)
+        // 播放特效
+        Constants.effectManager.playFlowerEffect(pos)
+
+        if (getLocalStorage('scene') == 'GameManager') {
             // // 颜色完全相同且满的试管
             // targetTube.setIsFinish(true)
             const ballCount = targetTube.getBallList().length
@@ -169,6 +167,11 @@ export class BallControl extends Component {
             targetTube.clearTubeAction(true)
             // 更新进度
             Constants.gameManager.updateProgress(ballCount, this._stepList.length)
+        } else {
+            // 颜色完全相同且满的试管
+            targetTube.setIsFinish(true)
+            // 检测是否结束
+            Constants.sortGameManager.checkGameOver(this._stepList.length)
         }
     }
 
