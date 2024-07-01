@@ -48,9 +48,10 @@
   "_props": [
     {
       "mainTexture": {
-        "__uuid__": "c7870f78-4750-4fc1-9105-759743a2c560@6c48a",
+        "__uuid__": "12150d93-d748-4980-9e13-74c48656d7fd@6c48a",
         "__expectedType__": "cc.Texture2D"
-      }
+      },
+      "alphaThreshold": 1
     },
     {},
     {}

@@ -164,7 +164,7 @@ export class PageSortGame extends Component {
             // Constant.dialogManager.showTipLabel('游戏超时', () => {
             //     Constant.gameManager.gameOver();
             // });
-            Constants.sortGameManager.gameOver(Constants.GAME_FINISH_TYPE.FAIL);
+            Constants.sortGameManager.gameOver(Constants.GAME_FINISH_TYPE.TIME_OUT);
         } else {
             this.showTimeClock(this._time);
         }

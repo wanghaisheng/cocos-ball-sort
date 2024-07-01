@@ -166,12 +166,12 @@ export class BallControl extends Component {
             // 执行清除
             targetTube.clearTubeAction(true)
             // 更新进度
-            Constants.gameManager.updateProgress(ballCount, this._stepList.length)
+            Constants.gameManager.updateProgress(ballCount, this.getStepNum())
         } else {
             // 颜色完全相同且满的试管
             targetTube.setIsFinish(true)
             // 检测是否结束
-            Constants.sortGameManager.checkGameOver(this._stepList.length)
+            Constants.sortGameManager.checkGameOver(this.getStepNum())
         }
     }
 
@@ -201,6 +201,10 @@ export class BallControl extends Component {
             targetTube.popBall()
             jumpTube.pushBall(ball)
 
+            if (targetTube.isFinish) {
+                targetTube.setIsFinish(false)
+            }
+
             if (i === topBallList.length - 1) {
                 cb()
             }
@@ -211,6 +215,11 @@ export class BallControl extends Component {
     checkFinish() {
         const finishList = this._tubeList.filter(item => item.isFinish)
         return finishList.length === this._tubeCount
+    }
+
+    /** 获取步数 */
+    getStepNum() {
+        return this._stepList.length
     }
 }
 

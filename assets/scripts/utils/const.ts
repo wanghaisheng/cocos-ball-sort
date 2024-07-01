@@ -88,6 +88,10 @@ enum GAME_FINISH_TYPE {
     * @zh 游戏结束
     */
    FINISH = 3,
+   /**
+    * @zh 游戏超时
+    */
+   TIME_OUT = 4,
 }
 
 enum TUBE_LEVEL {

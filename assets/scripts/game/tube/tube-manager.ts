@@ -62,7 +62,7 @@ export class TubeManager extends Component {
         if (PhysicsSystem.instance.raycastClosest(ray)) {
             const res = PhysicsSystem.instance.raycastClosestResult
             const hitNode = res.collider.node
-            console.log('hitNode', hitNode)
+            // console.log('hitNode', hitNode)
             if (hitNode.name.startsWith('tube')) {
                 console.log('击中试管')
                 if (getLocalStorage('scene') == 'GameManager') {

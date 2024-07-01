@@ -45,6 +45,7 @@ export class SortGameManager extends Component {
 
     // tube
     private _tubeList: Tube[] = []
+    private _tubeType: number = Constants.TUBE_TYPE.NO3
     private _tubeCount: number = 0 // 总试管数量
     private _ballTubeCount: number = 0 // 有球试管数量
     private _addTubeNum: number = 0 // 增加试管的次数
@@ -108,6 +109,7 @@ export class SortGameManager extends Component {
         const ballCount = ballList.filter(k => k).length || 0
         this._ballTubeCount = list.filter(item => item && item.some(k => k)).length
         this._tubeCount = tubeCount
+        this._tubeType = tubeType
         this._tubeList.map(item => {
             item.clearTubeAction(false)
         })
@@ -144,12 +146,24 @@ export class SortGameManager extends Component {
         if (this._addTubeNum++ >= Constants.TUBE_ADD_NUM) {
             return Constants.tipManager.showTipLabel('当局已使用过该道具', () => {})
         }
-        this.tubeManager.addEmptyTube(this._data.tubeType, cb)
+        this.tubeManager.addEmptyTube(this._tubeType, cb)
     }
 
 
     gameOver(type: number) {
         switch(type) {
+            case Constants.GAME_FINISH_TYPE.TIME_OUT:
+                console.log('game time out')
+                this.finishStep = this.ballControl.getStepNum()
+                if (this.finishStep > 0) {
+                    this.pageFail.active = true
+                } else {
+                    // 游戏超时
+                    Constants.tipManager.showTipLabel('游戏超时未操作，重新开始', () => {
+                        this.init()
+                    })
+                }
+                break;
             case Constants.GAME_FINISH_TYPE.FAIL:
                 console.log('game fail')
                 this.pageFail.active = true
