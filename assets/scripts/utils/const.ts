@@ -131,7 +131,7 @@ const GAME_PRIZE_TYPE = {
 const GAME_POWER_POINT_TYPE = {
    success: 200, // 成功
    fail: 200, // 失败
-   pex: 50, // 最小
+   pex: 40, // 最小
 }
 
 // 球皮肤管理
