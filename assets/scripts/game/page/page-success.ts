@@ -13,6 +13,7 @@ export class PageSuccess extends Component {
     public prizeGoldLabel: Node = null
 
     private _prizeGold: number = 0
+    private _prizePowerPoint: number = 0
 
     start() {
 
@@ -22,6 +23,10 @@ export class PageSuccess extends Component {
         const prizeNum = Constants.GAME_PRIZE_TYPE.successNormal
         const gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
         this._prizeGold = gold
+        const powerNum = Constants.GAME_POWER_POINT_TYPE.success - User.instance().getLevel() * 10;
+        const powerCount = math.absMax(50, powerNum);
+        const power = math.randomRangeInt(powerCount - 10, powerCount + 11)
+        this._prizePowerPoint = power
         let step = 1
         if (getLocalStorage('scene') == 'GameManager') {
             step = Constants.gameManager.finishStep || step
@@ -42,6 +47,7 @@ export class PageSuccess extends Component {
     onNormalReceive() {
         const user = User.instance()
         user.setGold(this._prizeGold + user.getGold())
+        user.setPowerPoint(user.getPowerPoint() + this._prizePowerPoint)
         user.setLevel(user.getLevel() + 1)
         this.hideNode()
     }
@@ -51,6 +57,7 @@ export class PageSuccess extends Component {
         activeShare()
         const user = User.instance()
         user.setGold(this._prizeGold * 3 + user.getGold())
+        user.setPowerPoint(user.getPowerPoint() + this._prizePowerPoint)
         user.setLevel(user.getLevel() + 1)
         this.hideNode()
     }

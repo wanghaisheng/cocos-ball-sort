@@ -7,9 +7,9 @@ const { ccclass, property } = _decorator;
 export class PageSortGame extends Component {
     // 顶部
     @property(Node)
-    timeNode: Node = null;
+    powerLabel: Node = null;
     @property(Node)
-    shopNode: Node = null;
+    timeNode: Node = null;
     @property(Node)
     resetNode: Node = null;
     @property(Node)
@@ -24,6 +24,10 @@ export class PageSortGame extends Component {
     btnAddTubeNode: Node = null;
     @property(Node)
     btnAddTimeNode: Node = null;
+    @property(Node)
+    shopNode: Node = null;
+    @property(Node)
+    goldLabel: Node = null;
 
     private _isSupportSound: boolean = true
     private _user: User = null
@@ -70,6 +74,7 @@ export class PageSortGame extends Component {
         console.log('init', limitTime);
         this._time = limitTime;
         this._dataTime = limitTime;
+        this.showUserInfo();
         this.unschedule(this.setTimeClock);
         this.schedule(this.setTimeClock, 1);
     }
@@ -168,6 +173,11 @@ export class PageSortGame extends Component {
         } else {
             this.showTimeClock(this._time);
         }
+    }
+
+    showUserInfo() {
+        this.powerLabel.getComponent(Label).string = `${this._user.getPowerPoint()}`;
+        this.goldLabel.getComponent(Label).string = `${this._user.getGold()}`;
     }
 
 }

@@ -6,9 +6,11 @@ const { ccclass, property } = _decorator;
 @ccclass('User')
 export class User {
     // 等级金币信息
-    private level: number = 0
+    private level: number = 1
     private gold: number = 0
     private losed: number = 0
+    /** 战力值 */
+    private powerPoint: number = 1000
 
     // 物资
     /** 回撤次数 */ 
@@ -25,7 +27,7 @@ export class User {
         if (!this._instance) {
             const user = getLocalStorage('user')
             if (user) {
-                this._instance = new User(user.level, user.gold, user.losed, user.withdrawNum, user.dissolveNum, user.addTubeNum, user.addTimeNum)
+                this._instance = new User(user)
             } else {
                 this._instance = new User()
             }
@@ -33,14 +35,15 @@ export class User {
         return this._instance
     }
 
-    constructor(level: number = 1, gold: number = 100, losed: number = 0, withdrawNum: number = 0, dissolveNum: number = 0, addTubeNum: number = 0, addTimeNum: number = 0) {
-        this.level = level
-        this.gold = gold
-        this.losed = losed
-        this.withdrawNum = withdrawNum
-        this.dissolveNum = dissolveNum
-        this.addTubeNum = addTubeNum
-        this.addTimeNum = addTimeNum
+    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number }) {
+        this.level = user?.level || 1
+        this.gold = user?.gold || 0
+        this.losed = user?.losed || 0
+        this.powerPoint = user?.powerPoint || 1000
+        this.withdrawNum = user?.withdrawNum || 0
+        this.dissolveNum = user?.dissolveNum || 0
+        this.addTubeNum = user?.addTubeNum || 0
+        this.addTimeNum = user?.addTimeNum || 0
     }
 
     public getLevel() {
@@ -53,6 +56,15 @@ export class User {
         //     newLevel = level < Constants.USER_PROTECT_MIN_LEVEL ? Constants.USER_PROTECT_MIN_LEVEL : level
         // }
         this.level = newLevel >= 1 ? newLevel : 1
+        setLocalStorage('user', this)
+    }
+
+    public getPowerPoint() {
+        return this.powerPoint
+    }
+
+    public setPowerPoint(powerPoint: number) {
+        this.powerPoint = powerPoint >= 0 ? powerPoint : 0
         setLocalStorage('user', this)
     }
 

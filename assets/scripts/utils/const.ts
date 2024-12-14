@@ -121,10 +121,16 @@ const PROP_PRICE = {
    addTube: 300, // 添加试管
 }
 
-// 结束奖励
+// 结束金币奖励
 const GAME_PRIZE_TYPE = {
    successNormal: 40, // 成功
    failNormal: 10, // 失败
+}
+
+// 结束战力奖励
+const GAME_POWER_POINT_TYPE = {
+   success: 300, // 成功
+   fail: 300, // 失败
 }
 
 // 球皮肤管理
@@ -155,6 +161,7 @@ export class Constants {
 
    // 奖励
    static GAME_PRIZE_TYPE = GAME_PRIZE_TYPE; // 结束奖励
+   static GAME_POWER_POINT_TYPE = GAME_POWER_POINT_TYPE; // 结束战力奖励
 
    // tube
    static TUBE_TYPE = TUBE_TYPE // 试管类型
