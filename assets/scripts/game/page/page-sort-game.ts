@@ -117,7 +117,10 @@ export class PageSortGame extends Component {
     // 回退
     onWithdraw() {
         if (this._user.getWithdrawNum() < 1) {
-            return this.onShop()
+            Constants.tipManager.showTipLabel('道具不足，请先购买', () => {
+                this.onShop()
+            })
+            return
         }
         Constants.sortGameManager.returnBackLastStep(() => {
             console.log('回退成功')
@@ -128,7 +131,10 @@ export class PageSortGame extends Component {
     // 加管 
     onAddTube() {
         if (this._user.getAddTubeNum() < 1) {
-            return this.onShop()
+            Constants.tipManager.showTipLabel('道具不足，请先购买', () => {
+                this.onShop()
+            })
+            return
         }
         Constants.sortGameManager.addEmptyTube(() => {
             console.log('加管成功')
@@ -139,7 +145,10 @@ export class PageSortGame extends Component {
     // 加时
     onAddTimeClick() {
         if (this._user.getAddTimeNum() < 1) {
-            return this.onShop()
+            Constants.tipManager.showTipLabel('道具不足，请先购买', () => {
+                this.onShop()
+            })
+            return
         }
         this._user.setAddTimeNum(this._user.getAddTimeNum() - 1)
         // console.log('onAddTimeClick');
