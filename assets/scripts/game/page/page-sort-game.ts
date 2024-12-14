@@ -32,7 +32,8 @@ export class PageSortGame extends Component {
     private _isSupportSound: boolean = true
     private _user: User = null
     private _time: number = 0;
-    private _dataTime: number = 0;
+    private _limitTime: number = 0;
+    private _totalTime: number = 0;
 
     start() {
 
@@ -64,7 +65,7 @@ export class PageSortGame extends Component {
 
     protected onDestroy(): void {
         // 移除监听
-        this.unschedule(this.setTimeClock);
+        this.stopTimeClock(); // 停止计时器
     }
 
     init(limitTime: number) {
@@ -73,7 +74,8 @@ export class PageSortGame extends Component {
         // 更新用户金币
         console.log('init', limitTime);
         this._time = limitTime;
-        this._dataTime = limitTime;
+        this._limitTime = limitTime;
+        this._totalTime = limitTime;
         this.showUserInfo();
         this.unschedule(this.setTimeClock);
         this.schedule(this.setTimeClock, 1);
@@ -142,7 +144,8 @@ export class PageSortGame extends Component {
         this._user.setAddTimeNum(this._user.getAddTimeNum() - 1)
         // console.log('onAddTimeClick');
         // Constant.dialogManager.showTipLabel('功能开发中...');
-        this._time += this._dataTime;
+        this._time += this._limitTime;
+        this._totalTime += this._limitTime;
     }
 
     // 商店
@@ -173,6 +176,14 @@ export class PageSortGame extends Component {
         } else {
             this.showTimeClock(this._time);
         }
+    }
+
+    stopTimeClock() {
+        this.unschedule(this.setTimeClock);
+    }
+
+    getGameUsedTime() {
+        return this._totalTime - this._time;
     }
 
     showUserInfo() {

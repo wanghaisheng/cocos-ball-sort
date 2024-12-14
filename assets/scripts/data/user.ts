@@ -10,7 +10,7 @@ export class User {
     private gold: number = 0
     private losed: number = 0
     /** 战力值 */
-    private powerPoint: number = 1000
+    private powerPoint: number = 100
 
     // 物资
     /** 回撤次数 */ 
@@ -39,7 +39,7 @@ export class User {
         this.level = user?.level || 1
         this.gold = user?.gold || 0
         this.losed = user?.losed || 0
-        this.powerPoint = user?.powerPoint || 1000
+        this.powerPoint = user?.powerPoint || 100
         this.withdrawNum = user?.withdrawNum || 0
         this.dissolveNum = user?.dissolveNum || 0
         this.addTubeNum = user?.addTubeNum || 0

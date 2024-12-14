@@ -124,13 +124,14 @@ const PROP_PRICE = {
 // 结束金币奖励
 const GAME_PRIZE_TYPE = {
    successNormal: 40, // 成功
-   failNormal: 10, // 失败
+   failNormal: 8, // 失败
 }
 
 // 结束战力奖励
 const GAME_POWER_POINT_TYPE = {
-   success: 300, // 成功
-   fail: 300, // 失败
+   success: 200, // 成功
+   fail: 200, // 失败
+   pex: 50, // 最小
 }
 
 // 球皮肤管理

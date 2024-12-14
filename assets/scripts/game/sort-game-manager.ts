@@ -41,7 +41,8 @@ export class SortGameManager extends Component {
 
     // game
     public gameStatus: number = Constants.GAME_STATUS.INIT
-    public finishStep: number = 0
+    public finishStep: number = 0 // 游戏用步数
+    public usedTime: number = 0 // 游戏用时
 
     // tube
     private _tubeList: Tube[] = []
@@ -183,7 +184,9 @@ export class SortGameManager extends Component {
     checkGameOver(stepCount: number) {
         const finishCount = this._tubeList.filter(item => item.isFinish).length
         if (finishCount === this._ballTubeCount) {
+            this.pageSortGame.stopTimeClock()
             this.finishStep = stepCount
+            this.usedTime = this.pageSortGame.getGameUsedTime()
             this.gameOver(Constants.GAME_FINISH_TYPE.PASS)
         }
     }

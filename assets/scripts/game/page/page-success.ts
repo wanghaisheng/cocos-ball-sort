@@ -8,9 +8,10 @@ const { ccclass, property } = _decorator;
 export class PageSuccess extends Component {
     @property(Node)
     public tipLabel: Node = null
-
     @property(Node)
-    public prizeGoldLabel: Node = null
+    public powerLabel: Node = null
+    @property(Node)
+    public goldLabel: Node = null
 
     private _prizeGold: number = 0
     private _prizePowerPoint: number = 0
@@ -24,19 +25,28 @@ export class PageSuccess extends Component {
         const gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
         this._prizeGold = gold
         const powerNum = Constants.GAME_POWER_POINT_TYPE.success - User.instance().getLevel() * 10;
-        const powerCount = math.absMax(50, powerNum);
+        const powerCount = math.absMax(Constants.GAME_POWER_POINT_TYPE.pex, powerNum);
         const power = math.randomRangeInt(powerCount - 10, powerCount + 11)
         this._prizePowerPoint = power
-        let step = 1
+        let step = 1, time = 0
+        let tip = ``
         if (getLocalStorage('scene') == 'GameManager') {
             step = Constants.gameManager.finishStep || step
+            tip = `共用了 ${step} 步！`
         } else {
+            time = Constants.sortGameManager.usedTime || time
+            const m = Math.floor(time / 60);
+            const s = time % 60;
             step = Constants.sortGameManager.finishStep || step
+            tip = m > 0 ? `共用了 ${step} 步，用时 ${m} 分 ${s} 秒！` : `共用了 ${step} 步，用时 ${s} 秒！` 
         }
+
+        
         
         // 显示金币
-        this.prizeGoldLabel.getComponent(Label).string = gold.toString()
-        this.tipLabel.getComponent(Label).string = `太棒了，本局共用了 ${step} 步`
+        this.tipLabel.getComponent(Label).string = tip
+        this.goldLabel.getComponent(Label).string = gold.toString()
+        this.powerLabel.getComponent(Label).string = power.toString()
         
     }
 
