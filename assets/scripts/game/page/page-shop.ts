@@ -14,9 +14,9 @@ export class PageShop extends Component {
     @property(Node)
     public buyWithdrawCoinNode: Node = null
     @property(Node)
-    public dissolveNumNode: Node = null
-    @property(Node)
-    public buyDissolveCoinNode: Node = null
+    // public dissolveNumNode: Node = null
+    // @property(Node)
+    // public buyDissolveCoinNode: Node = null
     @property(Node)
     public addTimeNumNode: Node = null
     @property(Node)
@@ -35,7 +35,7 @@ export class PageShop extends Component {
         // 绑定事件
         // this.closeNode.on(Node.EventType.TOUCH_END, this.closePage, this)
         this.buyWithdrawCoinNode.on(Node.EventType.TOUCH_END, this.buyWithdrawCoin, this)
-        this.buyDissolveCoinNode.on(Node.EventType.TOUCH_END, this.buyDissolveCoin, this)
+        // this.buyDissolveCoinNode.on(Node.EventType.TOUCH_END, this.buyDissolveCoin, this)
         this.buyTimeCoinNode.on(Node.EventType.TOUCH_END, this.buyTimeCoin, this)
         this.buyTubeCoinNode.on(Node.EventType.TOUCH_END, this.buyTubeCoin, this)
     }
@@ -44,7 +44,7 @@ export class PageShop extends Component {
         // 解绑事件
         // this.closeNode.off(Node.EventType.TOUCH_END, this.closePage, this)
         this.buyWithdrawCoinNode.off(Node.EventType.TOUCH_END, this.buyWithdrawCoin, this)
-        this.buyDissolveCoinNode.off(Node.EventType.TOUCH_END, this.buyDissolveCoin, this)
+        // this.buyDissolveCoinNode.off(Node.EventType.TOUCH_END, this.buyDissolveCoin, this)
         this.buyTimeCoinNode.off(Node.EventType.TOUCH_END, this.buyTimeCoin, this)
         this.buyTubeCoinNode.off(Node.EventType.TOUCH_END, this.buyTubeCoin, this)
     }
@@ -59,17 +59,17 @@ export class PageShop extends Component {
         // 设置属性  
         this.goldLabel.getComponent(Label).string = user.getGold() + ''
         this.withdrawNumNode.getComponent(Label).string = user.getWithdrawNum() + ''
-        this.dissolveNumNode.getComponent(Label).string = user.getDissolveNum() + ''
+        // this.dissolveNumNode.getComponent(Label).string = user.getDissolveNum() + ''
         this.addTimeNumNode.getComponent(Label).string = user.getAddTimeNum() + ''
         this.addTubeNumNode.getComponent(Label).string = user.getAddTubeNum() + ''
 
         const withdrawPrice = Constants.PROP_PRICE.withdraw
-        const dissolvePrice = Constants.PROP_PRICE.dissolve
+        // const dissolvePrice = Constants.PROP_PRICE.dissolve
         const timePrice = Constants.PROP_PRICE.addTime
         const tubePrice = Constants.PROP_PRICE.addTube
         // 设置价格
         this.buyWithdrawCoinNode.getChildByName('coin').getComponent(Label).string = withdrawPrice + ''
-        this.buyDissolveCoinNode.getChildByName('coin').getComponent(Label).string = dissolvePrice + ''
+        // this.buyDissolveCoinNode.getChildByName('coin').getComponent(Label).string = dissolvePrice + ''
         this.buyTimeCoinNode.getChildByName('coin').getComponent(Label).string = timePrice + ''
         this.buyTubeCoinNode.getChildByName('coin').getComponent(Label).string = tubePrice + ''
 
@@ -79,9 +79,9 @@ export class PageShop extends Component {
             this.buyWithdrawCoinNode.getComponent(Button).interactable = false
         }
 
-        if (totalGold < Constants.PROP_PRICE.dissolve) {
-            this.buyDissolveCoinNode.getComponent(Button).interactable = false
-        }
+        // if (totalGold < Constants.PROP_PRICE.dissolve) {
+        //     this.buyDissolveCoinNode.getComponent(Button).interactable = false
+        // }
 
         if (totalGold < Constants.PROP_PRICE.addTime) {
             this.buyTimeCoinNode.getComponent(Button).interactable = false

@@ -115,10 +115,10 @@ enum TUBE_LEVEL {
 
 // 道具价格
 const PROP_PRICE = {
-   withdraw: 30, // 回撤
-   dissolve: 50, // 溶解
-   addTime: 50, // 加时
-   addTube: 300, // 添加试管
+   withdraw: 100, // 回撤
+   dissolve: 120, // 溶解
+   addTime: 200, // 加时
+   addTube: 800, // 添加试管
 }
 
 // 结束金币奖励
