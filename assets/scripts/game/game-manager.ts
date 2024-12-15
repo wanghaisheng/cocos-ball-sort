@@ -7,7 +7,7 @@ import { BallControl } from './ball/ball-control';
 import { User } from '../data/user';
 import { PageGame } from './page/page-game';
 import { Ball } from './ball/ball';
-import { passiveShare, setLocalStorage } from '../utils/util';
+import { Utils } from '../utils/util';
 const { ccclass, property } = _decorator;
 
 /**
@@ -69,9 +69,9 @@ export class GameManager extends Component {
     }
     
     start() {
-        setLocalStorage('scene', 'GameManager')
+        Utils.setLocalStorage('scene', 'GameManager')
          // 监听微信分享
-        passiveShare()
+        Utils.passiveShare()
     }
 
     update(deltaTime: number) {

@@ -1,7 +1,7 @@
 import { _decorator, Component, Label, math, Node, tween, Vec3, v3 } from 'cc';
 import { User } from '../../data/user';
 import { Constants } from '../../utils/const';
-import { activeShare, getLocalStorage } from '../../utils/util';
+import { Utils } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageSuccess')
@@ -58,7 +58,7 @@ export class PageSuccess extends Component {
         const time = Constants.sortGameManager?.usedTime || 0
         const percent = this.getUpPercent(step, time, level)
         let tip = ``
-        if (getLocalStorage('scene') == 'GameManager') {
+        if (Utils.getLocalStorage('scene') == 'GameManager') {
             tip = `共用了 ${step} 步！`
         } else {
             const m = Math.floor(time / 60);
@@ -98,7 +98,7 @@ export class PageSuccess extends Component {
 
     onMoreReceive() {
         // 调用分享接口
-        activeShare()
+        Utils.activeShare()
         Constants.audioManager.play('reward')
         const user = User.instance()
         user.setGold(this._prizeGold * 3 + user.getGold())
@@ -147,7 +147,7 @@ export class PageSuccess extends Component {
 
     hideNode() {
         this.node.active = false
-        if (getLocalStorage('scene') == 'GameManager') {
+        if (Utils.getLocalStorage('scene') == 'GameManager') {
             Constants.gameManager.init()
         } else {
             Constants.sortGameManager.init()

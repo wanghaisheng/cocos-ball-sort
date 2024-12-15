@@ -1,7 +1,7 @@
 import { _decorator, Camera, Component, equals, Label, Layers, Node, tween, Vec3 } from 'cc';
 import { Tube } from '../tube/tube';
 import { Constants } from '../../utils/const';
-import { getBallOnTubeY, getLocalStorage, vibrateShort } from '../../utils/util';
+import { Utils } from '../../utils/util';
 import { Ball } from './ball';
 import { TubeManager } from '../tube/tube-manager';
 import { BallManager } from './ball-manager';
@@ -66,7 +66,7 @@ export class BallControl extends Component {
             if (targetTube) {
                 const tPos = targetTube.getTubePosition()
                 // 弹出
-                const popY = getBallOnTubeY(Math.max(hPos.y, tPos.y), tubeH)
+                const popY = Utils.getBallOnTubeY(Math.max(hPos.y, tPos.y), tubeH)
                 const dstPos = new Vec3(oldBallX, popY, tPos.z)
 
                 // 横向跳动
@@ -112,11 +112,11 @@ export class BallControl extends Component {
                 // 弹出
                 if (i === 0) {
                     // 调用振动
-                    vibrateShort()
+                    Utils.vibrateShort()
                     // 告訴用户弹出无效
                     Constants.tipManager.showTipLabel('没有可跳的位置', () => {})
                 }
-                const popY = getBallOnTubeY(hPos.y, tubeH)
+                const popY = Utils.getBallOnTubeY(hPos.y, tubeH)
                 const dstPos = new Vec3(oldBallX, popY - i * Constants.BALL_RADIUS, bPos.z)
                 const oldPos = new Vec3(oldBallX, oldBallY, bPos.z)
                 topBall.jumpBallAction([dstPos, oldPos], i * 0.05, () => {
@@ -159,7 +159,7 @@ export class BallControl extends Component {
         // 播放特效
         Constants.effectManager.playFlowerEffect(pos)
 
-        if (getLocalStorage('scene') == 'GameManager') {
+        if (Utils.getLocalStorage('scene') == 'GameManager') {
             // // 颜色完全相同且满的试管
             // targetTube.setIsFinish(true)
             const ballCount = targetTube.getBallList().length

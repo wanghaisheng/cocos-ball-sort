@@ -7,7 +7,7 @@ import { BallControl } from './ball/ball-control';
 import { User } from '../data/user';
 import { PageSortGame } from './page/page-sort-game';
 import { Ball } from './ball/ball';
-import { passiveShare, getTubeType, setLocalStorage } from '../utils/util';
+import { Utils } from '../utils/util';
 import LevelData from '../data/level-data';
 const { ccclass, property } = _decorator;
 
@@ -66,10 +66,10 @@ export class SortGameManager extends Component {
     }
     
     start() {
-        setLocalStorage('scene', 'SortGameManager')
+        Utils.setLocalStorage('scene', 'SortGameManager')
 
         // 监听微信分享
-        passiveShare()
+        Utils.passiveShare()
 
         // 初始化
         this.init()
@@ -106,7 +106,7 @@ export class SortGameManager extends Component {
         const { list = [] } = this._data
         const tubeCount = list.length
         const ballList = tubeCount > 0 ? list[0] : []
-        const tubeType = getTubeType(ballList.length)
+        const tubeType = Utils.getTubeType(ballList.length)
         const ballCount = ballList.filter(k => k).length || 0
         this._ballTubeCount = list.filter(item => item && item.some(k => k)).length
         this._tubeCount = tubeCount

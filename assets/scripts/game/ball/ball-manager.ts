@@ -1,7 +1,7 @@
 import { _decorator, Component, instantiate, Material, math, MeshRenderer, Node, Prefab, resources, Sprite, SpriteFrame, Texture2D, tween, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 import { PoolManager } from '../../utils/pool-manager';
-import { getBallOnTubeY, getRandList } from '../../utils/util';
+import { Utils } from '../../utils/util';
 import { Ball } from './ball';
 import { Tube } from '../tube/tube';
 import { BallControl } from './ball-control';
@@ -73,13 +73,12 @@ export class BallManager extends Component {
             const tube = tubeList[i]
             const pos = tube.getTubePosition()
             const tubeHeight = tube.getTubeHeight()
-            // const initY = getBallOnTubeY(pos.y, tubeHeight)
 
             // 底部的位置
             const bottomY = this.getBottomY(pos.y, tubeHeight)
             for(let j = 0; j < validBallCount; j++) {
                 // 纹理颜色随机，但生成相同的纹理个数有上限
-                let randIndex = getRandList(exists)
+                let randIndex = Utils.getRandList(exists)
                 let ballType = ballTypeList[randIndex]
                 
                 // 位置固定

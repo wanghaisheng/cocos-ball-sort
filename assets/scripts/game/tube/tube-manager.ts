@@ -2,7 +2,7 @@ import { _decorator, Camera, Component, EventTouch, geometry, Input, input, inst
 import { PoolManager } from '../../utils/pool-manager';
 import { Constants } from '../../utils/const';
 import { Tube } from './tube';
-import { getBallOnTubeY, getLocalStorage, getTubeHeight, getTubeSpaceX, getTubeSpaceY } from '../../utils/util';
+import { Utils } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('TubeManager')
@@ -65,7 +65,7 @@ export class TubeManager extends Component {
             // console.log('hitNode', hitNode)
             if (hitNode.name.startsWith('tube')) {
                 console.log('击中试管')
-                if (getLocalStorage('scene') == 'GameManager') {
+                if (Utils.getLocalStorage('scene') == 'GameManager') {
                     Constants.gameManager.clickTube(hitNode)
                 } else {
                     Constants.sortGameManager.clickTube(hitNode)
@@ -87,7 +87,7 @@ export class TubeManager extends Component {
             const tube = newTubeList[i]
             const tubeH = tube.getTubeHeight()
             const tubePos = tube.getTubePosition()
-            const initY = getBallOnTubeY(tubePos.y, tubeH)
+            const initY = Utils.getBallOnTubeY(tubePos.y, tubeH)
             // console.log('initY', initY)
             const ballList = tube.getBallList()
 
@@ -180,7 +180,7 @@ export class TubeManager extends Component {
         }
         if (r < 0) return false
         const colNum = this.layoutList[r] + 1
-        const spaceX = getTubeSpaceX(type, colNum)
+        const spaceX = Utils.getTubeSpaceX(type, colNum)
         const leftX = this._getX(type, colNum, spaceX)
         const index = this.layoutList.reduce((pre, cur, i) => {
             if (i < r) {
@@ -221,11 +221,11 @@ export class TubeManager extends Component {
     createTubes(type: number, count: number, ballCountMax: number) {
         this.clearTubes()
         this._tubeList = []
-        const tubeHight = getTubeHeight(type)
+        const tubeHight = Utils.getTubeHeight(type)
         const layoutList = this.getTubeLayout(type, count)
         const colMax = layoutList.reduce((pre, cur) => Math.max(pre, cur), 0)
-        const spaceX = getTubeSpaceX(type, colMax)
-        const spaceY = getTubeSpaceY(type, layoutList.length)
+        const spaceX = Utils.getTubeSpaceX(type, colMax)
+        const spaceY = Utils.getTubeSpaceY(type, layoutList.length)
         const leftY = this._getY(type, layoutList.length, spaceY)
         this.layoutList = layoutList
         for(let row = 0; row < layoutList.length; row++) {
@@ -275,7 +275,7 @@ export class TubeManager extends Component {
     // 获取最左边节点Y的偏移量
     private _getY(type: number, totalRow: number, spaceY: number) {
         let y = 0
-        const tubeHight = getTubeHeight(type)
+        const tubeHight = Utils.getTubeHeight(type)
         if (totalRow === 2) {
             y += (tubeHight + spaceY) / 2
         }

@@ -1,7 +1,7 @@
 import { _decorator, Component, Node, math, Label, tween, Vec3, v3 } from 'cc';
 import { Constants } from '../../utils/const';
 import { User } from '../../data/user';
-import { activeShare, getLocalStorage } from '../../utils/util';
+import { Utils } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageFail')
@@ -72,7 +72,7 @@ export class PageFail extends Component {
 
     onMoreReceive() {
         // 调用分享接口
-        activeShare()
+        Utils.activeShare()
         Constants.audioManager.play('reward')
         const user = User.instance()
         user.setGold(this._prizeGold * 5 + user.getGold())
@@ -106,7 +106,7 @@ export class PageFail extends Component {
 
     hideNode() {
         this.node.active = false
-        if (getLocalStorage('scene') == 'GameManager') {
+        if (Utils.getLocalStorage('scene') == 'GameManager') {
             Constants.gameManager.init()
         } else {
             Constants.sortGameManager.init()

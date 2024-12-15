@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
-import { getLocalStorage, setLocalStorage } from '../utils/util';
+import { Utils } from '../utils/util';
 import { Constants } from '../utils/const';
 const { ccclass, property } = _decorator;
 
@@ -25,7 +25,7 @@ export class User {
 
     public static instance() {
         if (!this._instance) {
-            const user = getLocalStorage('user')
+            const user = Utils.getLocalStorage('user')
             if (user) {
                 this._instance = new User(user)
             } else {
@@ -56,7 +56,7 @@ export class User {
         //     newLevel = level < Constants.USER_PROTECT_MIN_LEVEL ? Constants.USER_PROTECT_MIN_LEVEL : level
         // }
         this.level = newLevel >= 1 ? newLevel : 1
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getPowerPoint() {
@@ -65,7 +65,7 @@ export class User {
 
     public setPowerPoint(powerPoint: number) {
         this.powerPoint = powerPoint >= 0 ? powerPoint : 0
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getGold() {
@@ -74,7 +74,7 @@ export class User {
 
     public setGold(gold: number) {
         this.gold = gold >= 0 ? gold : 0
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getLosed() {
@@ -89,7 +89,7 @@ export class User {
         } else {
             this.losed += 1
         }
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getWithdrawNum() {
@@ -98,7 +98,7 @@ export class User {
 
     public setWithdrawNum(num: number) {
         this.withdrawNum = num
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getDissolveNum() {
@@ -107,7 +107,7 @@ export class User {
 
     public setDissolveNum(num: number) {
         this.dissolveNum = num
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getAddTimeNum() {
@@ -116,7 +116,7 @@ export class User {
 
     public setAddTimeNum(num: number) {
         this.addTimeNum = num
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 
     public getAddTubeNum() {
@@ -125,7 +125,7 @@ export class User {
 
     public setAddTubeNum(num: number) {
         this.addTubeNum = num
-        setLocalStorage('user', this)
+        Utils.setLocalStorage('user', this)
     }
 }
 
