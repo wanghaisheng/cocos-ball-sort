@@ -9,6 +9,7 @@ import { PageSortGame } from './page/page-sort-game';
 import { Ball } from './ball/ball';
 import { Utils } from '../utils/util';
 import LevelData from '../data/level-data';
+import { PageDailyTask } from './page/page-daily-task';
 const { ccclass, property } = _decorator;
 
 /**
@@ -29,6 +30,9 @@ export class SortGameManager extends Component {
 
     @property(PageSortGame)
     pageSortGame: PageSortGame = null
+
+    @property(PageDailyTask)
+    pageDailyTask: PageDailyTask = null
 
     @property(Node)
     pageFail: Node = null
@@ -79,6 +83,9 @@ export class SortGameManager extends Component {
 
         // 设置皮肤
         this.setUserThemeSkin()
+
+        // 日常登录奖励
+        this.pageDailyTask.init()
     }
 
     update(deltaTime: number) {

@@ -186,11 +186,13 @@ const eventTarget = new EventTarget();
 // 事件名称
 enum EventName {
    // 更新金币
-   UPDATE_GOLD_LABEL = 'updateGoldLabel',
+   UPDATE_GOLD_LABEL = 'update-page-shop-gold',
+   // 更新金币
+   UPDATE_USER_INFO = 'update-gage-sort-game-info',
    // 主题皮肤使用
-   USE_THEME = 'use_theme',
+   USE_THEME = 'use-theme',
    // 关闭商店
-   COLOSE_SHOP_PAGE = 'closeShopPage',
+   COLOSE_SHOP_PAGE = 'close-page-shop',
 }
 
 export class Constants {
@@ -239,6 +241,10 @@ export class Constants {
    // theme
    static THEME_SKIN_LIST = THEME_SKIN_LIST
    static DEFAULT_THEME = DEFAULT_THEME
+
+   // daily 日常任务
+   static DAILY_SHARE_COUNT = 3 // 每天分享次数
+   static DAILY_LOGIN_PRIZE_GOLD = 50 // 每天登录奖励金币
 
    // advert
    static ADVERT_STATUS = 0 // 广告接入状态

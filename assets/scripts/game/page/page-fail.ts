@@ -35,18 +35,20 @@ export class PageFail extends Component {
         this.giveUpBtn.on(Node.EventType.TOUCH_END, this.onGiveUp, this)
 
         const prizeNum = Constants.GAME_PRIZE_TYPE.failNormal
-        const gold = math.randomRangeInt(0, prizeNum)
+        let gold = math.randomRangeInt(0, prizeNum)
+        gold = Math.max(1, gold)
         this._prizeGold = gold
         const powerNum = Constants.GAME_POWER_POINT_TYPE.fail - User.instance().getLevel() * 10
-        const powerCount = math.absMax(Constants.GAME_POWER_POINT_TYPE.pex, powerNum)
-        const power = math.randomRangeInt(powerCount - 10, powerCount + 11)
+        const powerCount = Math.max(Constants.GAME_POWER_POINT_TYPE.pex, powerNum)
+        let power = math.randomRangeInt(powerCount - 10, powerCount + 11)
+        power = Math.max(1, power)
         const powerPoint = User.instance().getPowerPoint()
         const subPower = powerPoint - power > 0 ? power : 0
         this._prizePowerPoint = subPower;
 
         // 显示金币
-        this.goldLabel.getComponent(Label).string = gold.toString()
-        this.powerLabel.getComponent(Label).string = subPower.toString()
+        this.goldLabel.getComponent(Label).string = `+ ${gold}`
+        this.powerLabel.getComponent(Label).string = `- ${subPower}`
         
     }
 
@@ -82,7 +84,18 @@ export class PageFail extends Component {
     }
 
     onShare() {
-        this.onMoreReceive()
+        const user = User.instance()
+        if (!user.hasDailyShareCount()) {
+            Constants.tipManager.showTipLabel('今日分享次数已用完', () => {
+              this.onGiveUp()  
+            })
+        } else {
+            const dailyTask = user.getDailyTask()
+            dailyTask.shareCount--
+            user.setDailyTask(dailyTask)
+            
+            this.onMoreReceive()
+        }
     }
 
     onGiveUp() {

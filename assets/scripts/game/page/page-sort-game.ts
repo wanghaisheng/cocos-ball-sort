@@ -47,6 +47,8 @@ export class PageSortGame extends Component {
         this.btnWithdrawNode.on(Node.EventType.TOUCH_END, this.onWithdraw, this)
         this.btnAddTubeNode.on(Node.EventType.TOUCH_END, this.onAddTube, this)
         this.btnAddTimeNode.on(Node.EventType.TOUCH_END, this.onAddTimeClick, this)
+
+        Constants.eventTarget.on(Constants.EventName.UPDATE_USER_INFO, this.showUserInfo, this)
     }
 
     protected onDisable(): void {
@@ -57,6 +59,8 @@ export class PageSortGame extends Component {
         this.btnWithdrawNode.off(Node.EventType.TOUCH_END, this.onWithdraw, this)
         this.btnAddTubeNode.off(Node.EventType.TOUCH_END, this.onAddTube, this)
         this.btnAddTimeNode.off(Node.EventType.TOUCH_END, this.onAddTimeClick, this)
+        
+        Constants.eventTarget.off(Constants.EventName.UPDATE_USER_INFO, this.showUserInfo, this)
     }
 
     update(deltaTime: number) {

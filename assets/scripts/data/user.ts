@@ -3,6 +3,11 @@ import { Utils } from '../utils/util';
 import { Constants } from '../utils/const';
 const { ccclass, property } = _decorator;
 
+interface dailyTask {
+    lastLoginTime?: number
+    shareCount?: number
+    [key: string]: any  
+}
 @ccclass('User')
 export class User {
     // 等级金币信息
@@ -12,7 +17,6 @@ export class User {
     /** 战力值 */
     private powerPoint: number = 100
 
-    // 物资
     /** 回撤次数 */ 
     private withdrawNum: number = 0
     /** 溶解次数 */ 
@@ -25,6 +29,9 @@ export class User {
     /** 皮肤 */
     private skinKeys: string[] = [Constants.DEFAULT_THEME]
     private defaultSkin: string = Constants.DEFAULT_THEME
+
+    /** 日常任务 */
+    private dailyTask: dailyTask = null
     
     private static _instance: User = null
 
@@ -40,7 +47,7 @@ export class User {
         return this._instance
     }
 
-    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number, skinKeys?: string[], defaultSkin?: string }) {
+    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number, skinKeys?: string[], defaultSkin?: string, dailyTask?: dailyTask }) {
         this.level = user?.level || 1
         this.gold = user?.gold || 0
         this.losed = user?.losed || 0
@@ -51,6 +58,7 @@ export class User {
         this.addTimeNum = user?.addTimeNum || 0
         this.skinKeys = user?.skinKeys || [Constants.DEFAULT_THEME]
         this.defaultSkin = user?.defaultSkin || Constants.DEFAULT_THEME
+        this.dailyTask = user?.dailyTask || {}
     }
 
     public getLevel() {
@@ -151,6 +159,43 @@ export class User {
     public setDefaultSkin(key: string) {
         this.defaultSkin = key
         Utils.setLocalStorage('user', this)
+    }
+
+    public getDailyTask() {
+        return this.dailyTask
+    }
+
+    public setDailyTask(dailyTask?: dailyTask) {
+        this.dailyTask = dailyTask
+        Utils.setLocalStorage('user', this)
+    }
+
+    // 初始化日常任务数据
+    public initDailyTask() {
+        this.setDailyTask({
+            lastLoginTime: new Date().getTime(),
+            shareCount: Constants.DAILY_SHARE_COUNT,
+        });
+    }
+
+    // 今日是否登陆过
+    public hasLoginToday() {
+        const dailyTask = this.getDailyTask()
+        if (dailyTask && dailyTask.lastLoginTime) {
+            if (Utils.isToday(dailyTask.lastLoginTime)) {
+                return true
+            }
+        }
+        return false
+    }
+
+    // 今日是否还有分享次数
+    public hasDailyShareCount() {
+        const dailyTask = this.getDailyTask()
+        if (dailyTask && dailyTask.shareCount > 0) {
+            return true
+        }
+        return false
     }
 }
 

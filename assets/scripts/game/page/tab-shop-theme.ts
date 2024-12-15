@@ -96,6 +96,7 @@ export class PageShop extends Component {
         const totalGold = user.getGold()
 
         if (totalGold < item.price) {
+            Constants.tipManager.showTipLabel(`金币不足，每天登录和分享赚取更多金币！`)
             return
         }
         user.setGold(totalGold - item.price)
@@ -129,6 +130,10 @@ export class PageShop extends Component {
             } else {
                 btnBuy.active = true
                 btnShow.active = false
+
+                // const totalGold = User.instance().getGold()
+                // console.log('btnBuy.getComponent(Button)', btnBuy.getComponent(Button))
+                // btnBuy.getComponent(Button).interactable = false
 
                 const price = btnBuy.getChildByName('price')
                 price.getComponent(Label).string = `${item.price}`

@@ -47,11 +47,13 @@ export class PageSuccess extends Component {
         const user = User.instance()
         const level = user.getLevel()
         const prizeNum = Constants.GAME_PRIZE_TYPE.successNormal
-        const gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
+        let gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
+        gold = Math.max(1, gold)
         this._prizeGold = gold
         const powerNum = Constants.GAME_POWER_POINT_TYPE.success - level * 10;
-        const powerCount = math.absMax(Constants.GAME_POWER_POINT_TYPE.pex, powerNum);
-        const power = math.randomRangeInt(powerCount - 10, powerCount + 11)
+        const powerCount = Math.max(Constants.GAME_POWER_POINT_TYPE.pex, powerNum);
+        let power = math.randomRangeInt(powerCount - 10, powerCount + 11)
+        power = Math.max(1, power)
         this._prizePowerPoint = power
 
         const step = Constants.sortGameManager?.finishStep || 1
@@ -68,9 +70,9 @@ export class PageSuccess extends Component {
 
         this.tipLabel.getComponent(Label).string = tip
         this.percentLabel.getComponent(Label).string = `${percent}%`
-        this.goldLabel.getComponent(Label).string = gold.toString()
-        this.powerLabel.getComponent(Label).string = power.toString()
-        this.powerEffect.getComponent(Label).string = power.toString()
+        this.goldLabel.getComponent(Label).string = `+ ${gold}`
+        this.powerLabel.getComponent(Label).string = `+ ${power}`
+        this.powerEffect.getComponent(Label).string = `+ ${power}`
     }
 
     protected onDisable(): void {
@@ -108,7 +110,18 @@ export class PageSuccess extends Component {
     }
 
     onShare() {
-        this.onMoreReceive()
+        const user = User.instance()
+        if (!user.hasDailyShareCount()) {
+            Constants.tipManager.showTipLabel('今日分享次数已用完', () => {
+              this.onGiveUp()  
+            })
+        } else {
+            const dailyTask = user.getDailyTask()
+            dailyTask.shareCount--
+            user.setDailyTask(dailyTask)
+            
+            this.onMoreReceive()
+        }
     }
 
     onGiveUp() {

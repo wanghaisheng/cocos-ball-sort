@@ -231,4 +231,19 @@ export class Utils {
     }
     return null
   }
+
+  /** 判断是否属于当日 */
+  static isToday(timestamp: number) {
+    // 获取当前日期对象
+    const now = new Date();
+    
+    // 获取今天的开始时间（00:00:00）
+    const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+    
+    // 获取今天的结束时间（23:59:59）
+    const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
+    
+    // 判断时间戳是否在今天的时间范围内
+    return timestamp >= startOfToday && timestamp <= endOfToday;
+  }
 }
