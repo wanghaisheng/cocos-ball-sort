@@ -73,6 +73,7 @@ export class PageFail extends Component {
     onMoreReceive() {
         // 调用分享接口
         activeShare()
+        Constants.audioManager.play('reward')
         const user = User.instance()
         user.setGold(this._prizeGold * 5 + user.getGold())
         user.setPowerPoint(user.getPowerPoint() - this._prizePowerPoint)
@@ -81,9 +82,7 @@ export class PageFail extends Component {
     }
 
     onShare() {
-        this.showEffect(() => {
-            this.onMoreReceive()
-        })
+        this.onMoreReceive()
     }
 
     onGiveUp() {
