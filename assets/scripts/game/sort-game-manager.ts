@@ -1,4 +1,4 @@
-import { _decorator, Camera, Component, ConfigurableConstraint, equals, EventTouch, geometry, Input, input, Label, Layers, math, Node, PhysicsSystem, utils, v3, Vec3 } from 'cc';
+import { _decorator, Camera, Component, ConfigurableConstraint, equals, EventTouch, geometry, Input, input, Label, Layers, Material, math, MeshRenderer, Node, PhysicsSystem, resources, utils, v3, Vec3 } from 'cc';
 import { TubeManager } from './tube/tube-manager';
 import { BallManager } from './ball/ball-manager';
 import { Constants } from '../utils/const';
@@ -35,6 +35,9 @@ export class SortGameManager extends Component {
 
     @property(Node)
     pageSuccess: Node = null
+
+    @property(Node)
+    themeNode: Node = null
 
     @property
     userLevelTest: number = 0
@@ -73,6 +76,9 @@ export class SortGameManager extends Component {
 
         // 初始化
         this.init()
+
+        // 设置皮肤
+        this.setUserThemeSkin()
     }
 
     update(deltaTime: number) {
@@ -100,6 +106,18 @@ export class SortGameManager extends Component {
 
         // 弹出目标
         Constants.tipManager.showLevelTip(userLevel)
+    }
+
+    setUserThemeSkin() {
+        const key = User.instance().getDefaultSkin()
+        // console.log('setUserThemeSkin', key)
+        if (key !== Constants.DEFAULT_THEME) {
+            const materialUrl = Constants.THEME_SKIN_LIST.find(item => item.code === key)?.materialUrl
+            if (!this.themeNode || !materialUrl) return
+            resources.load(materialUrl, Material, (err, material) => {
+                this.themeNode.getComponent(MeshRenderer).material = material;
+            });
+        }
     }
 
     initTubeBall() {

@@ -1,10 +1,23 @@
-import { _decorator, Vec3 } from "cc";
+import { _decorator, EventTarget } from "cc";
 import { GameManager } from "../game/game-manager";
 import { BallControl } from "../game/ball/ball-control";
 import { TipManager } from "../game/page/tip-manager";
 import { AudioManager } from "../game/audio/audio-manager";
 import { EffectManager } from "../game/effect/EffectManager";
 import { SortGameManager } from "../game/sort-game-manager";
+
+export interface ThemeItem {
+   /** key */
+   code: string;
+   /** 价格 */
+   price: number;
+   /** 皮肤纹理地址 */
+   spriteFrameUrl: string;
+   /** 皮肤材质地址 */
+   materialUrl: string;
+   /** 是否已拥有 */
+   isOwn?: boolean;
+ }
 
 enum GAME_STATUS {
    /**
@@ -142,6 +155,44 @@ const BALL_SKIN_TYPE = {
    },
 }
 
+
+const DEFAULT_THEME = 'default'
+
+// 主题皮肤管理
+const THEME_SKIN_LIST: ThemeItem[] = [
+   {
+      code: DEFAULT_THEME,
+      price: 0,
+      spriteFrameUrl: `texture/bg/${DEFAULT_THEME}/spriteFrame`,
+      materialUrl: 'theme/' + DEFAULT_THEME,
+   },
+   {
+      code: 'theme1',
+      price: 1500,
+      spriteFrameUrl: 'texture/bg/theme1/spriteFrame',
+      materialUrl: 'theme/theme1',
+   },
+   {
+      code: 'theme2',
+      price: 1500,
+      spriteFrameUrl: 'texture/bg/theme2/spriteFrame',
+      materialUrl: 'theme/theme2',
+   },
+]
+
+
+/** 事件管理，处理跨组件通信 */
+const eventTarget = new EventTarget();
+// 事件名称
+enum EventName {
+   // 更新金币
+   UPDATE_GOLD_LABEL = 'updateGoldLabel',
+   // 主题皮肤使用
+   USE_THEME = 'use_theme',
+   // 关闭商店
+   COLOSE_SHOP_PAGE = 'closeShopPage',
+}
+
 export class Constants {
    static sortGameManager: SortGameManager;
    static gameManager: GameManager;
@@ -180,6 +231,14 @@ export class Constants {
    // user
    static USER_PROTECT_MIN_LEVEL = 2 // 用户最低保护等级
    static USER_PROTECT_LEVEL_TIME = 2 // 用户等级保护最低次数
+
+   // event
+   static eventTarget = eventTarget // 事件中心
+   static EventName = EventName // 事件类型
+
+   // theme
+   static THEME_SKIN_LIST = THEME_SKIN_LIST
+   static DEFAULT_THEME = DEFAULT_THEME
 
    // advert
    static ADVERT_STATUS = 0 // 广告接入状态

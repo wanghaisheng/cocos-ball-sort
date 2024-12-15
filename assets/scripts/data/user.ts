@@ -21,6 +21,11 @@ export class User {
     private addTubeNum: number = 0
     /** 加时次数 */ 
     private addTimeNum: number = 0
+
+    /** 皮肤 */
+    private skinKeys: string[] = [Constants.DEFAULT_THEME]
+    private defaultSkin: string = Constants.DEFAULT_THEME
+    
     private static _instance: User = null
 
     public static instance() {
@@ -35,7 +40,7 @@ export class User {
         return this._instance
     }
 
-    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number }) {
+    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number, skinKeys?: string[], defaultSkin?: string }) {
         this.level = user?.level || 1
         this.gold = user?.gold || 0
         this.losed = user?.losed || 0
@@ -44,6 +49,8 @@ export class User {
         this.dissolveNum = user?.dissolveNum || 0
         this.addTubeNum = user?.addTubeNum || 0
         this.addTimeNum = user?.addTimeNum || 0
+        this.skinKeys = user?.skinKeys || [Constants.DEFAULT_THEME]
+        this.defaultSkin = user?.defaultSkin || Constants.DEFAULT_THEME
     }
 
     public getLevel() {
@@ -125,6 +132,24 @@ export class User {
 
     public setAddTubeNum(num: number) {
         this.addTubeNum = num
+        Utils.setLocalStorage('user', this)
+    }
+
+    public getSkinKeys() {
+        return this.skinKeys
+    }
+
+    public setSkinKeys(keys: string[]) {
+        this.skinKeys = Array.from(new Set(keys))
+        Utils.setLocalStorage('user', this)
+    }
+
+    public getDefaultSkin() {
+        return this.defaultSkin
+    }
+
+    public setDefaultSkin(key: string) {
+        this.defaultSkin = key
         Utils.setLocalStorage('user', this)
     }
 }

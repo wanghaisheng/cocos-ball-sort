@@ -1,4 +1,4 @@
-import { _decorator, Button, Component, Label, Node } from 'cc';
+import { _decorator, Button, Color, Component, Label, Node, Sprite } from 'cc';
 import { User } from '../../data/user';
 import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
@@ -9,143 +9,69 @@ export class PageShop extends Component {
     public goldLabel: Node = null
     @property(Node)
     public closeNode: Node = null
+
     @property(Node)
-    public withdrawNumNode: Node = null
+    public btnToolTab: Node = null
     @property(Node)
-    public buyWithdrawCoinNode: Node = null
+    public btnThemeTab: Node = null
+
     @property(Node)
-    // public dissolveNumNode: Node = null
-    // @property(Node)
-    // public buyDissolveCoinNode: Node = null
+    public toolTab: Node = null
     @property(Node)
-    public addTimeNumNode: Node = null
-    @property(Node)
-    public buyTimeCoinNode: Node = null
-    @property(Node)
-    public addTubeNumNode: Node = null
-    @property(Node)
-    public buyTubeCoinNode: Node = null
+    public themeTab: Node = null
 
     start() {
 
     }
 
     protected onEnable(): void {
-        this.init()
+        this.showToolTab()
+        this.refreshGold()
         // 绑定事件
-        // this.closeNode.on(Node.EventType.TOUCH_END, this.closePage, this)
-        this.buyWithdrawCoinNode.on(Node.EventType.TOUCH_END, this.buyWithdrawCoin, this)
-        // this.buyDissolveCoinNode.on(Node.EventType.TOUCH_END, this.buyDissolveCoin, this)
-        this.buyTimeCoinNode.on(Node.EventType.TOUCH_END, this.buyTimeCoin, this)
-        this.buyTubeCoinNode.on(Node.EventType.TOUCH_END, this.buyTubeCoin, this)
+        this.btnToolTab.on(Node.EventType.TOUCH_END, this.showToolTab, this)
+        this.btnThemeTab.on(Node.EventType.TOUCH_END, this.showThemeTab, this)
+        Constants.eventTarget.on(Constants.EventName.UPDATE_GOLD_LABEL, this.refreshGold, this)
+        Constants.eventTarget.on(Constants.EventName.COLOSE_SHOP_PAGE, this.closePage, this)
     }
 
     protected onDisable(): void {
         // 解绑事件
-        // this.closeNode.off(Node.EventType.TOUCH_END, this.closePage, this)
-        this.buyWithdrawCoinNode.off(Node.EventType.TOUCH_END, this.buyWithdrawCoin, this)
-        // this.buyDissolveCoinNode.off(Node.EventType.TOUCH_END, this.buyDissolveCoin, this)
-        this.buyTimeCoinNode.off(Node.EventType.TOUCH_END, this.buyTimeCoin, this)
-        this.buyTubeCoinNode.off(Node.EventType.TOUCH_END, this.buyTubeCoin, this)
+        this.btnToolTab.off(Node.EventType.TOUCH_END, this.showToolTab, this)
+        this.btnThemeTab.off(Node.EventType.TOUCH_END, this.showThemeTab, this)
+        Constants.eventTarget.off(Constants.EventName.UPDATE_GOLD_LABEL, this.refreshGold, this)
+        Constants.eventTarget.off(Constants.EventName.COLOSE_SHOP_PAGE, this.closePage, this)
     }
 
     update(deltaTime: number) {
         
     }
 
-    init() {
-        const user = User.instance()
-        const totalGold = user.getGold()
+    refreshGold() {
         // 设置属性  
-        this.goldLabel.getComponent(Label).string = user.getGold() + ''
-        this.withdrawNumNode.getComponent(Label).string = user.getWithdrawNum() + ''
-        // this.dissolveNumNode.getComponent(Label).string = user.getDissolveNum() + ''
-        this.addTimeNumNode.getComponent(Label).string = user.getAddTimeNum() + ''
-        this.addTubeNumNode.getComponent(Label).string = user.getAddTubeNum() + ''
-
-        const withdrawPrice = Constants.PROP_PRICE.withdraw
-        // const dissolvePrice = Constants.PROP_PRICE.dissolve
-        const timePrice = Constants.PROP_PRICE.addTime
-        const tubePrice = Constants.PROP_PRICE.addTube
-        // 设置价格
-        this.buyWithdrawCoinNode.getChildByName('coin').getComponent(Label).string = withdrawPrice + ''
-        // this.buyDissolveCoinNode.getChildByName('coin').getComponent(Label).string = dissolvePrice + ''
-        this.buyTimeCoinNode.getChildByName('coin').getComponent(Label).string = timePrice + ''
-        this.buyTubeCoinNode.getChildByName('coin').getComponent(Label).string = tubePrice + ''
-
-
-        // 设置显示属性
-        if (totalGold < Constants.PROP_PRICE.withdraw) {
-            this.buyWithdrawCoinNode.getComponent(Button).interactable = false
-        }
-
-        // if (totalGold < Constants.PROP_PRICE.dissolve) {
-        //     this.buyDissolveCoinNode.getComponent(Button).interactable = false
-        // }
-
-        if (totalGold < Constants.PROP_PRICE.addTime) {
-            this.buyTimeCoinNode.getComponent(Button).interactable = false
-        }
-
-        if (totalGold < Constants.PROP_PRICE.addTube) {
-            this.buyTubeCoinNode.getComponent(Button).interactable = false
-        }
-        
-    } 
+        this.goldLabel.getComponent(Label).string = User.instance().getGold() + ''
+    }
 
     closePage() {
         this.node.active = false
     }
 
-    // 购买道具回退
-    buyWithdrawCoin() {
-        const user = User.instance()
-        const totalGold = user.getGold()
-        if (totalGold < Constants.PROP_PRICE.withdraw) {
-            return
-        }
-        user.setGold(totalGold - Constants.PROP_PRICE.withdraw)
-        user.setWithdrawNum(user.getWithdrawNum() + 1)
-        this.init()
+    showToolTab() {
+        this.toolTab.active = true
+        this.themeTab.active = false
+        this.setNodeOpacity(this.btnToolTab, 255)
+        this.setNodeOpacity(this.btnThemeTab, 100)
     }
 
-    // 购买道具溶解
-    buyDissolveCoin() {
-        const user = User.instance()
-        const totalGold = user.getGold()
-
-        if (totalGold < Constants.PROP_PRICE.dissolve) {
-            return
-        }
-        user.setGold(totalGold - Constants.PROP_PRICE.dissolve)
-        user.setDissolveNum(user.getDissolveNum() + 1)
-        this.init()
+    showThemeTab() {
+        this.toolTab.active = false
+        this.themeTab.active = true
+        this.setNodeOpacity(this.btnToolTab, 100)
+        this.setNodeOpacity(this.btnThemeTab, 255)
     }
 
-    // 购买道具加时
-    buyTimeCoin() {
-        const user = User.instance()
-        const totalGold = user.getGold()
-
-        if (totalGold < Constants.PROP_PRICE.addTime) {
-            return
-        }
-        user.setGold(totalGold - Constants.PROP_PRICE.addTime)
-        user.setAddTimeNum(user.getAddTimeNum() + 1)
-        this.init()
-    }
-
-    // 购买道具加管
-    buyTubeCoin() {
-        const user = User.instance()
-        const totalGold = user.getGold()
-
-        if (totalGold < Constants.PROP_PRICE.addTube) {
-            return
-        }
-        user.setGold(totalGold - Constants.PROP_PRICE.addTube)
-        user.setAddTubeNum(user.getAddTubeNum() + 1)
-        this.init()
+    setNodeOpacity(node: Node, opacity: number) {
+        if (!node) return
+        node.getComponent(Sprite).color = new Color(255, 255, 255, opacity)
     }
 
 }

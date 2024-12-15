@@ -37,7 +37,7 @@ export class TipManager extends Component {
     
     hideTipLabel(cb: Function = () => {}) {
         tween(this.MsgTip)
-        .delay(1)
+        .delay(0.5)
         .to(0.5, { position: new Vec3(0, 30, 0), scale: new Vec3(0, 0, 0) }, { 
             easing: "fade",
         }) 
