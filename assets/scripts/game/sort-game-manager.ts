@@ -184,8 +184,10 @@ export class SortGameManager extends Component {
                 if (this.finishStep > 0) {
                     this.pageFail.active = true
                 } else {
+                    this.pageSortGame.stopTimeClock()// 游戏超时
+                    this.usedTime = this.pageSortGame.getGameUsedTime()
                     // 游戏超时
-                    Constants.tipManager.showTipLabel('游戏超时未操作，重新开始', () => {
+                    Constants.tipManager.showModal('游戏超时未操作，重新开始', () => {
                         this.init()
                     })
                 }

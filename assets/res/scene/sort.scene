@@ -755,7 +755,7 @@
         "__id__": 18
       }
     ],
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 583
@@ -19730,7 +19730,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level",
+    "_name": "Content",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -20603,7 +20603,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Level",
+    "_name": "Content",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -20735,7 +20735,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btn",
+    "_name": "btn-ok",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -21188,6 +21188,18 @@
     },
     "LevelTip": {
       "__id__": 516
+    },
+    "CongratTip": {
+      "__id__": 524
+    },
+    "Modal": {
+      "__id__": 541
+    },
+    "closeModal": {
+      "__id__": 545
+    },
+    "okModal": {
+      "__id__": 554
     },
     "_id": "b1pwore/ZGFYDjwy+xrxzv"
   },

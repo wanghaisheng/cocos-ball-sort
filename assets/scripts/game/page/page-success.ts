@@ -112,7 +112,7 @@ export class PageSuccess extends Component {
     onShare() {
         const user = User.instance()
         if (!user.hasDailyShareCount()) {
-            Constants.tipManager.showTipLabel('今日分享次数已用完', () => {
+            Constants.tipManager.showModal('今日分享次数已用完', () => {
               this.onGiveUp()  
             })
         } else {

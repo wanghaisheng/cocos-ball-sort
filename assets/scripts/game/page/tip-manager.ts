@@ -10,12 +10,34 @@ export class TipManager extends Component {
     @property(Node)
     LevelTip: Node = null
 
+    @property(Node)
+    CongratTip: Node = null
+
+    @property(Node)
+    Modal: Node = null
+    @property(Node)
+    closeModal: Node = null
+    @property(Node)
+    okModal: Node = null
+
+    _modalCBFunc: Function = null
+
     __preload () {
         Constants.tipManager = this
     }
 
     start() {
         this.hideLevelTip()
+    }
+
+    protected onEnable(): void {
+        this.closeModal.on(Node.EventType.TOUCH_END, this.hideModalOnly, this)
+        this.okModal.on(Node.EventType.TOUCH_END, this.hideModal, this)
+    }
+
+    protected onDisable(): void {
+        this.closeModal.off(Node.EventType.TOUCH_END, this.hideModalOnly, this)
+        this.okModal.off(Node.EventType.TOUCH_END, this.hideModal, this)
     }
 
     update(deltaTime: number) {
@@ -76,6 +98,74 @@ export class TipManager extends Component {
         })
         .start()
     }
+
+    showCongratTip(str: string, cb: Function = () => {}) {
+        const label = this.CongratTip.getChildByName('Content').getComponent(Label)
+        label.string = str
+        
+        tween(this.CongratTip)
+        .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }) 
+        .call(() => {
+            this.CongratTip.active = true
+            this.hideCongratTip(cb)
+        })
+        .start()
+    }
+
+    hideCongratTip(cb: Function = () => {}) {
+        tween(this.CongratTip)
+        .delay(2)
+        .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, { 
+            easing: "smooth",
+        }) 
+        .call(() => {
+            this.CongratTip.active = false
+            cb()
+        })
+        .start()
+    }
+
+    showModal(str: string, cb: Function = () => {}) {
+        const label = this.Modal.getChildByName('Content').getComponent(Label)
+        label.string = str
+        
+        tween(this.Modal)
+        .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }) 
+        .call(() => {
+            this.Modal.active = true
+            this._modalCBFunc = cb
+        })
+        .start()
+    }
+
+    hideModal() {
+        tween(this.Modal)
+        .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, { 
+            easing: "smooth",
+        }) 
+        .call(() => {
+            this.Modal.active = false
+            if (this._modalCBFunc) {
+                this._modalCBFunc()
+                this._modalCBFunc = null
+            }
+        })
+        .start()
+    }
+
+    hideModalOnly() {  
+        tween(this.Modal)
+        .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, { 
+            easing: "smooth",
+        }) 
+        .call(() => {
+            this.Modal.active = false
+            this._modalCBFunc = null
+        })
+        .start()
+    }
+
+
 
 }
 

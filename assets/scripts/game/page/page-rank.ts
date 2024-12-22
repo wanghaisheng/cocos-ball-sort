@@ -86,11 +86,11 @@ export class PageRank extends Component {
         const startIndex = lastList.length > 0 ? lastList.length - 1 : 0
         for(let i = startIndex; i < startIndex + len && i < n; i++) {
             const item = powerList[i]
-            console.log('item', i, item)
+            // console.log('item', i, item)
             const itemComp = this.generateListItem(item)
             this._generateList.push(itemComp)
         }
-        console.log('createListItem')
+        // console.log('createListItem')
     }
 
     generateListItem(item: IPowerItem) {
@@ -135,19 +135,9 @@ export class PageRank extends Component {
     }
 
     onInvite() {
-        // 分享给朋友
-        const user = User.instance()
-        if (!user.hasDailyShareCount()) {
-            Constants.tipManager.showTipLabel('今日分享次数已用完', () => {
-            //   this.onGiveUp()  
-            })
-        } else {
-            const dailyTask = user.getDailyTask()
-            dailyTask.shareCount--
-            user.setDailyTask(dailyTask)
-            
-            // this.onMoreReceive()
-        }
+        // 调用分享接口
+        Utils.activeShare()
+        this.onClose()
     }
 
     onClose() {

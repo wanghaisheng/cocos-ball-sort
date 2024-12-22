@@ -25,7 +25,7 @@ export class PageDailyTask extends Component {
                 .delay(3)  // 延迟 3 秒
                 .call(() => {
                     // 延迟显示登录奖励
-                    Constants.tipManager.showTipLabel(`今日登录，获得${Constants.DAILY_LOGIN_PRIZE_GOLD}金币`, () => {
+                    Constants.tipManager.showCongratTip(`每日登录，获得${Constants.DAILY_LOGIN_PRIZE_GOLD}金币`, () => {
                         user.setGold(user.getGold() + Constants.DAILY_LOGIN_PRIZE_GOLD)
                         // 播放奖励音效
                         Constants.audioManager.play('reward')
