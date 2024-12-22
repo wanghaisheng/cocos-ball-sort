@@ -1,4 +1,5 @@
 import { _decorator, Component, Label, Node } from 'cc';
+import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
 
 
@@ -63,7 +64,7 @@ export class PowerItem extends Component {
         const len = chars.length
         const nickNameStr = chars[0] + '****' + chars[len - 1]
         this.charNode.getComponent(Label).string = chars[0]
-        this.nickNameNode.getComponent(Label).string = nickNameStr
+        this.nickNameNode.getComponent(Label).string = nickName === Constants.USER_NICK_NAME ? nickName : nickNameStr
     }
 }
 

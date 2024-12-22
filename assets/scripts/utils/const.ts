@@ -233,6 +233,7 @@ export class Constants {
    // user
    static USER_PROTECT_MIN_LEVEL = 2 // 用户最低保护等级
    static USER_PROTECT_LEVEL_TIME = 2 // 用户等级保护最低次数
+   static USER_NICK_NAME = 'you' // 用户昵称
 
    // event
    static eventTarget = eventTarget // 事件中心

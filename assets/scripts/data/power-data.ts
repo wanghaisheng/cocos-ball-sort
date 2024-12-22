@@ -2,12 +2,13 @@ import { _decorator } from "cc";
 import { IPowerItem } from "../game/power/power-item";
 import { Utils } from "../utils/util";
 import { User } from "./user";
+import { Constants } from "../utils/const";
 const { ccclass, property } = _decorator;
 
 @ccclass('PowerData')
 export class PowerData {
 
-  public userNickName: string = 'you'
+  public userNickName: string = Constants.USER_NICK_NAME
 
   private static _instance: PowerData = null
 

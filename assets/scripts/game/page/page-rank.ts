@@ -68,7 +68,7 @@ export class PageRank extends Component {
 
     getUserPowerItem(powerList: PowerItem[] = []) {
         const power = User.instance().getPowerPoint()
-        const item = powerList.find(item => item.nickName === 'you')
+        const item = powerList.find(item => item.nickName === Constants.USER_NICK_NAME)
         return item || PowerData.instance().getUserPowerItem(power)
     }
 
