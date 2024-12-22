@@ -1,11 +1,14 @@
 import { _decorator, Component, EventTouch, Input, input, Label, Node, ProgressBar, resources, Sprite, SpriteFrame } from 'cc';
 import { Constants } from '../../utils/const';
 import { User } from '../../data/user';
+import { PageRank } from './page-rank';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageSortGame')
 export class PageSortGame extends Component {
     // 顶部
+    @property(Node)
+    avatarLabel: Node = null;
     @property(Node)
     powerLabel: Node = null;
     @property(Node)
@@ -29,6 +32,9 @@ export class PageSortGame extends Component {
     @property(Node)
     goldLabel: Node = null;
 
+    @property(PageRank)
+    pageRank: PageRank = null
+
     private _isSupportSound: boolean = true
     private _user: User = null
     private _time: number = 0;
@@ -40,6 +46,8 @@ export class PageSortGame extends Component {
     }
 
     protected onEnable(): void {
+        this.avatarLabel.on(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
+        this.powerLabel.on(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
         this.soundRoot.on(Node.EventType.TOUCH_END, this.onSound, this)
         this.shopNode.on(Node.EventType.TOUCH_END, this.onShop, this)
         this.resetNode.on(Node.EventType.TOUCH_END, this.onReset, this)
@@ -52,6 +60,8 @@ export class PageSortGame extends Component {
     }
 
     protected onDisable(): void {
+        this.avatarLabel.off(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
+        this.powerLabel.off(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
         this.soundRoot.off(Node.EventType.TOUCH_END, this.onSound, this)
         this.shopNode.off(Node.EventType.TOUCH_END, this.onShop, this)
         this.resetNode.off(Node.EventType.TOUCH_END, this.onReset, this)
@@ -83,6 +93,10 @@ export class PageSortGame extends Component {
         this.showUserInfo();
         this.unschedule(this.setTimeClock);
         this.schedule(this.setTimeClock, 1);
+
+        setTimeout(() => {
+            this.pageRank.init()
+        }, 2000);
     }
 
     // 重置
@@ -202,6 +216,10 @@ export class PageSortGame extends Component {
     showUserInfo() {
         this.powerLabel.getComponent(Label).string = `${this._user.getPowerPoint()}`;
         this.goldLabel.getComponent(Label).string = `${this._user.getGold()}`;
+    }
+
+    onShowPowerRank() {
+        this.pageRank.showNode();
     }
 
 }

@@ -22,6 +22,11 @@ export class Utils {
     return 0
   }
 
+  /** 获取随机数 */
+  static getRandNum(min: number, max: number) {
+    return math.randomRangeInt(min, max)
+  }
+
   /**
    * 获取球在试管上方的位置
    * @param tubeY 试管y位置
@@ -245,5 +250,35 @@ export class Utils {
     
     // 判断时间戳是否在今天的时间范围内
     return timestamp >= startOfToday && timestamp <= endOfToday;
+  }
+
+  /** 获取指定长度的随机数字和字母 */
+  static getRandomStr(length: number) {
+    let result = '';
+    const character1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    const character2 = '0123456789';
+    const characters = character1 + character2;
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i++) {
+      if (i === 0) {
+        result += character1.charAt(Math.floor(Math.random() * character1.length));
+      } else {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      }
+    }
+    return result;
+  }
+
+  /** 防抖 */
+  static debounce(func: Function, wait: number) {
+    let timeout: null | number = null;
+    return function (...args: any[]) {
+      if (timeout) {
+        clearTimeout(timeout);
+      }
+      timeout = setTimeout(() => {
+        func.apply(this, args);
+      }, wait);
+    };
   }
 }
