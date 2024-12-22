@@ -51,7 +51,7 @@ export class User {
         this.level = user?.level || 1
         this.gold = user?.gold || 0
         this.losed = user?.losed || 0
-        this.powerPoint = user?.powerPoint || 100
+        this.powerPoint = this.getInitPowerPoint(user?.powerPoint)
         this.withdrawNum = user?.withdrawNum || 0
         this.dissolveNum = user?.dissolveNum || 0
         this.addTubeNum = user?.addTubeNum || 0
@@ -59,6 +59,24 @@ export class User {
         this.skinKeys = user?.skinKeys || [Constants.DEFAULT_THEME]
         this.defaultSkin = user?.defaultSkin || Constants.DEFAULT_THEME
         this.dailyTask = user?.dailyTask || {}
+    }
+
+    getInitPowerPoint(powerPoint: number) {
+        if (!powerPoint) {
+            const k = Math.floor(this.level / 5)
+            switch (k) {
+                case 0:
+                case 1:
+                case 2:
+                    powerPoint = this.level * 100
+                    break
+                default:
+                    powerPoint = 1000 + (this.level - 10) * 50
+                    break
+            }
+        }
+        
+        return powerPoint
     }
 
     public getLevel() {

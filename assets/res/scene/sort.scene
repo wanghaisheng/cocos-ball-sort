@@ -1475,7 +1475,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11.122063901805252,
+      "width": 11.121078692868943,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -1508,7 +1508,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -1994,7 +1994,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40.03901976203501,
+      "width": 40.039030234719164,
       "height": 25.2
     },
     "_anchorPoint": {
@@ -2027,7 +2027,7 @@
     "_string": "00:00",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 22.85,
+    "_actualFontSize": 22.7,
     "_fontSize": 16,
     "_fontFamily": "Arial",
     "_lineHeight": 20,
@@ -2990,7 +2990,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.994734682713347,
+      "width": 27.9964766313326,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3023,7 +3023,7 @@
     "_string": "回撤",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -3348,7 +3348,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.994734682713347,
+      "width": 27.9964766313326,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3381,7 +3381,7 @@
     "_string": "加管",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -3706,7 +3706,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 27.994734682713347,
+      "width": 27.9964766313326,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -3739,7 +3739,7 @@
     "_string": "加时",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -4064,7 +4064,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 7.784666900300874,
+      "width": 7.785149796943833,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -4097,7 +4097,7 @@
     "_string": "0",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -5566,8 +5566,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 44.48825560722101,
-      "height": 37.8
+      "width": 44.48431477147577,
+      "height": 37.800000000000004
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5599,7 +5599,7 @@
     "_string": "9999",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
@@ -5742,7 +5742,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 49.99561935858862,
+      "width": 49.98765315253304,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -5775,7 +5775,7 @@
     "_string": "商店",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 35.703125,
+    "_actualFontSize": 35.46875,
     "_fontSize": 25,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -5877,8 +5877,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 20,
-      "height": 20
+      "width": 15,
+      "height": 15
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -5908,7 +5908,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "cca1a10c-35de-4a8e-aafb-777fc0d3390a@f9941",
+      "__uuid__": "8451f4a5-f27c-4dbe-b784-a51d34816a1d@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -6283,7 +6283,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 39.99649548687089,
+      "width": 39.99294465859031,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6316,7 +6316,7 @@
     "_string": "道具",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -6528,7 +6528,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 39.99649548687089,
+      "width": 39.99294465859031,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -6561,7 +6561,7 @@
     "_string": "背景",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -12804,7 +12804,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 139.97367341356673,
+      "width": 139.982383156663,
       "height": 37.800000000000004
     },
     "_anchorPoint": {
@@ -12837,7 +12837,7 @@
     "_string": "挑战失败，继续加油！",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
@@ -13254,7 +13254,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 33.366213074398246,
+      "width": 33.36716168777533,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -13287,7 +13287,7 @@
     "_string": "50",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 42.84375,
+    "_actualFontSize": 42.5625,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -13707,7 +13707,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 33.366213074398246,
+      "width": 33.36716168777533,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -13740,7 +13740,7 @@
     "_string": "10",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 42.84375,
+    "_actualFontSize": 42.5625,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -14170,7 +14170,7 @@
     "_string": "5倍金币",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -14482,7 +14482,7 @@
     "_string": "放弃加倍",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.70625,
+    "_actualFontSize": 25.537499999999998,
     "_fontSize": 18,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -16669,7 +16669,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 125.97630607221006,
+      "width": 125.9841448409967,
       "height": 37.800000000000004
     },
     "_anchorPoint": {
@@ -16702,7 +16702,7 @@
     "_string": "你太棒了！本轮挑战",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
@@ -16859,7 +16859,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 31.883643753419037,
+      "width": 31.88562603248899,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -16892,7 +16892,7 @@
     "_string": "超过 ",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -16991,7 +16991,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 40.0257709928884,
+      "width": 40.02222002340309,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -17024,7 +17024,7 @@
     "_string": "80%",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -17123,7 +17123,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 55.98946936542669,
+      "width": 55.9929532626652,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -17156,7 +17156,7 @@
     "_string": "的挑战者",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -17240,7 +17240,7 @@
     "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 19.993750000000002,
+    "_actualFontSize": 19.8625,
     "_fontSize": 14,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
@@ -17313,7 +17313,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 235.57501794994528,
+      "width": 235.5541024229075,
       "height": 44.1
     },
     "_anchorPoint": {
@@ -17346,7 +17346,7 @@
     "_string": "共用了 1 步，用时 30 秒！",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 35,
@@ -17792,7 +17792,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 50.04931961159737,
+      "width": 50.050742531663,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -17825,7 +17825,7 @@
     "_string": "100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 42.84375,
+    "_actualFontSize": 42.5625,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -17898,7 +17898,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 50.04931961159737,
+      "width": 50.050742531663,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -17931,7 +17931,7 @@
     "_string": "100",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 42.84375,
+    "_actualFontSize": 42.5625,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -18460,7 +18460,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 33.366213074398246,
+      "width": 33.36716168777533,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -18493,7 +18493,7 @@
     "_string": "40",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 42.84375,
+    "_actualFontSize": 42.5625,
     "_fontSize": 30,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -19394,7 +19394,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 16.678213040207876,
+      "width": 16.67672984925661,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -19427,7 +19427,7 @@
     "_string": "3 ",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -19526,7 +19526,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 59.99474323030634,
+      "width": 59.98941698788546,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -19559,7 +19559,7 @@
     "_string": "倍金币",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -19643,7 +19643,7 @@
     "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.5625,
+    "_actualFontSize": 28.375,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -19955,7 +19955,7 @@
     "_string": "放弃加倍",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 25.70625,
+    "_actualFontSize": 25.537499999999998,
     "_fontSize": 18,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
