@@ -168,13 +168,13 @@ const THEME_SKIN_LIST: ThemeItem[] = [
    },
    {
       code: 'theme1',
-      price: 1500,
+      price: 998,
       spriteFrameUrl: 'texture/bg/theme1/spriteFrame',
       materialUrl: 'theme/theme1',
    },
    {
       code: 'theme2',
-      price: 1500,
+      price: 1998,
       spriteFrameUrl: 'texture/bg/theme2/spriteFrame',
       materialUrl: 'theme/theme2',
    },
