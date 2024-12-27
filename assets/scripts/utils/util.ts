@@ -1,4 +1,4 @@
-import { math, log, url, sys } from "cc"
+import { math, log, sys, resources, SpriteFrame, Sprite, Node, Material, MeshRenderer } from "cc"
 import { WECHAT, BYTEDANCE, BAIDU } from "cc/env"
 import { Constants } from "./const"
 
@@ -241,13 +241,13 @@ export class Utils {
   static isToday(timestamp: number) {
     // 获取当前日期对象
     const now = new Date();
-    
+
     // 获取今天的开始时间（00:00:00）
     const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
-    
+
     // 获取今天的结束时间（23:59:59）
     const endOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59, 999).getTime();
-    
+
     // 判断时间戳是否在今天的时间范围内
     return timestamp >= startOfToday && timestamp <= endOfToday;
   }
@@ -280,5 +280,38 @@ export class Utils {
         func.apply(this, args);
       }, wait);
     };
+  }
+
+  /**
+   * 替换皮肤材质
+   * @param node 
+   * @param url 
+   */
+  static setSpriteFrame(node: Node, url: string) {
+    if (!node || !url) return
+    resources.load(url, SpriteFrame, (err, spriteFrame) => {
+      // console.log(err, spriteFrame)
+      if (spriteFrame) {
+        const sprite = node.getComponent(Sprite)
+        if (sprite) {
+          sprite.spriteFrame = spriteFrame;
+        }
+      }
+    })
+  }
+
+  /**
+   * 替换材质
+   * @param node 
+   * @param url 
+   * @returns 
+   */
+  static setMaterial(node: Node, url: string) {
+    if (!node || !url) return
+    resources.load(url, Material, (err, material) => {
+      if (material) {
+        node.getComponent(MeshRenderer).material = material;
+      }
+    });
   }
 }

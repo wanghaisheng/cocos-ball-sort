@@ -1,6 +1,7 @@
 import { _decorator, Button, Component, instantiate, Label, Material, MeshRenderer, Node, Prefab, resources, Sprite, SpriteFrame } from 'cc';
 import { User } from '../../data/user';
 import { Constants, ThemeItem } from '../../utils/const';
+import { Utils } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageShop')
@@ -108,7 +109,8 @@ export class PageShop extends Component {
     onApplyTheme(item: ThemeItem) {
         // 设置皮肤
         if (!this.themeNode) return
-        this.setMaterial(this.themeNode, item.materialUrl)
+        // this.setMaterial(this.themeNode, item.materialUrl)
+        Utils.setMaterial(this.themeNode, item.materialUrl)
         User.instance().setDefaultSkin(item.code)
         this.closeShopPage()
     }
@@ -142,31 +144,33 @@ export class PageShop extends Component {
                     this.buyTheme(item)
                 }, this)
             }
-            this.setSpriteFrame(content, item.spriteFrameUrl)
+            const spriteNode = content?.getChildByName('theme')
+            Utils.setSpriteFrame(spriteNode, item.spriteFrameUrl)
+            // this.setSpriteFrame(content, item.spriteFrameUrl)
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
     }
 
-    setSpriteFrame(node: Node, url: string) {
-        if (!node || !url) return
-        resources.load(url, SpriteFrame, (err, spriteFrame) => {
-            // console.log(err, spriteFrame)
-            if (spriteFrame) {
-                const sprite = node.getChildByName('theme').getComponent(Sprite)
-                if (sprite) {
-                    sprite.spriteFrame = spriteFrame;
-                }
-            }
-        })
-    }
+    // setSpriteFrame(node: Node, url: string) {
+    //     if (!node || !url) return
+    //     resources.load(url, SpriteFrame, (err, spriteFrame) => {
+    //         // console.log(err, spriteFrame)
+    //         if (spriteFrame) {
+    //             const sprite = node.getChildByName('theme').getComponent(Sprite)
+    //             if (sprite) {
+    //                 sprite.spriteFrame = spriteFrame;
+    //             }
+    //         }
+    //     })
+    // }
 
-    setMaterial(node: Node, url: string) {
-        if (!node || !url) return
-        resources.load(url, Material, (err, material) => {
-            node.getComponent(MeshRenderer).material = material;
-        });
-    }
+    // setMaterial(node: Node, url: string) {
+    //     if (!node || !url) return
+    //     resources.load(url, Material, (err, material) => {
+    //         node.getComponent(MeshRenderer).material = material;
+    //     });
+    // }
 
 }
 

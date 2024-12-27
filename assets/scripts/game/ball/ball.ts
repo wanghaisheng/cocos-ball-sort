@@ -1,11 +1,18 @@
 import { _decorator, Component, equals, instantiate, math, Node, resources, Sprite, SpriteFrame, Texture2D, tween, v3, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
+import { Utils } from '../../utils/util';
 const { ccclass, property } = _decorator;
 
 @ccclass('Ball')
 export class Ball extends Component {
-
+    /** 显示的球皮肤 */
     public ballType: string = ''
+    /** 原始的球皮肤 */
+    public originBallType: string = ''
+    /** 开始的类型 */
+    public startBallType: string = ''
+    /** 提示信息 */
+    public tips: string = ''
     
     start() {
 
@@ -15,9 +22,11 @@ export class Ball extends Component {
 
     }
 
-    setBallProp(ballType: string, visible: boolean) {
-        this.ballType = ballType
-        this.node.active = visible
+    setBallProp(prop: {ballType: string, originBallType: string, visible: boolean}) {
+        this.ballType = prop.ballType
+        this.startBallType = prop.ballType
+        this.originBallType = prop.originBallType
+        this.node.active = prop.visible
     }
 
     setVisible(visible: boolean) {
@@ -35,6 +44,26 @@ export class Ball extends Component {
 
     setPosition(pos: Vec3) {
         this.node.setPosition(pos)
+    }
+
+    setTips(tips: string) {
+        this.tips = tips
+    }
+
+    getTips() {
+        return this.tips
+    }
+
+    resetBallType(type: 'start' | 'origin') {
+        if (this.isSameType()) return
+        const materialNode = this.node.children[0]
+        const newBallType = type === 'start' ? this.startBallType : this.originBallType
+        Utils.setMaterial(materialNode, newBallType)
+        this.ballType = newBallType
+    }
+
+    isSameType() {
+        return this.startBallType === this.originBallType
     }
 
     dissolve() {

@@ -30,7 +30,7 @@ export class BallManager extends Component {
         
     }
 
-    createSortBallList(tubeList: Tube[], list: number[][]) {
+    createSortBallList(tubeList: Tube[], list: number[][], spec: any) {
         // 有效的试管个数
         for(let i = 0; i < list.length; i++) {
             const tube = tubeList[i]
@@ -44,11 +44,15 @@ export class BallManager extends Component {
 
                 if (code) {
                     const ballType = this.getBallType(code)
+                    const originBallType = code === -1 ? this.getBallType(spec[`${i}-${j}`]) : ballType
                     // 位置固定
                     const y = bottomY + Constants.BALL_RADIUS * j
                     // const initPos = new Vec3(pos.x, initY, pos.z)
                     const newPos = new Vec3(pos.x, y, pos.z)
-                    const ball = this._createBall(newPos, ballType)
+                    const ball = this._createBall(newPos, ballType, originBallType)
+                    if (code === -1) {
+                        ball.setTips('特殊球只能跳到空试管')
+                    }
                     tube.pushBall(ball)
                 } 
             }
@@ -85,7 +89,7 @@ export class BallManager extends Component {
                 const y = bottomY + Constants.BALL_RADIUS * j
                 // const initPos = new Vec3(pos.x, initY, pos.z)
                 const newPos = new Vec3(pos.x, y, pos.z)
-                const ball = this._createBall(newPos, ballType)
+                const ball = this._createBall(newPos, ballType, ballType)
                 tube.pushBall(ball)
             }
             if (tube.isAllSameTube()) {
@@ -171,7 +175,7 @@ export class BallManager extends Component {
             // 起始位置，大概是派发按钮的位置
             const initPos = new Vec3(6, -15, 0)
             const ballType = ballTypeList[i * rand % ballTypeList.length]
-            const ball = this._createBall(initPos, ballType, true)
+            const ball = this._createBall(initPos, ballType, ballType, true)
             ball.node.setScale(new Vec3(0.1, 0.1, 0.1))
             ballList.push(ball)
         }
@@ -182,11 +186,8 @@ export class BallManager extends Component {
     getBallTypeList(typeIndexRange: number[]) {
         const ballTypeList: string[] = []
         const [min, max] = typeIndexRange
-        const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
         for(let i = min; i <= max; i++) {
-            let j = i % Constants.BALL_TYPE_MAX
-            j = j === 0 ? Constants.BALL_TYPE_MAX : j
-            ballTypeList.push(ballSkin.TexturePrefix + j)
+            ballTypeList.push(this.getBallType(i))
         }
         return ballTypeList
     }
@@ -195,32 +196,24 @@ export class BallManager extends Component {
         const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
         let j = index % Constants.BALL_TYPE_MAX
         j = j === 0 ? Constants.BALL_TYPE_MAX : j
-        return ballSkin.TexturePrefix + j
+        return ballSkin + j
     }
 
     getBottomY(tubeY: number, tubeHeight: number) {
         return tubeY - tubeHeight / 2 + Constants.BALL_RADIUS + this.buttomSpace
     }
 
-    private _setMaterial(ball: Node, ballTexture: string) {
-        const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
-        const ballTextPath = ballSkin.AssetsPrefix + ballTexture
-        const ballNode = ball ? ball.children[0] : null
-        if (ballNode) {
-            resources.load(ballTextPath, Material, (err, material) => {
-                ballNode.getComponent(MeshRenderer).material = material;
-            });
-        }
-    }
-
-    private _createBall(pos: Vec3, ballTexture: string, visible: boolean = false) {
+    private _createBall(pos: Vec3, ballType: string, originBallType: string, visible: boolean = false) {
         const ball = instantiate(this.prefab)
         // const ball = PoolManager.instance().getNode(this.prefab, this.node)
-        this._setMaterial(ball, ballTexture)
+        const materialNode = ball ? ball.children[0] : null
+        Utils.setMaterial(materialNode, ballType)
         ball.setParent(this.node)
         ball.setPosition(pos)
         const ballComp = ball.getComponent(Ball)
-        ballComp.setBallProp(ballTexture, visible)
+        ballComp.setBallProp({
+            ballType, originBallType, visible
+        })
 
         return ballComp
     }

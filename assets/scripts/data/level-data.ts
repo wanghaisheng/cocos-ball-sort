@@ -1,5 +1,8 @@
 import { math } from "cc";
 
+interface IObject {
+  [key: string]: number
+}
 interface IData {
   /** 等级信息 */
   level?: number;
@@ -15,6 +18,10 @@ interface IData {
   desc: string;
   /** 显示网格列表，-1表示占位，-5表示不能移动 */
   list: number[][];
+  /** 特殊球设置 */
+  spec?: IObject;
+  /** 提示信息 */
+  tips?: string;
 }
 
 export default class LevelData {
@@ -55,10 +62,13 @@ export default class LevelData {
         name: '',
         desc: '',
         list: [
-          [1, 2, 1, 2],
+          [1, 2, 1, -1],
           [2, 1, 2, 1],
           [0, 0, 0, 0],
         ],
+        spec: {
+          '0-3': 2
+        },
       },
       {
         // skinCount: 4,
@@ -83,11 +93,14 @@ export default class LevelData {
         desc: '',
         list: [
           [1, 2, 3, 1],
-          [2, 2, 3, 1],
+          [2, -1, 3, 1],
           [3, 1, 2, 3],
           [0, 0, 0, 0],
           [0, 0, 0, 0],
         ],
+        spec: {
+          '1-1': 2
+        },
       },
       {
         // skinCount: 3,

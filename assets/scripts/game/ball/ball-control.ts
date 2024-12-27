@@ -86,7 +86,7 @@ export class BallControl extends Component {
                 
                 // const downY = bottomY + Constants.BALL_RADIUS * ballNum
                 const dstPos3 = new Vec3(tPos.x, downY, tPos.z)
-                console.log(dstPos3)
+                console.log(dstPos3, targetBallCount)
                 if (i === ballCount - 1) {
                     topBall.jumpBallAction([dstPos, dstPos2, dstPos3], i * 0.05, () => {
                         Constants.audioManager.play('ball_pop')
@@ -96,8 +96,11 @@ export class BallControl extends Component {
                         topBallList.forEach(() => {
                             // 设置试管和球
                             this.setTubeBall(hitTube, targetTube)
-                        })
-                        
+                        });
+
+                        if(targetBallCount === 0) {
+                            topBall.resetBallType('origin')
+                        }
                     })
                     // 记录上一次跳的位置
                     this._stepList.push([topBallList, hitTube, targetTube])
@@ -106,6 +109,10 @@ export class BallControl extends Component {
                         Constants.audioManager.play('ball_pop')
                     }, () => {
                         Constants.audioManager.play('ball_down')
+
+                        if(targetBallCount === 0) {
+                            topBall.resetBallType('origin')
+                        }
                     })
                 }
             } else {
@@ -114,7 +121,8 @@ export class BallControl extends Component {
                     // 调用振动
                     Utils.vibrateShort()
                     // 告訴用户弹出无效
-                    Constants.tipManager.showTipLabel('没有可跳的位置', () => {})
+                    const tips = topBall.getTips() || '没有可跳的位置'
+                    Constants.tipManager.showTipLabel(tips, () => {})
                 }
                 const popY = Utils.getBallOnTubeY(hPos.y, tubeH)
                 const dstPos = new Vec3(oldBallX, popY - i * Constants.BALL_RADIUS, bPos.z)
@@ -200,6 +208,10 @@ export class BallControl extends Component {
             ball.setPosition(oldPos)
             targetTube.popBall()
             jumpTube.pushBall(ball)
+
+            if (!ball.isSameType()) {
+                ball.resetBallType('start')
+            }
 
             if (targetTube.isFinish) {
                 targetTube.setIsFinish(false)

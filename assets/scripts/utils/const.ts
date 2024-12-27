@@ -149,10 +149,7 @@ const GAME_POWER_POINT_TYPE = {
 
 // 球皮肤管理
 const BALL_SKIN_TYPE = {
-   Style1: {// 类型1
-      AssetsPrefix: 'ball/',
-      TexturePrefix: 'ball-skin-'
-   },
+   Style1: 'ball/ball-skin-',
 }
 
 

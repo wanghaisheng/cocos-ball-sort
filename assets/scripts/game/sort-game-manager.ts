@@ -128,7 +128,7 @@ export class SortGameManager extends Component {
     }
 
     initTubeBall() {
-        const { list = [] } = this._data
+        const { list = [], spec, tips } = this._data
         const tubeCount = list.length
         const ballList = tubeCount > 0 ? list[0] : []
         const tubeType = Utils.getTubeType(ballList.length)
@@ -144,7 +144,7 @@ export class SortGameManager extends Component {
         this.tubeManager.createTubes(tubeType, tubeCount, ballCount)
         this._tubeList = this.tubeManager.getTubeList()
         const ballTubeList = this._tubeList.slice(0, tubeCount)
-        this.ballManager.createSortBallList(ballTubeList, list)
+        this.ballManager.createSortBallList(ballTubeList, list, spec)
         this.tubeManager.initTubeBallJump(
             () => {
                 this.gameStatus = Constants.GAME_STATUS.READY
