@@ -267,8 +267,8 @@ export class TipManager extends Component {
 
     hideModalOnly() {
         tween(this.Modal)
-            .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, {
-                easing: "smooth",
+            .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }, {
+                easing: "fade",
             })
             .call(() => {
                 this.Modal.active = false
