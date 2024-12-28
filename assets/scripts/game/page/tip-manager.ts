@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node, tween, UITransform, v3, Vec3 } from 'cc';
+import { _decorator, Component, Label, Node, tween, UIOpacity, UITransform, v2, v3, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
 
@@ -47,10 +47,13 @@ export class TipManager extends Component {
     showTipLabel(tip: string, cb: Function = () => { }) {
         const labelNode = this.MsgTip.getChildByName('Label')
         const label = labelNode.getComponent(Label)
+        labelNode.getComponent(UIOpacity).opacity = 255
         label.string = tip
 
         tween(this.MsgTip)
-            .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) })
+            .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }, {
+                easing: "smooth",
+            })
             .call(() => {
                 this.MsgTip.active = true
                 this.hideTipLabel(cb)
@@ -58,60 +61,124 @@ export class TipManager extends Component {
             .start()
     }
 
-    hideTipLabel(cb: Function = () => { }) {
-        const labelNode = this.MsgTip.getChildByName('Label')
-        let parentNode = this.MsgTip;
-
-        // 获取原文字信息
-        let labelComponent = labelNode.getComponent(Label);
-        let text = labelComponent.string;
-        let fontSize = labelComponent.fontSize;  // 字体大小
-
-        // 计算文字节点宽度和字符间距
-        // let totalWidth = text.length * fontSize;
-        let contentSize = labelNode.getComponent(UITransform).contentSize;
-        let startX = -contentSize.width / 2;  // 从左侧开始布局
-
-        // 遍历文字内容，创建字符节点
-        for (let i = 0; i < text.length; i++) {
-            // 创建一个新的字符节点
-            let charNode = new Node();
-            let charLabel = charNode.addComponent(Label);
-            charLabel.string = text[i];  // 设置字符内容
-            charLabel.fontSize = fontSize;  // 保持原文字大小
-            charNode.position = v3(startX + i * fontSize, labelNode.position.y, 0);  // 设置每个字符的初始位置
-            parentNode.addChild(charNode);
-
-            // 动画：向随机方向移动 + 透明度变化
-            let randomX = 50 + Math.random() * 10;  // 随机 X 偏移
-            let randomY = 3 + Math.random() * 10;       // 随机 Y 偏移
-            tween(charNode)
-                .parallel(
-                    tween().to(1, { position: v3(charNode.position.x + randomX, charNode.position.y + randomY, 0) }),
-                    tween().to(1, { opacity: 0 })
-                )
-                .call(() => {
-                    charNode.destroy();  // 动画完成后销毁节点
-                })
-                .start();
-        }
-
-
-        // 隐藏原文字节点
-        labelNode.active = false;
-        cb()
-
-        // tween(this.MsgTip)
-        //     .delay(0.5)
-        //     .to(0.5, { position: new Vec3(0, 30, 0), scale: new Vec3(0, 0, 0) }, {
-        //         easing: "fade",
-        //     })
-        //     .call(() => {
-        //         this.MsgTip.active = false
-        //         cb()
-        //     })
-        //     .start()
+    hideTipLabel(cb: Function = () => {}) {
+        tween(this.MsgTip)
+            .delay(0.5)
+            .to(0.5, { position: new Vec3(0, 0, 0), scale: new Vec3(0, 0, 0) }, {
+                easing: "smooth",
+            })
+            .call(() => {
+                this.MsgTip.active = false
+                cb()
+            })
+            .start()
     }
+
+    // showTipLabel(tip: string, cb: Function = () => { }) {
+    //     const labelNode = this.MsgTip.getChildByName('Label')
+    //     const label = labelNode.getComponent(Label)
+    //     labelNode.getComponent(UIOpacity).opacity = 255
+    //     label.string = tip
+
+    //     tween(this.MsgTip)
+    //         .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) })
+    //         .call(() => {
+    //             this.MsgTip.active = true
+    //             this.hideTipLabel(cb)
+    //         })
+    //         .start()
+    // }
+
+    // hideTipLabel(cb: Function = () => { }) {
+
+    //     const hideEffect = () => {
+    //         const labelNode = this.MsgTip.getChildByName('Label')
+    //         labelNode.getComponent(UIOpacity).opacity = 0
+    //         let parentNode = this.MsgTip;
+
+    //         // 获取原文字信息
+    //         let labelComponent = labelNode.getComponent(Label);
+    //         let text = labelComponent.string;
+    //         let fontSize = labelComponent.fontSize;  // 字体大小
+
+    //         // 计算文字节点宽度和字符间距
+    //         // let totalWidth = text.length * fontSize;
+    //         let contentSize = labelNode.getComponent(UITransform).contentSize;
+    //         let startX = -contentSize.width / 2;  // 从左侧开始布局
+
+    //         // 获取节点最左边的 X 坐标
+    //         let leftX = -375 / 2;
+    //         let rightX = 375 / 2;
+
+    //         // 计算文字中间分割位置
+    //         let midIndex = Math.floor(text.length / 2);
+
+    //         // 左侧部分
+    //         let leftText = text.slice(0, midIndex);
+    //         // 右侧部分
+    //         let rightText = text.slice(midIndex);
+
+    //         // 创建左侧部分文字
+    //         for (let i = 0; i < leftText.length; i++) {
+    //             let charNode = new Node();
+    //             let charLabel = charNode.addComponent(Label);
+    //             charLabel.string = leftText[i];
+    //             charLabel.fontSize = fontSize;
+    //             charNode.position = v3(startX + i * fontSize, labelNode.position.y, 0);
+    //             parentNode.addChild(charNode);
+
+    //             tween(charNode)
+    //                 .to(0.5 * (i + 1), { position: v3(leftX, labelNode.position.y, 0), scale: v3(2, 2, 2) }, {
+    //                     easing: 'bounceOut'
+    //                 })
+    //                 .call(() => {
+    //                     charNode.destroy();  // 动画完成后销毁节点
+    //                 })
+    //                 .start();
+    //         }
+
+    //         // 创建右侧部分文字
+    //         let rightStartX = startX + leftText.length * fontSize;
+    //         for (let i = 0; i < rightText.length; i++) {
+    //             let charNode = new Node();
+    //             let charLabel = charNode.addComponent(Label);
+    //             charLabel.string = rightText[i];
+    //             charLabel.fontSize = fontSize;
+    //             charNode.position = v3(rightStartX + i * fontSize, labelNode.position.y, 0);
+    //             parentNode.addChild(charNode);
+
+    //             tween(charNode)
+    //                 .parallel(
+    //                     tween().to(1, { position: v3(rightX, labelNode.position.y, 0), scale: v3(2, 2, 2) }),
+    //                     tween().to(1, { opacity: 0 })
+    //                 )
+    //                 .call(() => {
+    //                     charNode.destroy();
+                        
+    //                     if (i === rightText.length - 1) {
+    //                         this.MsgTip.active = false;
+    //                         cb();
+    //                     }
+    //                 })
+    //                 .start();
+    //         }
+    //     }
+
+    //     hideEffect();
+        
+
+
+    //     // tween(this.MsgTip)
+    //     //     .delay(0.5)
+    //     //     .to(0.5, { position: new Vec3(0, 30, 0), scale: new Vec3(0, 0, 0) }, {
+    //     //         easing: "fade",
+    //     //     })
+    //     //     .call(() => {
+    //     //         this.MsgTip.active = false
+    //     //         cb()
+    //     //     })
+    //     //     .start()
+    // }
 
     showLevelTip(level: number, target: number = 0) {
         const label = this.LevelTip.getChildByName('Level').getComponent(Label)

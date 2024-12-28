@@ -175,6 +175,12 @@ const THEME_SKIN_LIST: ThemeItem[] = [
       spriteFrameUrl: 'texture/bg/theme2/spriteFrame',
       materialUrl: 'theme/theme2',
    },
+   {
+      code: 'theme3',
+      price: 2499,
+      spriteFrameUrl: 'texture/bg/theme3/spriteFrame',
+      materialUrl: 'theme/theme3',
+   },
 ]
 
 
