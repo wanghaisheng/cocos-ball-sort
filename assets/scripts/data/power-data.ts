@@ -45,7 +45,7 @@ export class PowerData {
 
     let list = []
     if (!hasLoginToday || !data) {// 同一天的数据不会发生变化
-      list = this.generateListData(total, [2600, 5120], userPower)
+      list = this.generateListData(total, [2600, 4380], userPower)
     } else {
       list = this.updatePowerData(data, userPower)
     }
@@ -55,7 +55,7 @@ export class PowerData {
     return list
   }
 
-  public generateListData(total: number = 1000, range: number[] = [2600, 4380], userPower: number): IPowerItem[] {
+  public generateListData(total: number, range: number[], userPower: number): IPowerItem[] {
     let data: IPowerItem[] = []
     // 根据IPowerItem生成1000个listItem
     let power = range[1]
