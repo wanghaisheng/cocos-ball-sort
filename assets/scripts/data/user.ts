@@ -15,7 +15,7 @@ export class User {
     private gold: number = 0
     private losed: number = 0
     /** 战力值 */
-    private powerPoint: number = 100
+    private powerPoint: number = 0
 
     /** 回撤次数 */ 
     private withdrawNum: number = 0
@@ -66,6 +66,12 @@ export class User {
             const k = Math.floor(this.level / 5)
             switch (k) {
                 case 0:
+                    if (this.level === 1) {
+                        powerPoint = 0
+                    } else {
+                        powerPoint = this.level * 100
+                    }
+                    break
                 case 1:
                 case 2:
                     powerPoint = this.level * 100
