@@ -97,7 +97,9 @@ export class PageShop extends Component {
         const totalGold = user.getGold()
 
         if (totalGold < item.price) {
-            Constants.tipManager.showModal(`金币不足，每天登录和分享赚取更多金币！`)
+            Constants.tipManager.showModal({
+                msg: '金币不足，每天登录和分享赚取更多金币！',
+            })
             return
         }
         user.setGold(totalGold - item.price)

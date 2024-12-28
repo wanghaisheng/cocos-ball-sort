@@ -20925,7 +20925,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "btn-ok",
+    "_name": "btnOK",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_parent": {
@@ -21228,8 +21228,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 100,
-      "height": 100
+      "width": 200,
+      "height": 50
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -21385,10 +21385,10 @@
     "Modal": {
       "__id__": 546
     },
-    "closeModal": {
+    "btnCloseModal": {
       "__id__": 550
     },
-    "okModal": {
+    "btnOkModal": {
       "__id__": 559
     },
     "_id": "b1pwore/ZGFYDjwy+xrxzv"

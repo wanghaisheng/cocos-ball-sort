@@ -187,8 +187,10 @@ export class SortGameManager extends Component {
                     this.pageSortGame.stopTimeClock()// 游戏超时
                     this.usedTime = this.pageSortGame.getGameUsedTime()
                     // 游戏超时
-                    Constants.tipManager.showModal('游戏超时未操作，重新开始', () => {
-                        this.init()
+                    Constants.tipManager.showModal({
+                        msg: '游戏超时未操作，重新开始',
+                        showCloseIcon: false,
+                        cb: () => { this.init() }
                     })
                 }
                 break;

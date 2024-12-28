@@ -16,9 +16,9 @@ export class TipManager extends Component {
     @property(Node)
     Modal: Node = null
     @property(Node)
-    closeModal: Node = null
+    btnCloseModal: Node = null
     @property(Node)
-    okModal: Node = null
+    btnOkModal: Node = null
 
     _modalCBFunc: Function = null
 
@@ -31,13 +31,13 @@ export class TipManager extends Component {
     }
 
     protected onEnable(): void {
-        this.closeModal.on(Node.EventType.TOUCH_END, this.hideModalOnly, this)
-        this.okModal.on(Node.EventType.TOUCH_END, this.hideModal, this)
+        this.btnCloseModal.on(Node.EventType.TOUCH_END, this.hideModalOnly, this)
+        this.btnOkModal.on(Node.EventType.TOUCH_END, this.hideModal, this)
     }
 
     protected onDisable(): void {
-        this.closeModal.off(Node.EventType.TOUCH_END, this.hideModalOnly, this)
-        this.okModal.off(Node.EventType.TOUCH_END, this.hideModal, this)
+        this.btnCloseModal.off(Node.EventType.TOUCH_END, this.hideModalOnly, this)
+        this.btnOkModal.off(Node.EventType.TOUCH_END, this.hideModal, this)
     }
 
     update(deltaTime: number) {
@@ -237,9 +237,19 @@ export class TipManager extends Component {
             .start()
     }
 
-    showModal(str: string, cb: Function = () => { }) {
-        const label = this.Modal.getChildByName('Content').getComponent(Label)
-        label.string = str
+    showModal(prop: {
+        msg: string, 
+        btnText?: string,
+        showCloseIcon?: boolean, 
+        cb?: Function
+    }) {
+        const { msg, btnText = '确 定', showCloseIcon = true, cb = () => {} } = prop || {}
+        this.btnCloseModal.active = showCloseIcon
+        const msgLabel = this.Modal.getChildByName('Content').getComponent(Label)
+        const okLabel = this.btnOkModal.getChildByName('btnLabel').getComponent(Label)
+
+        msgLabel.string = msg
+        okLabel.string = btnText
 
         tween(this.Modal)
             .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) })
