@@ -200,7 +200,7 @@ export class TipManager extends Component {
     hideLevelTip() {
         tween(this.LevelTip)
             .delay(1.2)
-            .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, {
+            .to(0.1, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, {
                 easing: "smooth",
             })
             .call(() => {
@@ -214,7 +214,9 @@ export class TipManager extends Component {
         label.string = str
 
         tween(this.CongratTip)
-            .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) })
+            .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }, {
+                easing: "bounceInOut",
+            })
             .call(() => {
                 this.CongratTip.active = true
                 this.hideCongratTip(cb)
@@ -225,8 +227,8 @@ export class TipManager extends Component {
     hideCongratTip(cb: Function = () => { }) {
         tween(this.CongratTip)
             .delay(2)
-            .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, {
-                easing: "smooth",
+            .to(0.2, { position: new Vec3(120, -265, 0), scale: new Vec3(0.1, 0.1, 0.1) }, {
+                easing: "bounceInOut",
             })
             .call(() => {
                 this.CongratTip.active = false
@@ -250,8 +252,8 @@ export class TipManager extends Component {
 
     hideModal() {
         tween(this.Modal)
-            .to(0.2, { position: new Vec3(500, 0, 0), scale: new Vec3(0.1, 0.1, 0.1) }, {
-                easing: "smooth",
+            .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) }, {
+                easing: "fade",
             })
             .call(() => {
                 this.Modal.active = false
