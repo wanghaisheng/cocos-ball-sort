@@ -9,7 +9,7 @@ export class Ball extends Component {
     public ballType: string = ''
     /** 原始的球皮肤 */
     public originBallType: string = ''
-    /** 开始的类型 */
+    /** 开始的球皮肤 */
     public startBallType: string = ''
     /** 提示信息 */
     public tips: string = ''
@@ -55,14 +55,14 @@ export class Ball extends Component {
     }
 
     resetBallType(type: 'start' | 'origin') {
-        if (this.isSameType()) return
+        if (this.isSameOriginal()) return
         const materialNode = this.node.children[0]
         const newBallType = type === 'start' ? this.startBallType : this.originBallType
         Utils.setMaterial(materialNode, newBallType)
         this.ballType = newBallType
     }
 
-    isSameType() {
+    isSameOriginal() {
         return this.startBallType === this.originBallType
     }
 

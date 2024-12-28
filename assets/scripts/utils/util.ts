@@ -314,4 +314,17 @@ export class Utils {
       }
     });
   }
+
+  /**
+   * 获取球皮肤（球类型）
+   * @param index 球皮肤编号
+   * @param skinType 皮肤类型
+   * @returns 
+   */
+  static getBallType(index: number, skinType: string) {
+    const ballSkin = Constants.BALL_SKIN_TYPE[skinType]
+    let j = index % Constants.BALL_TYPE_MAX
+    j = j === 0 ? Constants.BALL_TYPE_MAX : j
+    return ballSkin + j
+  }
 }

@@ -1,4 +1,5 @@
 import { math } from "cc";
+import { Constants } from "../utils/const";
 
 interface IObject {
   [key: string]: number
@@ -24,6 +25,7 @@ interface IData {
   tips?: string;
 }
 
+const emptyLen = 2;
 export default class LevelData {
   /** 
    * 获取关卡数据
@@ -310,13 +312,17 @@ export default class LevelData {
         desc: '',
         list: [
           [1, 1, 3, 4, 4],
-          [2, 2, 1, 5, 4],
+          [2, 2, 1, -1, 4],
           [3, 2, 1, 4, 5],
           [4, 5, 3, 5, 1],
-          [2, 2, 3, 3, 5],
+          [2, 2, 3, -1, 5],
           [0, 0, 0, 0, 0],
           [0, 0, 0, 0, 0],
         ],
+        spec: {
+          '1-3': 5,
+          '4-3': 3,
+        },
       },
       {
         // skinCount: 3,
@@ -347,13 +353,17 @@ export default class LevelData {
         list: [
           [6, 2, 3, 2],
           [6, 1, 4, 4],
-          [3, 2, 5, 4],
-          [1, 5, 6, 1],
+          [3, 2, -1, 4],
+          [1, 5, -1, 1],
           [5, 3, 3, 6],
           [4, 1, 2, 5],
           [0, 0, 0, 0],
           [0, 0, 0, 0],
         ],
+        spec: {
+          '2-2': 5,
+          '3-2': 6,
+        },
       },
       {
         // skinCount: 3,
@@ -384,44 +394,48 @@ export default class LevelData {
       data = levelList[level - 1]
     } else if (level < 25) {
       if (level % 2 === 0) {
-        data.list = LevelData.generateData(5, 7)
+        data.list = LevelData.generateList(5, 7)
       } else {
-        data.list = LevelData.generateData(3, 8)
+        data.list = LevelData.generateList(3, 8)
         data.list.splice(4, 1)
       }
       data.limitTime = 180
     } else if (level < 30) {
       if (level % 2 === 0) {
-        data.list = LevelData.generateData(6, 5)
+        data.list = LevelData.generateList(6, 5)
       } else {
-        data.list = LevelData.generateData(6, 7)
+        data.list = LevelData.generateList(6, 7)
       }
       data.limitTime = 180
     } else if (level < 32) {
-      data.list = LevelData.generateData(7, 4)
+      data.list = LevelData.generateList(7, 4)
       data.limitTime = 240
     } else if (level < 35) {
-      data.list = LevelData.generateData(7, 5)
+      data.list = LevelData.generateList(7, 5)
       data.limitTime = 240
     } else if (level < 40) {
       if (level % 2 === 0) {
-        data.list = LevelData.generateData(8, 4)
+        data.list = LevelData.generateList(8, 4)
       } else {
-        data.list = LevelData.generateData(7, 7)
+        data.list = LevelData.generateList(7, 7)
       }
       data.limitTime = 240
     } else if (level < 45) {
-      data.list = LevelData.generateData(9, 4)
+      data.list = LevelData.generateList(9, 4)
       data.limitTime = 300
     } else if (level < 50) {
-      data.list = LevelData.generateData(10, 4)
+      data.list = LevelData.generateList(10, 4)
       data.limitTime = 360
     } else if (level < 55) {
-      data.list = LevelData.generateData(11, 4)
+      data.list = LevelData.generateList(11, 4)
       data.limitTime = 600
     } else {
-      data.list = LevelData.generateData(12, 4)
+      data.list = LevelData.generateList(12, 4)
       data.limitTime = 600
+    }
+
+    if (!data.spec && level > 20) {
+      data.spec = LevelData.generateSpec(data.list, 3)
     }
 
     data.level = level
@@ -433,11 +447,11 @@ export default class LevelData {
     }
   }
 
-  static generateData(len: number, typeNum: number) {
+  static generateList(len: number, typeNum: number) {
     if (len <= 0 || typeNum <= 0) {
       return []
     }
-    let res = Array.from({ length: len + 2 }, () => Array.from({ length: typeNum }, () => 0))
+    let res = Array.from({ length: len + emptyLen }, () => Array.from({ length: typeNum }, () => 0))
 
     for (let i = 0; i < len; i++) {
       for(let j = 0; j < typeNum; j++) {
@@ -453,8 +467,32 @@ export default class LevelData {
     return res
   }
 
-  static swap(a: number, b: number) {
+  /**
+   * 获取特殊球的列表
+   * 注意：会改变list元素
+   * @param list 
+   * @param count 特殊球的个数
+   * @returns 
+   */
+  static generateSpec(list: number[][], count: number) {
+    if (!list || list.length <= emptyLen || count <= 0) return null
     
+    let n = list.length - emptyLen, m = list[0].length
+    let res = {}, num = count
+
+    while(num > 0 && num <= n * m) {
+      let i = math.randomRangeInt(0, n)
+      let j = math.randomRangeInt(0, m)
+      
+      if (res[`${i}-${j}`]) continue
+
+      res[`${i}-${j}`] = list[i][j]
+      list[i][j] = Constants.BALL_SKIN_LOCK
+
+      num--
+    }
+
+    return res
   }
 
   static translate(res: number[][], n: number, m: number) {

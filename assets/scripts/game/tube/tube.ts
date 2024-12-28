@@ -1,7 +1,8 @@
 import { _decorator, Camera, Component, EventTouch, geometry, input, Input, Node, PhysicsSystem, Vec3 } from 'cc';
 import { Constants } from '../../utils/const';
 import { Ball } from '../ball/ball';
-import { PoolManager } from '../../utils/pool-manager';
+import { Utils } from '../../utils/util';
+// import { PoolManager } from '../../utils/pool-manager';
 const { ccclass, property } = _decorator;
 
 @ccclass('Tube')
@@ -74,9 +75,11 @@ export class Tube extends Component {
     getTargetTubeLevel(ballType: string) {
         let level = Constants.TUBE_LEVEL.NONE
         if (!this._ballList.length) return Constants.TUBE_LEVEL.GOOD
+        
+        const excludeBallType = Utils.getBallType(Constants.BALL_SKIN_LOCK, Constants.BALL_DEFAULT_SKIN)
         if (this._ballList.length < this.ballCountMax) {
             const topBall = this.getTopBall()
-            if (topBall.ballType === ballType && topBall.isSameType()) {
+            if (topBall && topBall.ballType === ballType && topBall.ballType !== excludeBallType) {
                 level = Constants.TUBE_LEVEL.POOR
                 if (this.isAllSame()) {
                     level = Constants.TUBE_LEVEL.EXCELLENT

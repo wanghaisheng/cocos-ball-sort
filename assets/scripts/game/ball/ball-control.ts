@@ -209,7 +209,7 @@ export class BallControl extends Component {
             targetTube.popBall()
             jumpTube.pushBall(ball)
 
-            if (!ball.isSameType()) {
+            if (!ball.isSameOriginal()) {
                 ball.resetBallType('start')
             }
 

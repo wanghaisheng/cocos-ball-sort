@@ -136,10 +136,6 @@ export class TubeManager extends Component {
             const level = tube.getTargetTubeLevel(ballType)
             const emptyBallCount = tube.getEmptyBallCount()
             // console.log('level', level)
-            // if (level > curLevel && emptyBallCount >= emptyNum) {
-            //     target = tube
-            //     curLevel = level
-            // }
             if (level > curLevel) {
                 if (emptyBallCount >= emptyNum || tube.isAllSame()) {
                     target = tube

@@ -16,7 +16,6 @@ export class BallManager extends Component {
     buttomSpace: number = 0
 
     public validTubeCount: number = 0
-    private _skinStyle = 'Style1'
 
     onLoad() {
         // this.loadAllTexture()
@@ -43,8 +42,8 @@ export class BallManager extends Component {
                 const code = list[i][j]
 
                 if (code) {
-                    const ballType = this.getBallType(code)
-                    const originBallType = code === Constants.BALL_SKIN_LOCK ? this.getBallType(spec[`${i}-${j}`]) : ballType
+                    const ballType = Utils.getBallType(code, Constants.BALL_DEFAULT_SKIN)
+                    const originBallType = code === Constants.BALL_SKIN_LOCK ? Utils.getBallType(spec[`${i}-${j}`], Constants.BALL_DEFAULT_SKIN) : ballType
                     // 位置固定
                     const y = bottomY + Constants.BALL_RADIUS * j
                     // const initPos = new Vec3(pos.x, initY, pos.z)
@@ -186,17 +185,11 @@ export class BallManager extends Component {
     getBallTypeList(typeIndexRange: number[]) {
         const ballTypeList: string[] = []
         const [min, max] = typeIndexRange
+        const skinStyle = Constants.BALL_DEFAULT_SKIN
         for(let i = min; i <= max; i++) {
-            ballTypeList.push(this.getBallType(i))
+            ballTypeList.push(Utils.getBallType(i, skinStyle))
         }
         return ballTypeList
-    }
-
-    getBallType(index: number) {
-        const ballSkin = Constants.BALL_SKIN_TYPE[this._skinStyle]
-        let j = index % Constants.BALL_TYPE_MAX
-        j = j === 0 ? Constants.BALL_TYPE_MAX : j
-        return ballSkin + j
     }
 
     getBottomY(tubeY: number, tubeHeight: number) {
