@@ -76,7 +76,7 @@ export class Tube extends Component {
         if (!this._ballList.length) return Constants.TUBE_LEVEL.GOOD
         if (this._ballList.length < this.ballCountMax) {
             const topBall = this.getTopBall()
-            if (topBall.ballType === ballType) {
+            if (topBall.ballType === ballType && topBall.isSameType()) {
                 level = Constants.TUBE_LEVEL.POOR
                 if (this.isAllSame()) {
                     level = Constants.TUBE_LEVEL.EXCELLENT

@@ -55,7 +55,7 @@ export class PowerData {
     return list
   }
 
-  public generateListData(total: number = 1000, range: number[] = [2600, 5120], userPower: number): IPowerItem[] {
+  public generateListData(total: number = 1000, range: number[] = [2600, 4380], userPower: number): IPowerItem[] {
     let data: IPowerItem[] = []
     // 根据IPowerItem生成1000个listItem
     let power = range[1]
@@ -69,8 +69,9 @@ export class PowerData {
       }
 
       // power值随机生成，值递减
+      const randCount = i < 5 ? Math.random() * 100 : Math.random() * 20 
       if (i > 0) {
-        power = power - Utils.getRandNum(0, i % 10)
+        power = power - Utils.getRandNum(0, randCount)
         power = Math.max(power, range[0])
       }
 

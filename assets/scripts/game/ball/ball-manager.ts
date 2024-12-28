@@ -44,13 +44,13 @@ export class BallManager extends Component {
 
                 if (code) {
                     const ballType = this.getBallType(code)
-                    const originBallType = code === -1 ? this.getBallType(spec[`${i}-${j}`]) : ballType
+                    const originBallType = code === Constants.BALL_SKIN_LOCK ? this.getBallType(spec[`${i}-${j}`]) : ballType
                     // 位置固定
                     const y = bottomY + Constants.BALL_RADIUS * j
                     // const initPos = new Vec3(pos.x, initY, pos.z)
                     const newPos = new Vec3(pos.x, y, pos.z)
                     const ball = this._createBall(newPos, ballType, originBallType)
-                    if (code === -1) {
+                    if (code === Constants.BALL_SKIN_LOCK) {
                         ball.setTips('特殊球只能跳到空试管')
                     }
                     tube.pushBall(ball)

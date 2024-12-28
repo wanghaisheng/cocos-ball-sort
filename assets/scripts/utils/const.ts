@@ -231,6 +231,7 @@ export class Constants {
    static BALL_JUMP_TYPE = BALL_JUMP_TYPE // 球运动类型
    static BALL_TYPE_MAX = 15 // 球的类型最大值
    static BALL_SKIN_TYPE = BALL_SKIN_TYPE // 球皮肤
+   static BALL_SKIN_LOCK = -1 // 球皮肤锁
 
 
    // user
