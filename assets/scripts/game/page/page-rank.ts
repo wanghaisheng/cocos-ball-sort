@@ -2,7 +2,7 @@ import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
 import { User } from '../../data/user';
 import { Constants } from '../../utils/const';
 import { PowerItem, IPowerItem } from '../power/power-item';
-import { PoolManager } from '../../utils/pool-manager';
+// import { PoolManager } from '../../utils/pool-manager';
 import { PowerData } from '../../data/power-data';
 import { Utils } from '../../utils/util';
 const { ccclass, property } = _decorator;
