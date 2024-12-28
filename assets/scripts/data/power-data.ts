@@ -61,13 +61,6 @@ export class PowerData {
     let power = range[1]
     let hasInsert = false
     for (let i = 0; i < total; i++) {
-      const item: IPowerItem = {
-        rankNum: i + 1,
-        nickName: Utils.getRandomStr(8),
-        power,
-        hideCapLine: false,
-      }
-
       // power值随机生成，值递减
       const randCount = i < 5 ? Math.random() * 100 : Math.random() * 20 
       if (i > 0) {
@@ -75,11 +68,19 @@ export class PowerData {
         power = Math.max(power, range[0])
       }
 
+      const item: IPowerItem = {
+        rankNum: i + 1,
+        nickName: Utils.getRandomStr(8),
+        power,
+        hideCapLine: false,
+      }
+
       if (!hasInsert && userPower && userPower >= power) {
         item.nickName = this.userNickName
         item.power = userPower
         item.hideCapLine = true
         power = userPower
+        hasInsert = true
       }
 
       data.push(item)
