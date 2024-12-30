@@ -19,7 +19,7 @@ interface IData {
   desc: string;
   /** 显示网格列表，-1表示占位，-5表示不能移动 */
   list: number[][];
-  /** 特殊球设置 */
+  /** 未知球设置 */
   spec?: IObject;
   /** 提示信息 */
   tips?: string;
@@ -468,10 +468,10 @@ export default class LevelData {
   }
 
   /**
-   * 获取特殊球的列表
+   * 获取未知球的列表
    * 注意：会改变list元素
    * @param list 
-   * @param count 特殊球的个数
+   * @param count 未知球的个数
    * @returns 
    */
   static generateSpec(list: number[][], count: number) {

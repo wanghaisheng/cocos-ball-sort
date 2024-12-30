@@ -50,7 +50,7 @@ export class BallManager extends Component {
                     const newPos = new Vec3(pos.x, y, pos.z)
                     const ball = this._createBall(newPos, ballType, originBallType)
                     if (code === Constants.BALL_SKIN_LOCK) {
-                        ball.setTips('特殊球只能跳到空试管')
+                        ball.setTips('未知球只能跳到空试管')
                     }
                     tube.pushBall(ball)
                 } 
