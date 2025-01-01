@@ -11,27 +11,30 @@ export class WaterUp extends Component {
     countdownDuration: number = 0;
 
     onLoad() {
-        
+        // 初始化倒计时
+       this.currentTime = 0; // 当前时间
+       this.isCounting = false; // 控制倒计时状态
+       this.contentSize = this.node.getComponent(UITransform).contentSize;
+       this.originalHeight = this.contentSize.height; // 初始高度
     }
 
     start() {
-       this.init(null) 
+       
     }
 
     update(deltaTime: number) {
         
     }
 
-    init(data: any) {
-        const { delayTime } = data || {};
-        // this.countdownDuration = delayTime || 60;
-        // 初始化倒计时
-        this.currentTime = 0; // 当前时间
-        this.isCounting = false; // 控制倒计时状态
-        this.contentSize = this.node.getComponent(UITransform).contentSize;
-        this.originalHeight = this.contentSize.height; // 初始高度
+    // 动态设置倒计时时长并重新启动倒计时
+    init(newDuration) {
+        // 停止当前倒计时
+        this.stopCountdown();
 
-        this.setCountdownDuration(60); // 设置倒计时时长
+        this.node.getComponent(UITransform).contentSize = new Size(this.contentSize.width, 1);
+
+        // 启动新的倒计时
+        this.startCountdown(newDuration);
     }
 
     // 启动倒计时并动态设置时长
@@ -68,14 +71,9 @@ export class WaterUp extends Component {
         }
     }
 
-    // 动态设置倒计时时长并重新启动倒计时
-    setCountdownDuration(newDuration) {
-        // 停止当前倒计时
+    stopCountdown() {
         this.isCounting = false;
-        this.unschedule(this.updateCountdown);
-
-        // 启动新的倒计时
-        this.startCountdown(newDuration);
+        this.unschedule(this.updateCountdown); // 停止定时器
     }
 }
 

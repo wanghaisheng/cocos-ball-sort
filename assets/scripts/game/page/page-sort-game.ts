@@ -2,13 +2,14 @@ import { _decorator, Component, EventTouch, Input, input, Label, Node, ProgressB
 import { Constants } from '../../utils/const';
 import { User } from '../../data/user';
 import { PageRank } from './page-rank';
+import { WaterUp } from '../effect/WaterUp';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageSortGame')
 export class PageSortGame extends Component {
     // 顶部
     @property(Node)
-    avatarLabel: Node = null;
+    powerNode: Node = null;
     @property(Node)
     powerLabel: Node = null;
     @property(Node)
@@ -34,6 +35,8 @@ export class PageSortGame extends Component {
 
     @property(PageRank)
     pageRank: PageRank = null
+    @property(WaterUp)
+    waterUp: WaterUp = null
 
     private _isSupportSound: boolean = true
     private _user: User = null
@@ -46,8 +49,7 @@ export class PageSortGame extends Component {
     }
 
     protected onEnable(): void {
-        this.avatarLabel.on(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
-        this.powerLabel.on(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
+        this.powerNode.on(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
         this.soundRoot.on(Node.EventType.TOUCH_END, this.onSound, this)
         this.shopNode.on(Node.EventType.TOUCH_END, this.onShop, this)
         this.resetNode.on(Node.EventType.TOUCH_END, this.onReset, this)
@@ -60,8 +62,7 @@ export class PageSortGame extends Component {
     }
 
     protected onDisable(): void {
-        this.avatarLabel.off(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
-        this.powerLabel.off(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
+        this.powerNode.off(Node.EventType.TOUCH_END, this.onShowPowerRank, this)
         this.soundRoot.off(Node.EventType.TOUCH_END, this.onSound, this)
         this.shopNode.off(Node.EventType.TOUCH_END, this.onShop, this)
         this.resetNode.off(Node.EventType.TOUCH_END, this.onReset, this)
@@ -93,6 +94,7 @@ export class PageSortGame extends Component {
         this.showUserInfo();
         this.unschedule(this.setTimeClock);
         this.schedule(this.setTimeClock, 1);
+        this.waterUp.init(limitTime);
 
         setTimeout(() => {
             this.pageRank.init()
@@ -195,8 +197,8 @@ export class PageSortGame extends Component {
 
     setTimeClock() {
         this._time--;
-        if (this._time <= 0) {
-            this.unschedule(this.setTimeClock);
+        if (this._time < 0) {
+            this.stopTimeClock();
 
             console.log('游戏超时');
             // Constant.dialogManager.showTipLabel('游戏超时', () => {
@@ -210,6 +212,7 @@ export class PageSortGame extends Component {
 
     stopTimeClock() {
         this.unschedule(this.setTimeClock);
+        this.waterUp.stopCountdown();
     }
 
     getGameUsedTime() {

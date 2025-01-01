@@ -71,7 +71,7 @@ export class PageShop extends Component {
 
     setNodeOpacity(node: Node, opacity: number) {
         if (!node) return
-        node.getComponent(Sprite).color = new Color(255, 255, 255, opacity)
+        node.getComponent(Sprite).color = new Color(63, 251, 255, opacity)
     }
 
 }

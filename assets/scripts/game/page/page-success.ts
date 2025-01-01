@@ -21,8 +21,6 @@ export class PageSuccess extends Component {
     public goldEffect: Node = null
     @property(Node)
     public avatarPos: Node = null
-    @property(Node)
-    public goldPos: Node = null
 
 
     @property(Node)
@@ -79,7 +77,6 @@ export class PageSuccess extends Component {
         this.shareBtn.off(Node.EventType.TOUCH_END, this.onShare, this)
         this.giveUpBtn.off(Node.EventType.TOUCH_END, this.onGiveUp, this)
         this.avatarPos.active = false
-        this.goldPos.active = false
         this.powerEffect.scale = v3(1, 1, 1)
         this.goldEffect.scale = v3(1, 1, 1)
         this.powerEffect.position = this._powerOriginPos
@@ -134,9 +131,7 @@ export class PageSuccess extends Component {
 
     showEffect(cb: Function) {
         this.avatarPos.active = true
-        this.goldPos.active = true
 
-        const goldEndPos = this.goldPos.position
         const powerEndPos = this.avatarPos.position
         const t1 = tween(this.powerEffect)
             .to(0.1, { scale: v3(2, 2, 2) })
@@ -146,7 +141,7 @@ export class PageSuccess extends Component {
         const t2 = tween(this.goldEffect)
             .to(0.1, { scale: v3(2, 2, 2) })
             .delay(0.3)
-            .to(0.5, { scale: v3(0.1, 0.1, 0.1), position: goldEndPos }, { easing: "sineOutIn" })
+            .to(0.5, { scale: v3(0.1, 0.1, 0.1), position: powerEndPos }, { easing: "sineOutIn" })
             .call(() => { cb() })
         
         t1.start()

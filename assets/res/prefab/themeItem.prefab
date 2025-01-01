@@ -223,10 +223,7 @@
       "b": 255,
       "a": 255
     },
-    "_spriteFrame": {
-      "__uuid__": "169d2cfb-9c5a-4dc9-aa0f-23871a53a196@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_fillType": 0,
     "_sizeMode": 0,
@@ -1019,8 +1016,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 31.999990801609105,
-      "height": 22.68
+      "width": 31.99999634246255,
+      "height": 22.679999999999996
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1058,7 +1055,7 @@
     "_string": "应用",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 31.85,
+    "_actualFontSize": 26.7,
     "_fontSize": 16,
     "_fontFamily": "Arial",
     "_lineHeight": 18,
@@ -1381,6 +1378,7 @@
       "__id__": 0
     },
     "fileId": "1fH+RwfMlA0ZScSG2Ca7NU",
+    "instance": null,
     "targetOverrides": null
   }
 ]
