@@ -45,14 +45,14 @@ export class WaterUp extends Component {
 
         this.isCounting = true;
         this.currentTime = 0;  // 重置当前时间
-        this.schedule(this.updateCountdown, 1 / 60); // 60FPS更新一次
+        this.schedule(this.updateCountdown, 1); // 60FPS更新一次
     }
 
     updateCountdown() {
         if (!this.isCounting) return;
 
         // 增加当前时间
-        this.currentTime += 1 / 60;
+        this.currentTime += 1;
 
         // 计算当前高度，映射到 [0, 100]
         let progress = this.currentTime / this.countdownDuration;
