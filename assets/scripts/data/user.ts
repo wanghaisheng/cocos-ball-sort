@@ -200,6 +200,8 @@ export class User {
             lastLoginTime: new Date().getTime(),
             shareCount: Constants.DAILY_SHARE_COUNT,
         });
+        // 需要设置为空，重新生成
+        Utils.setLocalStorage('powerData', null)
     }
 
     // 今日是否登陆过
