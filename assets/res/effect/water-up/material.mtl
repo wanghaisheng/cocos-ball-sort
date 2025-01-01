@@ -5,7 +5,7 @@
   "__editorExtras__": {},
   "_native": "",
   "_effectAsset": {
-    "__uuid__": "8479b7b2-2898-46ae-8c77-dd3bd530e292",
+    "__uuid__": "a762ac44-53c3-4d61-ad31-ce0e5455d1bd",
     "__expectedType__": "cc.EffectAsset"
   },
   "_techIdx": 0,
@@ -27,10 +27,7 @@
   ],
   "_props": [
     {
-      "mainTexture": {
-        "__uuid__": "6a505c5e-5351-4e37-bfb3-86ed40148b34@6c48a",
-        "__expectedType__": "cc.Texture2D"
-      }
+      "baseLine": 0.3
     }
   ]
 }
