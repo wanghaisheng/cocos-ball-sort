@@ -53,7 +53,7 @@ CCProgram unlit-vs %{
   #endif
 
   #if USE_TEXTURE
-    in vec2 a_texCoord2;
+    // in vec2 a_texCoord;
     out vec2 v_uv;
     uniform TexCoords {
       vec4 tilingOffset;
@@ -70,7 +70,7 @@ CCProgram unlit-vs %{
     highp vec4 pos = cc_matProj * (cc_matView * matWorld) * position;
 
     #if USE_TEXTURE
-      v_uv = a_texCoord2;
+      // v_uv = a_texCoord;
       #if FLIP_UV
         v_uv.y = 1.0 - v_uv.y;
       #endif
