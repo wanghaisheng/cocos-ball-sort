@@ -34,7 +34,7 @@ export default class LevelData {
     const levelList: IData[] = [
       {
         // skinCount: 2,
-        limitTime: 180,
+        limitTime: 120,
         levelName: '关卡 1',
         name: '',
         desc: '',
@@ -45,20 +45,23 @@ export default class LevelData {
         ],
       },
       {
-        // skinCount: 3,
+        // skinCount: 2,
         limitTime: 120,
         levelName: '关卡 2',
         name: '',
         desc: '',
         list: [
-          [1, 2, 2],
-          [3, 3, 1],
-          [2, 1, 3],
-          [0, 0, 0],
+          [1, 2, 1, -1],
+          [1, 3, 2, 1],
+          [3, 3, 2, 3],
+          [0, 0, 0, 0],
         ],
+        spec: {
+          '0-3': 2
+        },
       },
       {
-        // skinCount: 2,
+        // skinCount: 3,
         limitTime: 120,
         levelName: '关卡 3',
         name: '',
@@ -68,9 +71,6 @@ export default class LevelData {
           [2, 1, 2, 1],
           [0, 0, 0, 0],
         ],
-        spec: {
-          '0-3': 2
-        },
       },
       {
         // skinCount: 4,
@@ -83,6 +83,8 @@ export default class LevelData {
           [3, 4, 1],
           [2, 4, 3],
           [2, 1, 3],
+          [1, 2, 2],
+          [1, 2, 1],
           [0, 0, 0],
           [0, 0, 0],
         ],

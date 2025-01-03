@@ -223,7 +223,7 @@ export class Constants {
    // tube
    static TUBE_TYPE = TUBE_TYPE // 试管类型
    static TUBE_LEVEL = TUBE_LEVEL // 目标试管等级
-   static TUBE_LINE_NUM_MAX = 5; // 试管一行的最大数量
+   static TUBE_LINE_NUM_MAX = 6; // 试管一行的最大数量
    static TUBE_ADD_NUM = 1 // 试管添加次数
 
    // ball
