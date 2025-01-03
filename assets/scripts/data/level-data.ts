@@ -133,7 +133,7 @@ export default class LevelData {
       },
       {
         // skinCount: 3,
-        limitTime: 120,
+        limitTime: 150,
         levelName: '关卡 6',
         name: '',
         desc: '',
@@ -161,21 +161,25 @@ export default class LevelData {
       },
       {
         // skinCount: 3,
-        limitTime: 120,
+        limitTime: 180,
         levelName: '关卡 7',
         name: '',
         desc: '',
         list: [
           [1, 4, 1],
-          [1, 4, 3],
-          [2, 5, 3],
-          [3, -1, 2],
-          [5, 4, 2],
-          [0, 0, 0],
+          [4, 2, 3],
+          [3, 5, 3],
+          [2, 3, -1],
+          [3, 4, 4],
+          [3, 1, 5],
+          [1, 5, 1],
+          [3, 2, 3],
+          [5, 3, 5],
+          [4, 1, 4],
           [0, 0, 0],
         ],
         spec: {
-          '3-1': 5
+          '3-2': 5
         },
       },
       {
