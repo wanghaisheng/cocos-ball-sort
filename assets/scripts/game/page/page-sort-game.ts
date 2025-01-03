@@ -136,13 +136,13 @@ export class PageSortGame extends Component {
 
     // 回退
     onWithdraw() {
-        // if (this._user.getWithdrawNum() < 1) {
-        //     Constants.tipManager.showModal({
-        //         msg: '道具不足，请先购买',
-        //         cb: () => { this.onShop() }
-        //     })
-        //     return
-        // }
+        if (this._user.getWithdrawNum() < 1) {
+            Constants.tipManager.showModal({
+                msg: '道具不足，请先购买',
+                confirm: () => { this.onShop() }
+            })
+            return
+        }
         Constants.sortGameManager.returnBackLastStep(() => {
             console.log('回退成功')
             this._user.setWithdrawNum(this._user.getWithdrawNum() - 1)
@@ -154,7 +154,7 @@ export class PageSortGame extends Component {
         if (this._user.getAddTubeNum() < 1) {
             Constants.tipManager.showModal({
                 msg: '道具不足，请先购买',
-                cb: () => { this.onShop() }
+                confirm: () => { this.onShop() }
             })
             return
         }
@@ -169,7 +169,7 @@ export class PageSortGame extends Component {
         if (this._user.getAddTimeNum() < 1) {
             Constants.tipManager.showModal({
                 msg: '道具不足，请先购买',
-                cb: () => { this.onShop() }
+                confirm: () => { this.onShop() }
             })
             return
         }

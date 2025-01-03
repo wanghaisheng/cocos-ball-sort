@@ -87,8 +87,8 @@ export class PageFail extends Component {
         const user = User.instance()
         if (!user.hasDailyShareCount()) {
             Constants.tipManager.showModal({
-                msg: '今日分享次数已用完',
-                cb: () => { this.onGiveUp() }
+                msg: '今日分享次数已用完，请明日再来',
+                confirm: () => { this.onGiveUp() }
             })
         } else {
             const dailyTask = user.getDailyTask()

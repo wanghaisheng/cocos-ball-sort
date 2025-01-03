@@ -188,14 +188,16 @@ const THEME_SKIN_LIST: ThemeItem[] = [
 const eventTarget = new EventTarget();
 // 事件名称
 enum EventName {
-   // 更新金币
+   /** 更新金币 */ 
    UPDATE_GOLD_LABEL = 'update-page-shop-gold',
-   // 更新金币
+   /** 更新金币 */
    UPDATE_USER_INFO = 'update-gage-sort-game-info',
-   // 主题皮肤使用
+   /** 主题皮肤使用 */
    USE_THEME = 'use-theme',
-   // 关闭商店
+   /** 关闭商店 */
    COLOSE_SHOP_PAGE = 'close-page-shop',
+   /** 分享 */
+   SHARE = 'share',
 }
 
 export class Constants {

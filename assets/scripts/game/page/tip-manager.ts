@@ -241,9 +241,9 @@ export class TipManager extends Component {
         msg: string, 
         btnText?: string,
         showCloseIcon?: boolean, 
-        cb?: Function
+        confirm?: Function
     }) {
-        const { msg, btnText = '确 定', showCloseIcon = true, cb = () => {} } = prop || {}
+        const { msg, btnText = '确 定', showCloseIcon = true, confirm = () => {} } = prop || {}
         this.btnCloseModal.active = showCloseIcon
         const msgLabel = this.Modal.getChildByName('Content').getComponent(Label)
         const okLabel = this.btnOkModal.getChildByName('btnLabel').getComponent(Label)
@@ -255,7 +255,7 @@ export class TipManager extends Component {
             .to(0.01, { position: new Vec3(0, 0, 0), scale: new Vec3(1, 1, 1) })
             .call(() => {
                 this.Modal.active = true
-                this._modalCBFunc = cb
+                this._modalCBFunc = confirm
             })
             .start()
     }

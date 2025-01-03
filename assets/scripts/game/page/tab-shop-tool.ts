@@ -68,30 +68,43 @@ export class PageShop extends Component {
         this.buyTimeCoinNode.getChildByName('coin').getComponent(Label).string = timePrice + ''
         this.buyTubeCoinNode.getChildByName('coin').getComponent(Label).string = tubePrice + ''
 
+        this.refreshGold()
 
-        // 设置显示属性
-        if (totalGold < Constants.PROP_PRICE.withdraw) {
-            this.buyWithdrawCoinNode.getComponent(Button).interactable = false
-        }
+        // // 设置显示属性
+        // if (totalGold < Constants.PROP_PRICE.withdraw) {
+        //     this.buyWithdrawCoinNode.getComponent(Button).interactable = false
+        // }
 
         // if (totalGold < Constants.PROP_PRICE.dissolve) {
         //     this.buyDissolveCoinNode.getComponent(Button).interactable = false
         // }
 
-        if (totalGold < Constants.PROP_PRICE.addTime) {
-            this.buyTimeCoinNode.getComponent(Button).interactable = false
-        }
+        // if (totalGold < Constants.PROP_PRICE.addTime) {
+        //     this.buyTimeCoinNode.getComponent(Button).interactable = false
+        // }
 
-        if (totalGold < Constants.PROP_PRICE.addTube) {
-            this.buyTubeCoinNode.getComponent(Button).interactable = false
-        }
+        // if (totalGold < Constants.PROP_PRICE.addTube) {
+        //     this.buyTubeCoinNode.getComponent(Button).interactable = false
+        // }
     } 
+
+    refreshGold() {
+        Constants.eventTarget.emit(Constants.EventName.UPDATE_GOLD_LABEL);
+    }
 
     // 购买道具回退
     buyWithdrawCoin() {
         const user = User.instance()
         const totalGold = user.getGold()
         if (totalGold < Constants.PROP_PRICE.withdraw) {
+            Constants.tipManager.showModal({
+                msg: '金币不足，每天登录和分享赚取更多金币！',
+                btnText: '去分享',
+                confirm: () => {
+                    Constants.eventTarget.emit(Constants.EventName.SHARE)
+                    this.refreshGold()
+                }
+            })
             return
         }
         user.setGold(totalGold - Constants.PROP_PRICE.withdraw)
@@ -105,6 +118,14 @@ export class PageShop extends Component {
         const totalGold = user.getGold()
 
         if (totalGold < Constants.PROP_PRICE.dissolve) {
+            Constants.tipManager.showModal({
+                msg: '金币不足，每天登录和分享赚取更多金币！',
+                btnText: '去分享',
+                confirm: () => {
+                    Constants.eventTarget.emit(Constants.EventName.SHARE)
+                    this.refreshGold()
+                }
+            })
             return
         }
         user.setGold(totalGold - Constants.PROP_PRICE.dissolve)
@@ -118,6 +139,14 @@ export class PageShop extends Component {
         const totalGold = user.getGold()
 
         if (totalGold < Constants.PROP_PRICE.addTime) {
+            Constants.tipManager.showModal({
+                msg: '金币不足，每天登录和分享赚取更多金币！',
+                btnText: '去分享',
+                confirm: () => {
+                    Constants.eventTarget.emit(Constants.EventName.SHARE)
+                    this.refreshGold()
+                }
+            })
             return
         }
         user.setGold(totalGold - Constants.PROP_PRICE.addTime)
@@ -131,6 +160,14 @@ export class PageShop extends Component {
         const totalGold = user.getGold()
 
         if (totalGold < Constants.PROP_PRICE.addTube) {
+            Constants.tipManager.showModal({
+                msg: '金币不足，每天登录和分享赚取更多金币！',
+                btnText: '去分享',
+                confirm: () => {
+                    Constants.eventTarget.emit(Constants.EventName.SHARE)
+                    this.refreshGold()
+                }
+            })
             return
         }
         user.setGold(totalGold - Constants.PROP_PRICE.addTube)

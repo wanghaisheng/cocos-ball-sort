@@ -69,7 +69,7 @@ export class SortGameManager extends Component {
     }
 
     onLoad() {
-        
+        Constants.eventTarget.on(Constants.EventName.SHARE, this.handleShare, this)
     }
     
     start() {
@@ -93,7 +93,7 @@ export class SortGameManager extends Component {
     }
 
     onDestroy() {
-
+        Constants.eventTarget.off(Constants.EventName.SHARE, this.handleShare, this)
     }
 
     // 初始化
@@ -190,7 +190,7 @@ export class SortGameManager extends Component {
                     Constants.tipManager.showModal({
                         msg: '游戏超时未操作，重新开始',
                         showCloseIcon: false,
-                        cb: () => { this.init() }
+                        confirm: () => { this.init() }
                     })
                 }
                 break;
@@ -217,6 +217,24 @@ export class SortGameManager extends Component {
             this.finishStep = stepCount
             this.usedTime = this.pageSortGame.getGameUsedTime()
             this.gameOver(Constants.GAME_FINISH_TYPE.PASS)
+        }
+    }
+
+    handleShare() {
+        const user = User.instance()
+        if (!user.hasDailyShareCount()) {
+            Constants.tipManager.showModal({
+                msg: '今日分享次数已用完，请明日再来',
+            })
+        } else {
+            const dailyTask = user.getDailyTask()
+            dailyTask.shareCount--
+            user.setDailyTask(dailyTask)
+            
+            // 调用分享接口
+            Utils.activeShare()
+            const shareGold = 20
+            user.setGold(shareGold + user.getGold())
         }
     }
 

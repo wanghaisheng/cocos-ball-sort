@@ -99,6 +99,11 @@ export class PageShop extends Component {
         if (totalGold < item.price) {
             Constants.tipManager.showModal({
                 msg: '金币不足，每天登录和分享赚取更多金币！',
+                btnText: '去分享',
+                confirm: () => {
+                    Constants.eventTarget.emit(Constants.EventName.SHARE)
+                    this.refreshGold()
+                }
             })
             return
         }
@@ -153,26 +158,6 @@ export class PageShop extends Component {
             console.error(error)
         }
     }
-
-    // setSpriteFrame(node: Node, url: string) {
-    //     if (!node || !url) return
-    //     resources.load(url, SpriteFrame, (err, spriteFrame) => {
-    //         // console.log(err, spriteFrame)
-    //         if (spriteFrame) {
-    //             const sprite = node.getChildByName('theme').getComponent(Sprite)
-    //             if (sprite) {
-    //                 sprite.spriteFrame = spriteFrame;
-    //             }
-    //         }
-    //     })
-    // }
-
-    // setMaterial(node: Node, url: string) {
-    //     if (!node || !url) return
-    //     resources.load(url, Material, (err, material) => {
-    //         node.getComponent(MeshRenderer).material = material;
-    //     });
-    // }
 
 }
 
