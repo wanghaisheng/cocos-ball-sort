@@ -21,6 +21,8 @@ interface IData {
   list: number[][];
   /** 未知球设置 */
   spec?: IObject;
+  /** 难度等级，0:普通，1:困难，2:噩梦 */
+  levelType?: number;
   /** 提示信息 */
   tips?: string;
 }
@@ -266,15 +268,22 @@ export default class LevelData {
         levelName: '关卡 11',
         name: '',
         desc: '',
+        levelType: 2,
         list: [
           [2, 3, 1, 1, 1],
           [4, 2, 1, 5, 2],
           [3, 1, 5, 5, 3],
-          [4, 3, 3, 2, 4],
+          [4, -1, 3, 2, 4],
           [4, 2, 4, 5, 5],
-          [0, 0, 0, 0, 0],
+          [2, 2, 1, 5, 1],
+          [1, 5, 2, 3, 2],
+          [3, 3, 1, 5, 1],
+          [5, 5, 3, 2, 3],
           [0, 0, 0, 0, 0],
         ],
+        spec: {
+          '3-1': 3,
+        },
       },
       {
         // skinCount: 3,

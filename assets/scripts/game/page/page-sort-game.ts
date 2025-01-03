@@ -136,13 +136,13 @@ export class PageSortGame extends Component {
 
     // 回退
     onWithdraw() {
-        if (this._user.getWithdrawNum() < 1) {
-            Constants.tipManager.showModal({
-                msg: '道具不足，请先购买',
-                confirm: () => { this.onShop() }
-            })
-            return
-        }
+        // if (this._user.getWithdrawNum() < 1) {
+        //     Constants.tipManager.showModal({
+        //         msg: '道具不足，请先购买',
+        //         confirm: () => { this.onShop() }
+        //     })
+        //     return
+        // }
         Constants.sortGameManager.returnBackLastStep(() => {
             console.log('回退成功')
             this._user.setWithdrawNum(this._user.getWithdrawNum() - 1)
