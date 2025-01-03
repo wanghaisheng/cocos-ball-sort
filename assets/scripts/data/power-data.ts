@@ -43,11 +43,14 @@ export class PowerData {
     const hasLoginToday = User.instance().hasLoginToday()
     const data = Utils.getLocalStorage('powerData')
 
-    console.log('getPowerList', hasLoginToday, data)
+    // console.log('getPowerList', hasLoginToday, data)
 
     let list = []
     if (!hasLoginToday || !data) {// 同一天的数据不会发生变化
-      list = this.generateListData(total, [2600, 4380], userPower)
+      const range = [2600, 4500]
+      range[0] = range[0] - Utils.getRandNum(1, 100)
+      range[1] = range[1] - Utils.getRandNum(1, 100)
+      list = this.generateListData(total, range, userPower)
     } else {
       list = this.updatePowerData(data, userPower)
     }

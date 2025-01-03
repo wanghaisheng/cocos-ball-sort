@@ -31,7 +31,7 @@ export class WaterUp extends Component {
         // 停止当前倒计时
         this.stopCountdown();
 
-        this.node.getComponent(UITransform).contentSize = new Size(this.contentSize.width, 1);
+        this.node.getComponent(UITransform).contentSize = new Size(this.contentSize.width, this.originalHeight);
 
         // 启动新的倒计时
         this.startCountdown(newDuration);
@@ -59,7 +59,7 @@ export class WaterUp extends Component {
         progress = Math.min(progress, 1); // 防止超过 1（即 100%）
 
         // 动态计算图片的高度
-        let newHeight = this.originalHeight * progress;
+        let newHeight = this.originalHeight * (1 - progress);
         
         // 更新图片高度
         this.node.getComponent(UITransform).contentSize = new Size(this.contentSize.width, newHeight);
