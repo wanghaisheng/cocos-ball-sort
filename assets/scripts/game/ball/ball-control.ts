@@ -54,8 +54,11 @@ export class BallControl extends Component {
         // 寻找目标试管
         const ballType = topBallList[0].ballType
         // console.log('ballType', ballType)
+        // debugger
         const targetTube = tubeManager.getTargetTube(ballType, ballCount, this._newTubeList)
+        // console.log('targetTube', targetTube)
         const emptyBallCount = targetTube && targetTube.isAllSame() ? targetTube.getEmptyBallCount() : 0
+        // console.log('emptyBallCount', emptyBallCount, ballCount)
         const targetBallCount = targetTube && targetTube.getBallList().length
         for(let i = 0; i < ballCount; i++) {
             const topBall = topBallList[i]

@@ -135,9 +135,10 @@ export class TubeManager extends Component {
             const tube = list[i]
             const level = tube.getTargetTubeLevel(ballType)
             const emptyBallCount = tube.getEmptyBallCount()
+            // console.log('emptyBallCount111', emptyBallCount, emptyNum)
             // console.log('level', level)
             if (level > curLevel) {
-                if (emptyBallCount >= emptyNum || tube.isAllSame()) {
+                if (emptyBallCount >= emptyNum) {
                     target = tube
                     curLevel = level
                 }
@@ -239,6 +240,7 @@ export class TubeManager extends Component {
                 tube.setParent(this.node)
                 tube.setPosition(pos)
                 const tubeComp = tube.getComponent(Tube)
+                console.log('ballCountMax', ballCountMax)
                 tubeComp.setTubeProp(type, tubeHight, ballCountMax)
 
                 this._tubeList.push(tubeComp)
