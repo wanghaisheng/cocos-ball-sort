@@ -240,7 +240,6 @@ export class TubeManager extends Component {
                 tube.setParent(this.node)
                 tube.setPosition(pos)
                 const tubeComp = tube.getComponent(Tube)
-                console.log('ballCountMax', ballCountMax)
                 tubeComp.setTubeProp(type, tubeHight, ballCountMax)
 
                 this._tubeList.push(tubeComp)
@@ -324,12 +323,12 @@ export class TubeManager extends Component {
                 let top = count - 2 * maxCol
                 let middle, bottom
                 if (top >= maxCol / 2) {// 大数情况
-                    bottom = Math.ceil((count - maxCol) / 2)
-                    middle = count - maxCol - bottom
+                    middle = Math.ceil((count - maxCol) / 2)
+                    bottom = count - maxCol - middle
                     return [maxCol, middle, bottom]
                 } else {
-                    bottom = Math.ceil((count - maxCol + 1) / 2)
-                    middle = count - (maxCol - 1) - bottom
+                    middle = Math.ceil((count - maxCol + 1) / 2)
+                    bottom = count - (maxCol - 1) - middle
                     return [maxCol - 1, middle, bottom]
                 }
             }
