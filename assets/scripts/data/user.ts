@@ -1,4 +1,4 @@
-import { _decorator, Component, Node } from 'cc';
+import { _decorator } from 'cc';
 import { Utils } from '../utils/util';
 import { Constants } from '../utils/const';
 const { ccclass, property } = _decorator;
@@ -136,7 +136,7 @@ export class User {
     }
 
     public setWithdrawNum(num: number) {
-        this.withdrawNum = num
+        this.withdrawNum = Math.max(0, num)
         Utils.setLocalStorage('user', this)
     }
 
@@ -145,7 +145,7 @@ export class User {
     }
 
     public setDissolveNum(num: number) {
-        this.dissolveNum = num
+        this.dissolveNum = Math.max(0, num)
         Utils.setLocalStorage('user', this)
     }
 
@@ -154,7 +154,7 @@ export class User {
     }
 
     public setAddTimeNum(num: number) {
-        this.addTimeNum = num
+        this.addTimeNum = Math.max(0, num)
         Utils.setLocalStorage('user', this)
     }
 
@@ -163,7 +163,7 @@ export class User {
     }
 
     public setAddTubeNum(num: number) {
-        this.addTubeNum = num
+        this.addTubeNum = Math.max(0, num)
         Utils.setLocalStorage('user', this)
     }
 
