@@ -21,6 +21,10 @@ export class PageSortGame extends Component {
     @property(Node)
     pageShopRoot: Node = null
 
+    // 中间
+    @property(Node)
+    handNode: Node = null
+
     // 底部
     @property(Node)
     btnWithdrawNode: Node = null;
@@ -98,6 +102,11 @@ export class PageSortGame extends Component {
         this.showTimeClock(this._time);
         // 水球倒计时
         this.waterUp.init(this._time);
+
+        // console.log('user.getIsFirstSortGame()', user.getIsFirstSortGame())
+        if (user.getLevel() === 1 && user.getIsFirstSortGame()) {
+            this.showHand(); // 显示手势
+        }
 
         setTimeout(() => {
             this.pageRank.init()
@@ -244,6 +253,14 @@ export class PageSortGame extends Component {
 
     onShowPowerRank() {
         this.pageRank.showNode();
+    }
+
+    showHand() {
+        this.handNode.active = true;
+    }
+
+    hideHand() {
+        this.handNode.active = false;
     }
 
 }

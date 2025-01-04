@@ -61,6 +61,8 @@ export class SortGameManager extends Component {
     // ball
     private _ballCountMax: number = Constants.BALL_TYPE_MAX
 
+    private _userLevel: number = 1
+
     // data
     private _data: any = {}
 
@@ -105,6 +107,7 @@ export class SortGameManager extends Component {
         this._data = data
         this._addTubeNum = 0
         this.finishStep = 0
+        this._userLevel = userLevel
 
         this.pageSortGame.init(data.limitTime)
         this.initTubeBall()
@@ -160,6 +163,10 @@ export class SortGameManager extends Component {
         if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
         const hitTube = tube.getComponent(Tube)
         if (hitTube.isFinish) return
+        if (this._userLevel === 1 && User.instance().getIsFirstSortGame()) {
+            this.pageSortGame.hideHand()
+            User.instance().setIsFirstSortGame(false)
+        }
         this.ballControl.tubeBallJump(this.tubeManager, this.ballManager, tube, this._tubeList, this._tubeCount)
     }
 

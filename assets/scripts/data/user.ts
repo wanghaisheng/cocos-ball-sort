@@ -32,6 +32,9 @@ export class User {
 
     /** 日常任务 */
     private dailyTask: dailyTask = null
+
+    /** 是否第一次进入 */
+    private isFirstSortGame: boolean = true
     
     private static _instance: User = null
 
@@ -47,7 +50,7 @@ export class User {
         return this._instance
     }
 
-    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number, skinKeys?: string[], defaultSkin?: string, dailyTask?: dailyTask }) {
+    constructor(user?: { level: number, gold: number, losed: number, withdrawNum: number, dissolveNum: number, addTubeNum: number, addTimeNum: number, powerPoint: number, skinKeys?: string[], defaultSkin?: string, dailyTask?: dailyTask, isFirstSortGame?: boolean }) {
         this.level = user?.level || 1
         this.gold = user?.gold || 0
         this.losed = user?.losed || 0
@@ -59,6 +62,7 @@ export class User {
         this.skinKeys = user?.skinKeys || [Constants.DEFAULT_THEME]
         this.defaultSkin = user?.defaultSkin || Constants.DEFAULT_THEME
         this.dailyTask = user?.dailyTask || {}
+        this.isFirstSortGame = user?.isFirstSortGame !== undefined ? user.isFirstSortGame : true
     }
 
     getInitPowerPoint(powerPoint: number) {
@@ -182,6 +186,15 @@ export class User {
 
     public setDefaultSkin(key: string) {
         this.defaultSkin = key
+        Utils.setLocalStorage('user', this)
+    }
+
+    public getIsFirstSortGame() {
+        return this.isFirstSortGame
+    }
+
+    public setIsFirstSortGame(val: boolean) {
+        this.isFirstSortGame = val
         Utils.setLocalStorage('user', this)
     }
 
