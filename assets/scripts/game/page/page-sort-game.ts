@@ -91,6 +91,7 @@ export class PageSortGame extends Component {
         this._time = limitTime;
         this._limitTime = limitTime;
         this._totalTime = limitTime;
+        this.stopTimeClock();
         // 显示用户信息
         this.showUserInfo();
         // 显示倒计时
@@ -138,13 +139,13 @@ export class PageSortGame extends Component {
 
     // 回退
     onWithdraw() {
-        // if (this._user.getWithdrawNum() < 1) {
-        //     Constants.tipManager.showModal({
-        //         msg: '道具不足，请先购买',
-        //         confirm: () => { this.onShop() }
-        //     })
-        //     return
-        // }
+        if (this._user.getWithdrawNum() < 1) {
+            Constants.tipManager.showModal({
+                msg: '道具不足，请先购买',
+                confirm: () => { this.onShop() }
+            })
+            return
+        }
         Constants.sortGameManager.returnBackLastStep(() => {
             // 提示
             Constants.tipManager.showTipLabel('回撤成功')

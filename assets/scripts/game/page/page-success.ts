@@ -48,7 +48,7 @@ export class PageSuccess extends Component {
         let gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
         gold = Math.max(1, gold)
         this._prizeGold = gold
-        const powerNum = Constants.GAME_POWER_POINT_TYPE.success - level * 10;
+        const powerNum = Constants.GAME_POWER_POINT_TYPE.success;
         const powerCount = Math.max(Constants.GAME_POWER_POINT_TYPE.pex, powerNum);
         let power = math.randomRangeInt(powerCount - 10, powerCount + 11)
         power = Math.max(1, power)

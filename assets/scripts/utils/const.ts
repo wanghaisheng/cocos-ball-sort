@@ -142,8 +142,8 @@ const GAME_PRIZE_TYPE = {
 
 // 结束战力奖励
 const GAME_POWER_POINT_TYPE = {
-   success: 200, // 成功
-   fail: 200, // 失败
+   success: 100, // 成功
+   fail: 100, // 失败
    pex: 40, // 最小
 }
 

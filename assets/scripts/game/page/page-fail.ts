@@ -38,7 +38,7 @@ export class PageFail extends Component {
         let gold = math.randomRangeInt(0, prizeNum)
         gold = Math.max(1, gold)
         this._prizeGold = gold
-        const powerNum = Constants.GAME_POWER_POINT_TYPE.fail - User.instance().getLevel() * 10
+        const powerNum = Constants.GAME_POWER_POINT_TYPE.fail
         const powerCount = Math.max(Constants.GAME_POWER_POINT_TYPE.pex, powerNum)
         let power = math.randomRangeInt(powerCount - 10, powerCount + 11)
         power = Math.max(1, power)

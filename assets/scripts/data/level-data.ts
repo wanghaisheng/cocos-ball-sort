@@ -1,5 +1,6 @@
 import { math } from "cc";
 import { Constants } from "../utils/const";
+import { Utils } from "../utils/util";
 
 interface IObject {
   [key: string]: number
@@ -504,7 +505,7 @@ export default class LevelData {
       },
       {
         // skinCount: 3,
-        limitTime: 180,
+        limitTime: 60,
         levelName: '关卡 20',
         name: '',
         desc: '',
@@ -515,13 +516,154 @@ export default class LevelData {
           [4, 5, 6, 2],
           [5, 5, -1, 6],
           [4, -1, 3, 6],
+          [7, 7, 5, 7],
+          [3, 7, 5, 3],
+          [5, 3, 3, 5],
           [0, 0, 0, 0],
           [0, 0, 0, 0],
         ],
         spec: {
-          '3-2': 5,
+          '2-2': 5,
           '4-2': 3,
           '5-1': 1,
+        },
+      },
+      {
+        // skinCount: 3,
+        limitTime: 120,
+        levelName: '关卡 21',
+        name: '',
+        desc: '',
+        levelType: 2,
+        list: [
+          [1, 2, 1],
+          [2, 7, 9],
+          [-1, 3, 4],
+          [4, 3, 5],
+          [7, 4, 7],
+          [-1, 7, 7],
+          [3, 9, 8],
+          [7, 2, 8],
+          [1, 8, 3],
+          [3, 5, 9],
+          [0, 0, 0],
+        ],
+        spec: {
+          '2-0': 3,
+          '4-0': 5,
+        },
+      },
+      {
+        // skinCount: 3,
+        limitTime: 120,
+        levelName: '关卡 22',
+        name: '',
+        desc: '',
+        list: [
+          [2, 3, 5, 2],
+          [6, 1, 6, 5],
+          [4, 2, -1, 4],
+          [7, 5, 6, 2],
+          [-1, 3, 5, 6],
+          [8, 1, 8, 1],
+          [7, 4, 5, 7],
+          [3, 7, 5, 3],
+          [5, 3, 3, 5],
+          [5, -1, 3, 5],
+          [8, 3, 4, 8],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+        ],
+        spec: {
+          '2-2': 5,
+          '4-0': 5,
+          '9-1': 1,
+        },
+      },
+      {
+        // skinCount: 3,
+        limitTime: 150,
+        levelName: '关卡 23',
+        name: '',
+        desc: '',
+        levelType: 2,
+        list: [
+          [1, 1, 4, 1],
+          [1, 5, 1, 3],
+          [7, -1, 2, 5],
+          [2, 4, 3, 2],
+          [3, -1, 3, 1],
+          [3, 4, 5, 3],
+          [4, 3, 1, 4],
+          [3, 6, 7, 5],
+          [4, 2, 2, 4],
+          [6, 5, 2, 6],
+          [7, 2, 5, 1],
+          [7, 5, 6, 5],
+          [0, 0, 0, 0],
+        ],
+        spec: {
+          '2-1': 4,
+          '4-1': 2,
+        },
+      },
+      {
+        // skinCount: 3,
+        limitTime: 180,
+        levelName: '关卡 24',
+        name: '',
+        desc: '',
+        levelType: 2,
+        list: [
+          [1, 5, 2],
+          [8, 2, 2],
+          [3, 1, 3],
+          [8, 3, 1],
+          [-1, 5, 6],
+          [6, 5, 3],
+          [-1, 4, 8],
+          [8, 7, 2],
+          [2, 6, 1],
+          [6, 4, 2],
+          [2, 7, 4],
+          [8, 3, 4],
+          [3, 2, 7],
+          [1, 8, 2],
+          [4, 6, 4],
+          [0, 0, 0],
+        ],
+        spec: {
+          '4-0': 6,
+          '6-0': 1,
+        },
+      },
+      {
+        // skinCount: 3,
+        limitTime: 120,
+        levelName: '关卡 25',
+        name: '',
+        desc: '',
+        levelType: 2,
+        list: [
+          [2, 3, 8, 2],
+          [6, 1, 6, 5],
+          [4, 2, 9, 4],
+          [7, -1, 8, 2],
+          [9, 3, 5, 6],
+          [-1, 1, 8, 1],
+          [7, 4, 5, 7],
+          [3, 7, 9, 3],
+          [9, 3, 3, 5],
+          [5, 1, 3, 5],
+          [5, 8, 6, 8],
+          [8, -1, 4, 8],
+          [0, 0, 0, 0],
+          [0, 0, 0, 0],
+        ],
+        spec: {
+          '3-1': 5,
+          '5-0': 8,
+          '10-1': 3,
         },
       },
     ]
@@ -529,50 +671,15 @@ export default class LevelData {
     let data = levelList[0]
     if (level <= levelList.length && level > 0) {
       data = levelList[level - 1]
-    } else if (level < 25) {
-      if (level % 2 === 0) {
-        data.list = LevelData.generateList(5, 7)
-      } else {
-        data.list = LevelData.generateList(3, 8)
-        data.list.splice(4, 1)
-      }
-      data.limitTime = 180
-    } else if (level < 30) {
-      if (level % 2 === 0) {
-        data.list = LevelData.generateList(6, 5)
-      } else {
-        data.list = LevelData.generateList(6, 7)
-      }
-      data.limitTime = 180
-    } else if (level < 32) {
-      data.list = LevelData.generateList(7, 4)
-      data.limitTime = 240
-    } else if (level < 35) {
-      data.list = LevelData.generateList(7, 5)
-      data.limitTime = 240
-    } else if (level < 40) {
-      if (level % 2 === 0) {
-        data.list = LevelData.generateList(8, 4)
-      } else {
-        data.list = LevelData.generateList(7, 7)
-      }
-      data.limitTime = 240
-    } else if (level < 45) {
-      data.list = LevelData.generateList(9, 4)
-      data.limitTime = 300
-    } else if (level < 50) {
-      data.list = LevelData.generateList(10, 4)
-      data.limitTime = 360
-    } else if (level < 55) {
-      data.list = LevelData.generateList(11, 4)
-      data.limitTime = 600
     } else {
-      data.list = LevelData.generateList(12, 4)
-      data.limitTime = 600
+      const tubeNum = Utils.getRandNum(15, 16)
+      const typeNum = Utils.getRandNum(8, 12)
+      data.list = LevelData.generateList(tubeNum, 4, typeNum)
+      data.limitTime = 180
     }
 
-    if (!data.spec && level > 20) {
-      data.spec = LevelData.generateSpec(data.list, 3)
+    if (!data.spec && level > 25) {
+      data.spec = LevelData.generateSpec(data.list, 4)
     }
 
     data.level = level
@@ -584,21 +691,24 @@ export default class LevelData {
     }
   }
 
-  static generateList(len: number, typeNum: number) {
-    if (len <= 0 || typeNum <= 0) {
+  static generateList(row: number, col: number, typeNum: number) {
+    if (row <= 0 || col <= 0 || typeNum <= 0) {
       return []
     }
-    let res = Array.from({ length: len + emptyLen }, () => Array.from({ length: typeNum }, () => 0))
+    let res = Array.from({ length: row + emptyLen }, () => Array.from({ length: col }, () => 0))
 
-    for (let i = 0; i < len; i++) {
-      for(let j = 0; j < typeNum; j++) {
-        res[i][j] = i + 1
+    for (let i = 0; i < row; i++) {
+      for(let j = 0; j < col; j++) {
+        res[i][j] = (i + 1) % typeNum
+        if (res[i][j] === 0) {
+          res[i][j] = typeNum
+        }
       }
     }
 
-    for (let i = 0; i < len; i++) {
-      LevelData.translate(res, len, typeNum)
-      LevelData.translate(res, len, typeNum)
+    for (let i = 0; i < row; i++) {
+      LevelData.translate(res, row, col)
+      LevelData.translate(res, row, col)
     }
 
     return res
