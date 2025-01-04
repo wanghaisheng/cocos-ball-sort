@@ -99,9 +99,9 @@ export class TubeManager extends Component {
             }
         }
 
-        let lastBall = null
+        let lastBall = null, durationTime = 1
         for(let j = 0; j < n; j++) {
-            const delayTime = j * 1
+            const delayTime = j * durationTime
             for(let i = 0; i < ballMat.length; i++) {
                 const [ball, initY] = ballMat[i][j]
                 const oldPos = ball.getBallPosition()
@@ -123,7 +123,7 @@ export class TubeManager extends Component {
                 lastBall = ball
             }
         }
-        tween(lastBall).parallel(...taskList).call(() => {
+        tween(lastBall).parallel(...taskList).delay(durationTime).call(() => {
             cb()
         }).start()
     }
@@ -175,7 +175,10 @@ export class TubeManager extends Component {
                 break
             }
         }
-        if (r < 0) return false
+        if (r < 0) {
+            Constants.tipManager.showTipLabel('加管失败，当前管道已满', () => {})
+            return false
+        }
         const colNum = this.layoutList[r] + 1
         const spaceX = Utils.getTubeSpaceX(type, colNum)
         const leftX = this._getX(type, colNum, spaceX)

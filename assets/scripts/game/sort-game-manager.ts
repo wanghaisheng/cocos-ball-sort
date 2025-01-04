@@ -147,7 +147,10 @@ export class SortGameManager extends Component {
         this.ballManager.createSortBallList(ballTubeList, list, spec)
         this.tubeManager.initTubeBallJump(
             () => {
+                console.log('小球落地动画完成，开始游戏')
                 this.gameStatus = Constants.GAME_STATUS.READY
+                // 开启倒计时
+                this.pageSortGame.startTimeClock()
             }
         )
         
@@ -169,10 +172,13 @@ export class SortGameManager extends Component {
     // 加管
     addEmptyTube(cb: Function) {
         if (this.gameStatus !== Constants.GAME_STATUS.READY && this.gameStatus !== Constants.GAME_STATUS.PLAYING) return
-        if (this._addTubeNum++ >= Constants.TUBE_ADD_NUM) {
-            return Constants.tipManager.showTipLabel('当局已使用过该道具', () => {})
+        if (this._addTubeNum >= Constants.TUBE_ADD_NUM) {
+            return Constants.tipManager.showTipLabel('同一关卡不能重复使用该道具', () => {})
         }
-        this.tubeManager.addEmptyTube(this._tubeType, cb)
+        this.tubeManager.addEmptyTube(this._tubeType, () => {
+            this._addTubeNum++
+            cb()
+        })
     }
 
 

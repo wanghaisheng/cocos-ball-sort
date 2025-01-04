@@ -30,8 +30,8 @@ export class PageSortGame extends Component {
     btnAddTimeNode: Node = null;
     @property(Node)
     shopNode: Node = null;
-    @property(Node)
-    goldLabel: Node = null;
+    // @property(Node)
+    // goldLabel: Node = null;
 
     @property(PageRank)
     pageRank: PageRank = null
@@ -91,10 +91,12 @@ export class PageSortGame extends Component {
         this._time = limitTime;
         this._limitTime = limitTime;
         this._totalTime = limitTime;
+        // 显示用户信息
         this.showUserInfo();
-        this.unschedule(this.setTimeClock);
-        this.schedule(this.setTimeClock, 1);
-        this.waterUp.init(limitTime);
+        // 显示倒计时
+        this.showTimeClock(this._time);
+        // 水球倒计时
+        this.waterUp.init(this._time);
 
         setTimeout(() => {
             this.pageRank.init()
@@ -144,7 +146,8 @@ export class PageSortGame extends Component {
         //     return
         // }
         Constants.sortGameManager.returnBackLastStep(() => {
-            console.log('回退成功')
+            // 提示
+            Constants.tipManager.showTipLabel('回撤成功')
             this._user.setWithdrawNum(this._user.getWithdrawNum() - 1)
         })
     }
@@ -159,7 +162,8 @@ export class PageSortGame extends Component {
             return
         }
         Constants.sortGameManager.addEmptyTube(() => {
-            console.log('加管成功')
+            // 提示
+            Constants.tipManager.showTipLabel('加管成功')
             this._user.setAddTubeNum(this._user.getAddTubeNum() - 1)
         })
     }
@@ -174,15 +178,28 @@ export class PageSortGame extends Component {
             return
         }
         this._user.setAddTimeNum(this._user.getAddTimeNum() - 1)
-        // console.log('onAddTimeClick');
-        // Constant.dialogManager.showTipLabel('功能开发中...');
         this._time += this._limitTime;
         this._totalTime += this._limitTime;
+
+        // 显示倒计时
+        this.showTimeClock(this._time);
+        // 水球倒计时
+        this.waterUp.init(this._time);
+        // 提示
+        Constants.tipManager.showTipLabel('加时成功')
     }
 
     // 商店
     onShop() {
         this.pageShopRoot.active = true
+    }
+
+    /** 开启倒计时 */
+    startTimeClock() {
+        this.unschedule(this.setTimeClock);
+        this.schedule(this.setTimeClock, 1);
+        // 水球倒计时
+        this.waterUp.startCountdown();
     }
 
     showTimeClock(time: number) {
@@ -221,7 +238,7 @@ export class PageSortGame extends Component {
 
     showUserInfo() {
         this.powerLabel.getComponent(Label).string = `${this._user.getPowerPoint()}`;
-        this.goldLabel.getComponent(Label).string = `${this._user.getGold()}`;
+        // this.goldLabel.getComponent(Label).string = `${this._user.getGold()}`;
     }
 
     onShowPowerRank() {

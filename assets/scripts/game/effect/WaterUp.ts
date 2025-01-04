@@ -26,23 +26,20 @@ export class WaterUp extends Component {
         
     }
 
-    // 动态设置倒计时时长并重新启动倒计时
-    init(newDuration) {
+    // 初始化倒计时
+    init(newDuration: number) {
         // 停止当前倒计时
         this.stopCountdown();
 
-        this.node.getComponent(UITransform).contentSize = new Size(this.contentSize.width, this.originalHeight);
+        this.countdownDuration = newDuration;  // 动态设置倒计时时长
 
-        // 启动新的倒计时
-        this.startCountdown(newDuration);
+        this.node.getComponent(UITransform).contentSize = new Size(this.contentSize.width, this.originalHeight);
     }
 
-    // 启动倒计时并动态设置时长
-    startCountdown(newDuration) {
-        if (newDuration) {
-            this.countdownDuration = newDuration;  // 动态设置倒计时时长
-        }
-
+    // 启动倒计时
+    startCountdown() {
+        // 停止当前倒计时
+        this.stopCountdown();
         this.isCounting = true;
         this.currentTime = 0;  // 重置当前时间
         this.schedule(this.updateCountdown, 1); // 60FPS更新一次
