@@ -43,7 +43,7 @@ export class PowerItem extends Component {
         
     }
 
-    setItemProp(prop?: { nickName?: string, rankNum?: number | string, power?: number, hideCapLine?: boolean }) {
+    setItemProp(prop?: IPowerItem) {
         this.nickName = prop.nickName || 'unknown'
         this.rankNum = prop.rankNum || -1
         this.power = prop.power || 0
