@@ -29,6 +29,7 @@ export class PowerData {
       nickName: this.userNickName,
       power: userPower,
       hideCapLine: false,
+      level: User.instance().getLevel(),
     }
     return item
   }
@@ -47,10 +48,11 @@ export class PowerData {
 
     let list = []
     if (!hasLoginToday || !data) {// 同一天的数据不会发生变化
-      const range = [2600, 4500]
-      range[0] = range[0] - Utils.getRandNum(1, 100)
-      range[1] = range[1] - Utils.getRandNum(1, 100)
-      list = this.generateListData(total, range, userPower)
+      const powerRange = [2100, 3890]
+      const levelRange = [21, 38]
+      powerRange[0] = powerRange[0] - Utils.getRandNum(1, 100)
+      powerRange[1] = powerRange[1] - Utils.getRandNum(1, 100)
+      list = this.generateListData(total, powerRange, levelRange, userPower)
     } else {
       list = this.updatePowerData(data, userPower)
     }
@@ -60,23 +62,28 @@ export class PowerData {
     return list
   }
 
-  public generateListData(total: number, range: number[], userPower: number): IPowerItem[] {
+  public generateListData(total: number, powerRange: number[], levelRange: number[], userPower: number): IPowerItem[] {
     let data: IPowerItem[] = []
     // 根据IPowerItem生成1000个listItem
-    let power = range[1]
+    let power = powerRange[1]
+    let level = levelRange[1]
     let hasInsert = false
     for (let i = 0; i < total; i++) {
       // power值随机生成，值递减
       const randCount = i < 5 ? Math.random() * 100 : Math.random() * 20 
       if (i > 0) {
         power = power - Utils.getRandNum(1, randCount)
-        power = Math.max(power, range[0])
+        power = Math.max(power, powerRange[0])
+
+        level = level - Utils.getRandNum(0, 2)
+        level = Math.max(level, levelRange[0])
       }
 
       const item: IPowerItem = {
         rankNum: i + 1,
         nickName: Utils.getRandomStr(8),
         power,
+        level,
         hideCapLine: false,
       }
 
@@ -84,6 +91,7 @@ export class PowerData {
         item.nickName = this.userNickName
         item.power = userPower
         item.hideCapLine = true
+        item.level = User.instance().getLevel()
         power = userPower
         hasInsert = true
       }
@@ -105,15 +113,17 @@ export class PowerData {
 
     let hasInsert = false
     const list = [...data]
-    list.forEach(item => {
+    list.forEach((item, i) => {
       if (item.nickName === this.userNickName) {
         item.nickName = Utils.getRandomStr(8)
+        item.level = i > 1 ? item[i - 1].level : item[0].level
         item.hideCapLine = false
       }
 
       if (!hasInsert && userPower >= item.power) {
         item.nickName = this.userNickName
         item.power = userPower
+        item.level = User.instance().getLevel()
         item.hideCapLine = true
         hasInsert = true
       }

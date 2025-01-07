@@ -10,6 +10,8 @@ import { Ball } from './ball/ball';
 import { Utils } from '../utils/util';
 import LevelData from '../data/level-data';
 import { PageDailyTask } from './page/page-daily-task';
+import { PageSuccess } from './page/page-success';
+import { PageFail } from './page/page-fail';
 const { ccclass, property } = _decorator;
 
 /**
@@ -34,11 +36,11 @@ export class SortGameManager extends Component {
     @property(PageDailyTask)
     pageDailyTask: PageDailyTask = null
 
-    @property(Node)
-    pageFail: Node = null
+    @property(PageFail)
+    pageFail: PageFail = null
 
-    @property(Node)
-    pageSuccess: Node = null
+    @property(PageSuccess)
+    pageSuccess: PageSuccess = null
 
     @property(Node)
     themeNode: Node = null
@@ -80,6 +82,18 @@ export class SortGameManager extends Component {
         // 监听微信分享
         Utils.passiveShare()
 
+        const lastLoginDate = Utils.getLocalStorage('lastLoginDate')
+        if (!lastLoginDate) {
+            Utils.clearLocalStorage('user')
+            Utils.clearLocalStorage('powerData')
+            Utils.clearLocalStorage('historyData')
+        }
+
+        const today = new Date().toISOString().slice(0, 10)
+        if (lastLoginDate !== today) {
+            Utils.setLocalStorage('lastLoginDate', today)
+        }
+
         // 初始化
         this.init()
 
@@ -99,9 +113,9 @@ export class SortGameManager extends Component {
     }
 
     // 初始化
-    init() {
+    init(level: number = 0) {
         // const userLevel = User.instance().getLevel()
-        const userLevel = this.userLevelTest || User.instance().getLevel()
+        const userLevel = level || this.userLevelTest || User.instance().getLevel()
         this.gameStatus = Constants.GAME_STATUS.INIT
         const { data } = LevelData.getData(userLevel)
         this._data = data
@@ -195,7 +209,7 @@ export class SortGameManager extends Component {
                 console.log('game time out')
                 this.finishStep = this.ballControl.getStepNum()
                 if (this.finishStep > 0) {
-                    this.pageFail.active = true
+                    this.pageFail.showNode(this._userLevel)
                 } else {
                     this.pageSortGame.stopTimeClock()// 游戏超时
                     this.usedTime = this.pageSortGame.getGameUsedTime()
@@ -209,14 +223,14 @@ export class SortGameManager extends Component {
                 break;
             case Constants.GAME_FINISH_TYPE.FAIL:
                 console.log('game fail')
-                this.pageFail.active = true
+                this.pageFail.showNode(this._userLevel)
                 break;
             case Constants.GAME_FINISH_TYPE.FINISH:
                 console.log('game finish')
                 break;  
             default:
                 console.log('game pass')
-                this.pageSuccess.active = true
+                this.pageSuccess.showNode(this._userLevel);
                 // 游戏通关
                 break;
         }

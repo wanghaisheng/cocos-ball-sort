@@ -4,6 +4,8 @@ const { ccclass, property } = _decorator;
 
 
 export interface IPowerItem {
+    /** 等级 */
+    level: number;
     /** 排名 */
     rankNum: number | string;
     /** 战力值 */
@@ -33,6 +35,7 @@ export class PowerItem extends Component {
     public nickName: string = ''
     public rankNum: number | string = -1
     public power: number = 0
+    public level: number = 0
     public hideCapLine: boolean = false
 
     start() {
@@ -47,6 +50,7 @@ export class PowerItem extends Component {
         this.nickName = prop.nickName || 'unknown'
         this.rankNum = prop.rankNum || -1
         this.power = prop.power || 0
+        this.level = prop.level || 0
         this.hideCapLine = prop.hideCapLine || false
         this.updateItemInfo()
     }
@@ -63,7 +67,7 @@ export class PowerItem extends Component {
         const chars = (nickName || 'unknown').toLocaleUpperCase().split('')   
         const len = chars.length
         const nickNameStr = chars[0] + '****' + chars[len - 1]
-        this.charNode.getComponent(Label).string = chars[0]
+        this.charNode.getComponent(Label).string = this.level + ''
         this.nickNameNode.getComponent(Label).string = nickName === Constants.USER_NICK_NAME ? nickName : nickNameStr
     }
 }

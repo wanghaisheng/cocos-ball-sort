@@ -237,6 +237,14 @@ export class Utils {
     return null
   }
 
+  static clearLocalStorage(key: string) {
+    try {
+      sys.localStorage.removeItem(key)
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   /** 判断是否属于当日 */
   static isToday(timestamp: number) {
     // 获取当前日期对象
@@ -326,5 +334,64 @@ export class Utils {
     let j = index % Constants.BALL_TYPE_MAX
     j = j === 0 ? Constants.BALL_TYPE_MAX : j
     return ballSkin + j
+  }
+
+  static calculateGoldSuccess() {
+    const prizeNum = Constants.GAME_PRIZE_TYPE.successNormal
+    let gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
+    return Math.max(1, gold)
+  }
+
+  static calculateGoldFail() {
+    const prizeNum = Constants.GAME_PRIZE_TYPE.failNormal
+    let gold = math.randomRangeInt(0, prizeNum)
+    return Math.max(1, gold)
+  }
+
+  /**
+   * 计算奖励的战力值
+   * @param step 
+   * @param time 
+   * @param level 
+   * @returns 
+   */
+  static calculatePower(step: number, time: number, level: number) {
+    const basePower = Constants.GAME_POWER_BASE;
+
+    const weights = { Wt: 0.4, Ws: 0.4, Wl: 0.2 }; // 指标权重
+
+    const maxStats = {
+      maxTime: 300,  // 最大允许用时
+      maxStep: 100, // 最大允许步数
+      maxLevel: 25,  // 最高等级
+    };
+
+    // 归一化指标
+    const normalizedTime = 1 - Math.min(time / maxStats.maxTime, 1); // 用时归一化 (越小越好)
+    const normalizedSteps = 1 - Math.min(step / maxStats.maxStep, 1); // 步数归一化 (越小越好)
+    const normalizedLevel = Math.min(level / maxStats.maxLevel, 1); // 等级归一化 (越高越好)
+
+    // 战力计算公式
+    const power = basePower * (
+      weights.Wt * normalizedTime +
+      weights.Ws * normalizedSteps +
+      weights.Wl * normalizedLevel
+    );
+
+    return Math.round(power);
+  }
+
+
+  /**
+   * 计算预估的百分比
+   * @param step 步数
+   * @param time 用时
+   * @param level 等级
+   * @returns 
+   */
+  static calculateUpPercent(step: number, time: number, level: number) {
+    // 用时，步数越小，分数越高
+    const up = 100 - (step / 10) * level - (time / 30)
+    return Math.floor(up);
   }
 }

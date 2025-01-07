@@ -1,4 +1,5 @@
 import { _decorator, Component, Label, Node, NodeEventType } from 'cc';
+import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
 
 export interface IHistItem {
@@ -10,6 +11,10 @@ export interface IHistItem {
     step: number;
     /** 获得战力 */
     power: number;
+    /** 创建时间 */
+    createTime?: number;
+    /** 更新时间 */
+    updateTime?: number;
 }
 
 @ccclass('HistItem')
@@ -56,14 +61,18 @@ export class HistItem extends Component {
     }
 
     updateItemInfo() {
+        const m = Math.floor(this.time / 60);
+        const s = this.time % 60;
+
         this.levelNode.getComponent(Label).string = this.level.toString()
-        this.timeNode.getComponent(Label).string = this.time.toString() + ' 秒'
+        this.timeNode.getComponent(Label).string = `${m} 分 ${s} 秒`
         this.stepNode.getComponent(Label).string = this.step.toString()
         this.powerNode.getComponent(Label).string = this.power.toString()
     }
 
     onRetry() {
-        
+        Constants.eventTarget.emit(Constants.EventName.CLOSE_USER_HISTORY)
+        Constants.sortGameManager.init(this.level)
     }
 }
 

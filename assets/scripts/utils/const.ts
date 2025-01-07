@@ -198,6 +198,8 @@ enum EventName {
    COLOSE_SHOP_PAGE = 'close-page-shop',
    /** 分享 */
    SHARE = 'share',
+   /** 关闭个人历史记录 */
+   CLOSE_USER_HISTORY = 'close-page-user-history',
 }
 
 export class Constants {
@@ -221,6 +223,7 @@ export class Constants {
    // 奖励
    static GAME_PRIZE_TYPE = GAME_PRIZE_TYPE; // 结束奖励
    static GAME_POWER_POINT_TYPE = GAME_POWER_POINT_TYPE; // 结束战力奖励
+   static GAME_POWER_BASE = 200; // 基础战力
 
    // tube
    static TUBE_TYPE = TUBE_TYPE // 试管类型

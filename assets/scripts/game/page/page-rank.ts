@@ -5,6 +5,7 @@ import { PowerItem, IPowerItem } from '../power/power-item';
 // import { PoolManager } from '../../utils/pool-manager';
 import { PowerData } from '../../data/power-data';
 import { Utils } from '../../utils/util';
+import { PageHistory } from './page-history';
 const { ccclass, property } = _decorator;
 
 @ccclass('PageRank')
@@ -13,6 +14,12 @@ export class PageRank extends Component {
     listContentNode: Node = null
     @property(Prefab)
     listItemPrefab: Prefab = null
+
+
+    @property(Node)
+    btnHistory: Node = null
+    @property(PageHistory)
+    pageHistory: PageHistory = null
 
     @property(Node)
     userItemNode: Node = null
@@ -41,16 +48,18 @@ export class PageRank extends Component {
         this._debounceFunc = Utils.debounce(() => {
             console.log("debounce")
             this.createListItem()
-        }, 500)
+        }, 300)
 
         this.btnInvite.on(Node.EventType.TOUCH_END, this.onInvite, this)
         this.btnClose.on(Node.EventType.TOUCH_END, this.onClose, this)
+        this.btnHistory.on(Node.EventType.TOUCH_END, this.onShowHistory, this)
         this.scrollviewNode.on("bounce-bottom", this._debounceFunc, this)
     }
 
     protected onDisable(): void {
         this.btnInvite.off(Node.EventType.TOUCH_END, this.onInvite, this)
         this.btnClose.off(Node.EventType.TOUCH_END, this.onClose, this)
+        this.btnHistory.off(Node.EventType.TOUCH_END, this.onShowHistory, this)
         this.scrollviewNode.on("bounce-bottom", this._debounceFunc, this)
     }
 
@@ -106,7 +115,7 @@ export class PageRank extends Component {
         const powerList = this.getPowerList()
         const userItem = this.getUserPowerItem(powerList)
         const lastList = this._generateList
-        if (lastList[lastList.length - 1].power <= userItem.power) {
+        if (lastList.length > 0 && lastList[lastList.length - 1]?.power <= userItem.power) {
             const powerIndex = powerList.indexOf(item => item.nickName === userItem.nickName)
             if (powerIndex > -1 && lastList.length > powerIndex) {
                 lastList.forEach((item, index) => {
@@ -142,6 +151,11 @@ export class PageRank extends Component {
 
     onClose() {
         this.node.active = false
+    }
+
+    onShowHistory() {
+        this.onClose()
+        this.pageHistory.showNode()
     }
 }
 

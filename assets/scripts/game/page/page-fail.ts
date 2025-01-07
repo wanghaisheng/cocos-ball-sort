@@ -22,6 +22,7 @@ export class PageFail extends Component {
     @property(Node)
     public giveUpBtn: Node = null
 
+    private _curLevel: number = 0
     private _prizeGold: number = 0
     private _prizePowerPoint: number = 0
     private _goldOriginPos: Vec3 = null
@@ -34,21 +35,11 @@ export class PageFail extends Component {
         this.shareBtn.on(Node.EventType.TOUCH_END, this.onShare, this)
         this.giveUpBtn.on(Node.EventType.TOUCH_END, this.onGiveUp, this)
 
-        const prizeNum = Constants.GAME_PRIZE_TYPE.failNormal
-        let gold = math.randomRangeInt(0, prizeNum)
-        gold = Math.max(1, gold)
-        this._prizeGold = gold
-        const powerNum = Constants.GAME_POWER_POINT_TYPE.fail
-        const powerCount = Math.max(Constants.GAME_POWER_POINT_TYPE.pex, powerNum)
-        let power = math.randomRangeInt(powerCount - 10, powerCount + 11)
-        power = Math.max(1, power)
-        const powerPoint = User.instance().getPowerPoint()
-        const subPower = powerPoint - power > 0 ? power : 0
-        this._prizePowerPoint = subPower;
+        this._prizeGold = Utils.calculateGoldFail()
 
         // 显示金币
-        this.goldLabel.getComponent(Label).string = `+ ${gold}`
-        this.powerLabel.getComponent(Label).string = `- ${subPower}`
+        this.goldLabel.getComponent(Label).string = `+ ${this._prizeGold}`
+        this.powerLabel.getComponent(Label).string = `0`
         
     }
 
@@ -67,8 +58,8 @@ export class PageFail extends Component {
     onNormalReceive() {
         const user = User.instance()
         user.setGold(user.getGold() + this._prizeGold)
-        user.setPowerPoint(user.getPowerPoint() - this._prizePowerPoint)
-        user.setLosed()
+        // user.setPowerPoint(user.getPowerPoint() - this._prizePowerPoint)
+        // user.setLosed()
         this.hideNode()
     }
 
@@ -78,8 +69,8 @@ export class PageFail extends Component {
         // Constants.audioManager.play('reward')
         const user = User.instance()
         user.setGold(this._prizeGold * 5 + user.getGold())
-        user.setPowerPoint(user.getPowerPoint() - this._prizePowerPoint)
-        user.setLosed()
+        // user.setPowerPoint(user.getPowerPoint() - this._prizePowerPoint)
+        // user.setLosed()
         this.hideNode()
     }
 
@@ -118,12 +109,17 @@ export class PageFail extends Component {
         return t2.start()
     }
 
+    showNode(level: number) {
+        this.node.active = true
+        this._curLevel = level
+    }
+
     hideNode() {
         this.node.active = false
         if (Utils.getLocalStorage('scene') == 'GameManager') {
             Constants.gameManager.init()
         } else {
-            Constants.sortGameManager.init()
+            Constants.sortGameManager.init(this._curLevel)
         }
     }
 }

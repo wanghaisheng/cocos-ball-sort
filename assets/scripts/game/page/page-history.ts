@@ -1,6 +1,8 @@
 import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
 import { Utils } from '../../utils/util';
 import { HistItem, IHistItem } from '../history/hist-item';
+import { HistoryData } from '../../data/history-data';
+import { Constants } from '../../utils/const';
 const { ccclass, property } = _decorator;
 
 
@@ -20,6 +22,9 @@ export class PageHistory extends Component {
     @property(Node)
     scrollviewNode: Node = null
 
+    @property(Node)
+    emptyNode: Node = null
+
     private _generateList: IHistItem[] = []
     private _debounceFunc: Function = null
 
@@ -29,45 +34,48 @@ export class PageHistory extends Component {
 
     protected onEnable(): void {
         // this.updateListItem()
+        if (!this._generateList.length) {
+            this.emptyNode.active = true
+        }
 
         this._debounceFunc = Utils.debounce(() => {
             console.log("debounce")
             this.createListItem()
-        }, 500)
+        }, 300)
 
         this.btnBack.on(Node.EventType.TOUCH_END, this.hideNode, this)
         this.scrollviewNode.on("bounce-bottom", this._debounceFunc, this)
+        Constants.eventTarget.on(Constants.EventName.CLOSE_USER_HISTORY, this.hideNode, this)
     }
 
     protected onDisable(): void {
+        this.emptyNode.active = false
         this.btnBack.off(Node.EventType.TOUCH_END, this.hideNode, this)
         this.scrollviewNode.on("bounce-bottom", this._debounceFunc, this)
+        Constants.eventTarget.off(Constants.EventName.CLOSE_USER_HISTORY, this.hideNode, this)
     }
 
     update(deltaTime: number) {
 
     }
 
-    getPowerList(count: number = 100) {
-            const powerData = PowerData.instance()
-            const power = User.instance().getPowerPoint()
-            const powerList = powerData.getPowerList(count, power)
-            return powerList
+    createListItem(len: number = 10) {
+        const historyList = HistoryData.instance().getHistoryList();
+        console.log("historyList", historyList)
+        const lastList = this._generateList
+        const n = historyList.length
+        if (n > 0) {
+            this.emptyNode.active = false
         }
-    
-        createListItem(len: number = 10) {
-            const powerList = this.getPowerList()
-            const lastList = this._generateList
-            const n = powerList.length
-            const startIndex = lastList.length > 0 ? lastList.length - 1 : 0
-            for(let i = startIndex; i < startIndex + len && i < n; i++) {
-                const item = powerList[i]
-                // console.log('item', i, item)
-                const itemComp = this.generateListItem(item)
-                this._generateList.push(itemComp)
-            }
+        const startIndex = lastList.length > 0 ? lastList.length - 1 : 0
+        for (let i = startIndex; i < startIndex + len && i < n; i++) {
+            const item = historyList[i]
+            // console.log('item', i, item)
+            const itemComp = this.generateListItem(item)
+            this._generateList.push(itemComp)
         }
-    
+    }
+
 
     generateListItem(item: IHistItem) {
         const listItem = instantiate(this.listItemPrefab)
@@ -83,6 +91,7 @@ export class PageHistory extends Component {
 
     showNode() {
         this.node.active = true
+        this.createListItem()
     }
 }
 
