@@ -92,7 +92,8 @@ export class PageRank extends Component {
         const powerList = this.getPowerList()
         const lastList = this._generateList
         const n = powerList.length
-        const startIndex = lastList.length > 0 ? lastList.length - 1 : 0
+        if (lastList.length >= n) return; // 防止重复创建
+        const startIndex = lastList.length > 0 ? lastList.length : 0
         for(let i = startIndex; i < startIndex + len && i < n; i++) {
             const item = powerList[i]
             // console.log('item', i, item)
