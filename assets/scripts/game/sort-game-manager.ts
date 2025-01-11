@@ -130,6 +130,8 @@ export class SortGameManager extends Component {
 
         // 弹出目标
         Constants.tipManager.showLevelTip(userLevel)
+
+        console.log('userLevel', userLevel)
     }
 
     setUserThemeSkin() {
@@ -229,8 +231,9 @@ export class SortGameManager extends Component {
                 console.log('game finish')
                 break;  
             default:
-                console.log('game pass')
-                this.pageSuccess.showNode(this._userLevel);
+                const { limitTime } = this._data
+                console.log('game pass', this._userLevel)
+                this.pageSuccess.showNode(this._userLevel, limitTime);
                 // 游戏通关
                 break;
         }

@@ -108,6 +108,7 @@ export class PageRank extends Component {
         listItem.parent = this.listContentNode
         const itemComp = listItem.getComponent(PowerItem)
         itemComp.setItemProp(item)
+        itemComp.setCapLine(true)
         return itemComp
     }
 
@@ -120,9 +121,11 @@ export class PageRank extends Component {
             if (powerIndex > -1 && lastList.length > powerIndex) {
                 lastList.forEach((item, index) => {
                     if (index === powerIndex) {
+                        // userItem.hideCapLine = true
                         item.setItemProp(userItem)
                     } else if (item.nickName === userItem.nickName) {
                         item.nickName = Utils.getRandomStr(8)
+                        // item.hideCapLine = false
                         item.setItemProp(item)
                     }
                 })
@@ -139,6 +142,7 @@ export class PageRank extends Component {
             listItem.parent = this.userItemNode
             const itemComp = listItem.getComponent(PowerItem)
             itemComp.setItemProp(item)
+            itemComp.setCapLine(false)
             this._userItemComp = itemComp
         }
     }

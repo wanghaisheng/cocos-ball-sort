@@ -223,7 +223,7 @@ export class Constants {
    // 奖励
    static GAME_PRIZE_TYPE = GAME_PRIZE_TYPE; // 结束奖励
    static GAME_POWER_POINT_TYPE = GAME_POWER_POINT_TYPE; // 结束战力奖励
-   static GAME_POWER_BASE = 200; // 基础战力
+   static GAME_POWER_BASE = 100; // 基础战力
 
    // tube
    static TUBE_TYPE = TUBE_TYPE // 试管类型

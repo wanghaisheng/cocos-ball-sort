@@ -34,6 +34,7 @@ export class PageSuccess extends Component {
     public giveUpBtn: Node = null
 
     private _curLevel: number = 1
+    private _limitTime: number = 0
     private _prizeGold: number = 0
     private _prizePowerPoint: number = 0
     private _newPowerPoint: number = 0
@@ -87,9 +88,9 @@ export class PageSuccess extends Component {
             this.preLabel.active = true
             let str = `（上次用 ${preItem.step} 步`
             if (preItem.time > 60) {
-                str += `${Math.floor(preItem.time / 60)}分` 
-                str += `${preItem.time % 60} 秒）`
+                str += ` ${Math.floor(preItem.time / 60)} 分` 
             }
+            str += ` ${preItem.time % 60} 秒）`
             this.preLabel.getComponent(Label).string = str
         }
         this.tipLabel.getComponent(Label).string = tip
@@ -98,8 +99,9 @@ export class PageSuccess extends Component {
         this.powerLabel.getComponent(Label).string = `+ ${this._prizePowerPoint}`
         this.powerEffect.getComponent(Label).string = `+ ${this._prizePowerPoint}`
 
+        // console.log('', this._curLevel, User.instance().getLevel())
         // 添加历史记录
-        this.addHistory(preItem, step, time, level);
+        this.addHistory(step, time);
     }
 
     protected onDisable(): void {
@@ -182,17 +184,18 @@ export class PageSuccess extends Component {
         return t2.start()
     }
 
-    addHistory(preItem: IHistItem | null, step: number, time: number, level: number) {
+    addHistory(step: number, time: number) {
         const histItem: IHistItem = {
             step,
             time,
-            level,
+            level: this._curLevel,
             power: this._newPowerPoint,
             // createTime: new Date().getTime(),
             updateTime: new Date().getTime(),
         };
 
         let list = HistoryData.instance().getHistoryList();
+        let preItem = list.find((item) => item.level == this._curLevel);
         if (preItem) {
             if (this._prizePowerPoint) {
                 const index = list.findIndex((item) => item.level == preItem.level);
@@ -205,12 +208,19 @@ export class PageSuccess extends Component {
             histItem.createTime = new Date().getTime();
             list.push(histItem);
         }
-        HistoryData.instance().setHistoryList(list);
+
+        const uniqueList = Array.from(
+            new Set(list.map(item => item.level))
+          ).map(level => list.find(item => item.level === level));
+
+        HistoryData.instance().setHistoryList(uniqueList);
     }
 
-    showNode(level: number) {
-        this.node.active = true
+    showNode(level: number, limitTime: number) {
         this._curLevel = level || 1
+        this._limitTime = limitTime
+        this.node.active = true
+        console.log('showNode', level, this._curLevel)
     }
 
     hideNode() {

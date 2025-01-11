@@ -26,6 +26,8 @@ export class PowerItem extends Component {
     @property(Node)
     nickNameNode: Node = null
     @property(Node)
+    levelNode: Node = null
+    @property(Node)
     powerLabelNode: Node = null
 
 
@@ -58,7 +60,7 @@ export class PowerItem extends Component {
     updateItemInfo() {
         this.rankNode.getComponent(Label).string = this.rankNum ? this.rankNum.toString() : ''
         this.powerLabelNode.getComponent(Label).string = this.power.toString()
-        this.capLineNode.active = this.hideCapLine
+        this.levelNode.getComponent(Label).string = this.level.toString() + '级'
 
         this.updateNickName(this.nickName)
     }
@@ -67,8 +69,12 @@ export class PowerItem extends Component {
         const chars = (nickName || 'unknown').toLocaleUpperCase().split('')   
         const len = chars.length
         const nickNameStr = chars[0] + '****' + chars[len - 1]
-        this.charNode.getComponent(Label).string = this.level + ''
+        this.charNode.getComponent(Label).string = chars[0]
         this.nickNameNode.getComponent(Label).string = nickName === Constants.USER_NICK_NAME ? nickName : nickNameStr
+    }
+
+    setCapLine(isShow: boolean) {
+        this.capLineNode.active = isShow
     }
 }
 

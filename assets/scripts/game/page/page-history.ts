@@ -67,8 +67,10 @@ export class PageHistory extends Component {
         if (n > 0) {
             this.emptyNode.active = false
         }
+        if (lastList.length === n) return; // 防止重复创建
         const startIndex = lastList.length > 0 ? lastList.length - 1 : 0
         for (let i = startIndex; i < startIndex + len && i < n; i++) {
+            console.log('i', i)
             const item = historyList[i]
             // console.log('item', i, item)
             const itemComp = this.generateListItem(item)

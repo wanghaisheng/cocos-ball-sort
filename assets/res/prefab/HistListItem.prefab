@@ -46,7 +46,7 @@
     "_lpos": {
       "__type__": "cc.Vec3",
       "x": 0,
-      "y": 225,
+      "y": -30,
       "z": 0
     },
     "_lrot": {
@@ -380,7 +380,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11.121078692868943,
+      "width": 11.122055222130243,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -419,7 +419,7 @@
     "_string": "1",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.375,
+    "_actualFontSize": 28.3125,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -476,7 +476,7 @@
     },
     "_alignFlags": 10,
     "_target": null,
-    "_left": 10.000000000000014,
+    "_left": 10.000000000000004,
     "_right": 0,
     "_top": 0,
     "_bottom": 0,
@@ -578,7 +578,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 47.7942808714207,
+      "width": 47.798487513796914,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -617,7 +617,7 @@
     "_string": "69 秒",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.375,
+    "_actualFontSize": 28.3125,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -773,8 +773,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22.242157385737887,
-      "height": 37.800000000000004
+      "width": 22.244110444260485,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -812,7 +812,7 @@
     "_string": "27",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.375,
+    "_actualFontSize": 28.3125,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
@@ -932,8 +932,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 22.242157385737887,
-      "height": 37.800000000000004
+      "width": 22.244110444260485,
+      "height": 37.8
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -971,7 +971,7 @@
     "_string": "50",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.375,
+    "_actualFontSize": 28.3125,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 30,
@@ -1145,8 +1145,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 31.999995697962557,
-      "height": 50.4
+      "width": 23.989397937362032,
+      "height": 25.2
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -1184,10 +1184,10 @@
     "_string": "重试",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 22.7,
-    "_fontSize": 16,
+    "_actualFontSize": 16.987499999999997,
+    "_fontSize": 12,
     "_fontFamily": "Arial",
-    "_lineHeight": 40,
+    "_lineHeight": 20,
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": null,
@@ -1255,7 +1255,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 55,
-      "height": 30
+      "height": 25
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",

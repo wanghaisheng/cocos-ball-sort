@@ -355,30 +355,22 @@ export class Utils {
    * @param level 
    * @returns 
    */
-  static calculatePower(step: number, time: number, level: number) {
+  static calculatePower(step: number, time: number, level: number, options: any = {}) {
     const basePower = Constants.GAME_POWER_BASE;
 
-    const weights = { Wt: 0.4, Ws: 0.4, Wl: 0.2 }; // 指标权重
+    const {
+      levelWeight = 10,    // 等级权重
+      stepWeight = 0.5,    // 步数权重
+    } = options;
 
-    const maxStats = {
-      maxTime: 300,  // 最大允许用时
-      maxStep: 100, // 最大允许步数
-      maxLevel: 25,  // 最高等级
-    };
+    if (time <= 0 || step <= 0 || level <= 0) {
+      return basePower;
+    }
 
-    // 归一化指标
-    const normalizedTime = 1 - Math.min(time / maxStats.maxTime, 1); // 用时归一化 (越小越好)
-    const normalizedSteps = 1 - Math.min(step / maxStats.maxStep, 1); // 步数归一化 (越小越好)
-    const normalizedLevel = Math.min(level / maxStats.maxLevel, 1); // 等级归一化 (越高越好)
+    // 奖励公式
+    const reward = (level * levelWeight / (time + stepWeight * step)) * basePower;
 
-    // 战力计算公式
-    const power = basePower * (
-      weights.Wt * normalizedTime +
-      weights.Ws * normalizedSteps +
-      weights.Wl * normalizedLevel
-    );
-
-    return Math.round(power);
+    return Math.max(0, Math.round(reward));
   }
 
 
