@@ -2671,9 +2671,9 @@
     "_dstBlendFactor": 4,
     "_color": {
       "__type__": "cc.Color",
-      "r": 255,
-      "g": 255,
-      "b": 255,
+      "r": 45,
+      "g": 240,
+      "b": 76,
       "a": 255
     },
     "_string": "00:00",
@@ -27918,7 +27918,7 @@
     "themeNode": {
       "__id__": 6
     },
-    "userLevelTest": 5,
+    "userLevelTest": 7,
     "_id": "a6zMYh6sFPTqEDpteIIvax"
   },
   {
