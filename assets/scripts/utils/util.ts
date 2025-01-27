@@ -336,8 +336,8 @@ export class Utils {
     return ballSkin + j
   }
 
-  static calculateGoldSuccess() {
-    const prizeNum = Constants.GAME_PRIZE_TYPE.successNormal
+  static calculateGoldSuccess(userPrizeGold: number) {
+    const prizeNum = userPrizeGold || Constants.GAME_PRIZE_TYPE.successNormal
     let gold = math.randomRangeInt(prizeNum - 10, prizeNum + 11)
     return Math.max(1, gold)
   }
@@ -355,8 +355,8 @@ export class Utils {
    * @param level 
    * @returns 
    */
-  static calculatePower(step: number, time: number, level: number, options: any = {}) {
-    const basePower = Constants.GAME_POWER_BASE;
+  static calculatePower(step: number, time: number, level: number, userPrizePower: number, options: any = {}) {
+    const basePower = userPrizePower || Constants.GAME_POWER_BASE;
 
     const {
       levelWeight = 10,    // 等级权重

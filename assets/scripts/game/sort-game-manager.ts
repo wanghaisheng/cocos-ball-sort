@@ -123,13 +123,14 @@ export class SortGameManager extends Component {
         this.finishStep = 0
         this._userLevel = userLevel
 
-        this.pageSortGame.init(data.limitTime)
+        this.pageSortGame.init(data.limitTime, userLevel)
         this.initTubeBall()
         this.ballControl.init()
         
 
-        // 弹出目标
-        Constants.tipManager.showLevelTip(userLevel)
+        if (data.tips) {
+            Constants.tipManager.showMsgTip(data.tips)
+        }
 
         console.log('userLevel', userLevel)
     }
@@ -231,9 +232,9 @@ export class SortGameManager extends Component {
                 console.log('game finish')
                 break;  
             default:
-                const { limitTime } = this._data
+                const { limitTime, power, coin } = this._data
                 console.log('game pass', this._userLevel)
-                this.pageSuccess.showNode(this._userLevel, limitTime);
+                this.pageSuccess.showNode(this._userLevel, limitTime, power, coin);
                 // 游戏通关
                 break;
         }

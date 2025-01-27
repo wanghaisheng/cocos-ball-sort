@@ -35,6 +35,8 @@ export class PageSuccess extends Component {
 
     private _curLevel: number = 1
     private _limitTime: number = 0
+    private _userPrizePower: number = 0
+    private _userPrizeGold: number = 0
     private _prizeGold: number = 0
     private _prizePowerPoint: number = 0
     private _newPowerPoint: number = 0
@@ -57,9 +59,9 @@ export class PageSuccess extends Component {
 
         const preItem = HistoryData.instance().getLevelData(level)
         
-        this._prizeGold = Utils.calculateGoldSuccess();
+        this._prizeGold = Utils.calculateGoldSuccess(this._userPrizeGold);
 
-        const power = Utils.calculatePower(step, time, level);
+        const power = Utils.calculatePower(step, time, level, this._userPrizePower);
 
         this._newPowerPoint = power
 
@@ -113,6 +115,8 @@ export class PageSuccess extends Component {
         this.goldEffect.scale = v3(1, 1, 1)
         this.powerEffect.position = this._powerOriginPos
         this.goldEffect.position = this._goldOriginPos
+        this._userPrizePower = 0
+        this._userPrizeGold = 0
     }
 
     update(deltaTime: number) {
@@ -216,9 +220,11 @@ export class PageSuccess extends Component {
         HistoryData.instance().setHistoryList(uniqueList);
     }
 
-    showNode(level: number, limitTime: number) {
+    showNode(level: number, limitTime: number, userPrizePower: number, userPrizeGold: number) {
         this._curLevel = level || 1
         this._limitTime = limitTime
+        this._userPrizePower = userPrizePower
+        this._userPrizeGold = userPrizeGold
         this.node.active = true
         console.log('showNode', level, this._curLevel)
     }

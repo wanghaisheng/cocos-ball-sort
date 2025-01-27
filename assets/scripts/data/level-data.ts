@@ -18,6 +18,10 @@ interface IData {
   name: string;
   /** 描述信息 */
   desc: string;
+  /** 奖励基础战力 */
+  power?: number;
+  /** 奖励基础金币 */
+  coin?: number;
   /** 显示网格列表，-1表示占位，-5表示不能移动 */
   list: number[][];
   /** 未知球设置 */
@@ -63,29 +67,9 @@ export default class LevelData {
         ],
       },
       {
-        // skinCount: 3,
-        limitTime: 120,
-        levelName: '关卡 3',
-        name: '',
-        desc: '',
-        list: [
-          [1, 2, 1],
-          [2, 1, 3],
-          [3, 3, 2],
-          [3, 2, 2],
-          [4, 1, 2],
-          [4, 3, 1],
-          [3, 4, 2],
-          [2, 1, 2],
-          [3, 4, 3],
-          [3, 4, 4],
-          [0, 0, 0],
-        ],
-      },
-      {
         // skinCount: 4,
         limitTime: 120,
-        levelName: '关卡 4',
+        levelName: '关卡 3',
         name: '',
         desc: '',
         list: [
@@ -105,6 +89,28 @@ export default class LevelData {
         spec: {
           '4-1': 2
         },
+      },
+      {
+        // skinCount: 3,
+        limitTime: 120,
+        levelName: '关卡 4',
+        name: '',
+        desc: '',
+        tips: '难度升级，奖励翻倍！',
+        levelType: 1,
+        list: [
+          [1, 2, 1],
+          [2, 1, 3],
+          [3, 3, 2],
+          [3, 2, 2],
+          [4, 1, 2],
+          [4, 3, 1],
+          [3, 4, 2],
+          [2, 1, 2],
+          [3, 4, 3],
+          [3, 4, 4],
+          [0, 0, 0],
+        ],
       },
       {
         // skinCount: 3,
@@ -268,6 +274,7 @@ export default class LevelData {
         levelName: '关卡 11',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [2, 3, 1, 1, 1],
@@ -373,6 +380,7 @@ export default class LevelData {
         levelName: '关卡 15',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [2, 2, 3, 1],
@@ -427,6 +435,7 @@ export default class LevelData {
         levelName: '关卡 17',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [4, 1, 2, 2, 3],
@@ -534,6 +543,7 @@ export default class LevelData {
         levelName: '关卡 21',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [1, 2, 1],
@@ -586,6 +596,7 @@ export default class LevelData {
         levelName: '关卡 23',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [1, 1, 4, 1],
@@ -613,6 +624,7 @@ export default class LevelData {
         levelName: '关卡 24',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [1, 5, 2],
@@ -643,6 +655,7 @@ export default class LevelData {
         levelName: '关卡 25',
         name: '',
         desc: '',
+        tips: '难度升级，奖励超级翻倍！',
         levelType: 2,
         list: [
           [2, 3, 8, 2],
@@ -684,6 +697,8 @@ export default class LevelData {
 
     data.level = level
     data.levelName = `关卡 ${level}`
+    data.power = data.power || (Constants.GAME_POWER_BASE) * (data.levelType + 1)
+    data.coin = data.coin || (Constants.GAME_PRIZE_TYPE.successNormal) * (data.levelType + 1)
 
     return {
       list: data.list,

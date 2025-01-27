@@ -15,11 +15,11 @@ export class PageSortGame extends Component {
     @property(Node)
     timeNode: Node = null;
     @property(Node)
-    resetNode: Node = null;
-    @property(Node)
     soundRoot: Node = null
     @property(Node)
     pageShopRoot: Node = null
+    @property(Node)
+    levelNode: Node = null;
 
     // 中间
     @property(Node)
@@ -34,6 +34,8 @@ export class PageSortGame extends Component {
     btnAddTimeNode: Node = null;
     @property(Node)
     shopNode: Node = null;
+    @property(Node)
+    resetNode: Node = null;
     // @property(Node)
     // goldLabel: Node = null;
 
@@ -87,7 +89,7 @@ export class PageSortGame extends Component {
         this.stopTimeClock(); // 停止计时器
     }
 
-    init(limitTime: number) {
+    init(limitTime: number, level: number) {
         const user = User.instance()
         this._user = user
         // 更新用户金币
@@ -102,6 +104,8 @@ export class PageSortGame extends Component {
         this.showTimeClock(this._time);
         // 水球倒计时
         this.waterUp.init(this._time);
+        // 显示关卡
+        this.levelNode.getComponent(Label).string = `第${level}关`;
 
         // console.log('user.getIsFirstSortGame()', user.getIsFirstSortGame())
         if (user.getLevel() === 1 && user.getIsFirstSortGame()) {
