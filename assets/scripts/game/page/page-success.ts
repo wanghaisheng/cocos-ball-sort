@@ -104,12 +104,15 @@ export class PageSuccess extends Component {
         // console.log('', this._curLevel, User.instance().getLevel())
         // 添加历史记录
         this.addHistory(step, time);
+
+        // 播放特效
+        Constants.effectManager.playSuccessEffect(v3(0, 207, 70))
     }
 
     protected onDisable(): void {
         this.shareBtn.off(Node.EventType.TOUCH_END, this.onShare, this)
         this.giveUpBtn.off(Node.EventType.TOUCH_END, this.onGiveUp, this)
-        this.preLabel.active = false;
+        this.preLabel.active = false
         this.avatarPos.active = false
         this.powerEffect.scale = v3(1, 1, 1)
         this.goldEffect.scale = v3(1, 1, 1)
